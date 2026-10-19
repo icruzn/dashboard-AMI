@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light"><title>Perfil de Tensión y Carga | SED con 2 Circuitos BT</title>
+<style>
+:root{--navy:#102d4c;--navy2:#19446a;--teal:#05858b;--accent:#e28a39;--bg:#f3f6f9;--surface:#fff;--line:#dfe7ed;--ink:#203249;--muted:#64778b;--green:#0f865c;--amber:#b86b1f;--bad:#b94044;--shadow:0 8px 28px rgba(10,40,68,.055)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Segoe UI,Inter,Arial,sans-serif;color:var(--ink)}.page{max-width:1510px;margin:0 auto;padding:23px 24px 50px}
+header{background:linear-gradient(110deg,#0d2947 0%,#16446a 67%,#116878 100%);color:white;position:relative;overflow:hidden}header:after{content:"";position:absolute;width:390px;height:390px;border:1px solid rgba(255,255,255,.08);border-radius:50%;right:-100px;top:-250px;box-shadow:0 0 0 65px rgba(255,255,255,.03),0 0 0 135px rgba(255,255,255,.02)}.head{max-width:1510px;margin:auto;padding:32px 24px 29px;position:relative;z-index:1;display:flex;gap:20px;justify-content:space-between;align-items:flex-end}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#93d7dc;font-weight:800}.head h1{font-size:clamp(27px,3.2vw,43px);letter-spacing:-.035em;line-height:1.1;margin:8px 0 7px}.head p{font-size:13px;color:#c5d7e5;margin:0}.signature{border:1px solid #8fb4c1;border-radius:30px;padding:9px 14px;color:#ebf8fc;font-size:12px;white-space:nowrap;background:rgba(255,255,255,.07)}
+.topbar{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:18px}.topbar .data-info{font-size:12px;color:var(--muted);margin-left:auto;max-width:560px;line-height:1.5}.pill{border-radius:99px;padding:6px 10px;background:#e5f5f3;color:#0a766e;font-weight:700;font-size:11px;white-space:nowrap}.button,.filebutton{appearance:none;border:1px solid transparent;border-radius:10px;background:#f1f5f9;color:var(--ink);padding:12px 16px;cursor:pointer;font-size:13px;font-weight:750;display:inline-flex;align-items:center;gap:8px;text-decoration:none}.button:hover,.filebutton:hover{filter:brightness(.965)}.button.primary,.filebutton{background:var(--navy);color:#fff}.button.pdf{background:var(--teal);color:#fff}.button[disabled]{opacity:.5;cursor:not-allowed}input[type=file]{display:none}.pdf-choose{display:flex;align-items:center;gap:9px;padding:5px 11px;border:1px solid #dce7ec;border-radius:10px;background:#f7fafc}.pdf-choose label{font-size:12px;font-weight:750;color:#466077;white-space:nowrap}.pdf-choose select{font:inherit;font-size:13px;color:#1b3854;border:1px solid #d5e2e8;border-radius:7px;padding:8px;background:white;min-width:145px}.report-hint{font-size:11px;color:#64778b;flex-basis:100%;margin:0 3px}@media(max-width:680px){.pdf-choose{flex:1;justify-content:space-between}.pdf-choose select{min-width:0;flex:1}.report-hint{line-height:1.4}}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:19px}.config{grid-column:span 12}.section-title{font-size:17px;font-weight:800;color:var(--navy);margin:0 0 13px;letter-spacing:-.01em}.tiny-title{font-size:11px;letter-spacing:.1em;color:#778697;text-transform:uppercase;font-weight:800;margin:0 0 9px}.forms{display:grid;grid-template-columns:repeat(7,minmax(110px,1fr));gap:12px}.field label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px;font-weight:750}.field input,.field select{min-width:0;width:100%;border:1px solid #d6e1ea;background:#fbfdff;color:#203249;border-radius:9px;padding:10px 10px;height:42px;font-size:13px}.field input:focus,.field select:focus{outline:2px solid #a0d9da;outline-offset:1px}.assist{font-size:12px;color:var(--muted);line-height:1.58;margin:12px 0 0}.subline{border-top:1px solid var(--line);margin:14px 0}
+.metrics{grid-column:span 12;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.metric{padding:15px 15px 16px;min-height:113px;border:1px solid var(--line);border-radius:14px;background:white;box-shadow:var(--shadow)}.metric:before{content:"";display:block;width:35px;height:4px;border-radius:12px;background:var(--teal);margin-bottom:10px}.metric:nth-child(2):before{background:#3266ac}.metric:nth-child(3):before{background:#7d8cab}.metric:nth-child(4):before{background:#e28a39}.metric:nth-child(5):before{background:#409f70}.metric .lab{color:var(--muted);font-size:12px;font-weight:700}.metric .val{font-size:clamp(21px,2.3vw,30px);font-weight:850;color:var(--navy);letter-spacing:-.03em;margin-top:4px}.metric .foot{font-size:11px;color:var(--muted);margin-top:4px}
+.chart-card{grid-column:span 6;padding:18px;min-height:470px}.chart-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}.chart-title{font-size:18px;font-weight:800;color:#162f4a;margin:0 0 4px}.smallnote{font-size:12px;color:var(--muted);margin:0}.canvasbox{width:100%;height:348px;margin-top:14px;position:relative}.canvasbox canvas{display:block;width:100%;height:100%;cursor:crosshair}.switch{display:flex;border:1px solid #e0e8ee;border-radius:9px;background:#f4f7f9;padding:3px;gap:3px}.switch button{background:transparent;border:0;padding:7px 10px;font-size:11px;color:#587086;border-radius:7px;font-weight:750;cursor:pointer}.switch button.active{background:white;color:var(--navy);box-shadow:0 1px 5px rgba(0,0,0,.1)}.data-note{font-size:11px;color:#677b8d;margin-top:8px;line-height:1.45}
+.analysis{grid-column:span 7}.conclusion{grid-column:span 5}.analysis table{border-collapse:collapse;width:100%;font-size:13px}.analysis th{background:#f2f7fb;text-align:right;padding:10px 7px;color:#4c6072}.analysis td{text-align:right;border-bottom:1px solid #e9eef3;padding:11px 7px}.analysis td:first-child,.analysis th:first-child{text-align:left}.analysis tr:last-child td{border-bottom:0}.analysis .mark{color:#057f84;font-weight:800}.decision{border-radius:12px;padding:14px;background:#f2f7fa;border-left:5px solid #8695a8}.decision.good{background:#ebf8f1;border-color:var(--green)}.decision.warn{background:#fff6e7;border-color:var(--amber)}.decision.bad{background:#fff0ef;border-color:var(--bad)}.decision strong{display:block;margin-bottom:5px;font-size:15px}.decision p{font-size:12px;line-height:1.6;margin:0}.decision .phase{font-size:12px;margin-bottom:9px;color:#31475c}.notes{margin:13px 0 0;font-size:12px;line-height:1.6;color:var(--muted)}.notes b{color:var(--navy)}
+footer{font-size:11px;color:#768494;text-align:center;padding-top:22px;line-height:1.5}.statusline{grid-column:span 12;font-size:12px;color:#375d69;background:#ecf6f6;border:1px solid #cbe7e5;padding:12px;border-radius:11px}.statusline.error{background:#fff2f1;color:#963939;border-color:#f3b9b9}
+@media(max-width:1150px){.forms{grid-template-columns:repeat(4,minmax(0,1fr))}.metrics{grid-template-columns:repeat(3,1fr)}.chart-card{grid-column:span 12}.canvasbox{height:360px}.analysis,.conclusion{grid-column:span 12}}
+@media(max-width:680px){.page{padding:13px 12px 24px}.head{padding:28px 16px;align-items:flex-start}.head h1{font-size:28px}.signature{display:none}.topbar{gap:7px;padding:11px}.topbar .data-info{margin-left:0;min-width:100%}.button,.filebutton{padding:11px 10px;flex:1;justify-content:center;font-size:12px}.card{padding:14px}.forms{grid-template-columns:repeat(2,minmax(0,1fr))}.metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric{padding:11px;min-height:104px}.metric:last-child{grid-column:span 2}.canvasbox{height:300px}.chart-card{padding:14px;min-height:400px}.analysis table{font-size:11px}.analysis th,.analysis td{padding:9px 3px}.section-title{font-size:16px}}
+.field input[readonly]{background:#eef5f8;color:#1d4b65;font-weight:780;cursor:default}
+.autofuse-note{font-size:12px;font-weight:650;border:1px solid #d5e7e8;background:#edf8f7;color:#1a6670;border-radius:9px;padding:11px 13px;margin-top:14px;line-height:1.5}
+.autofuse-note.alert{background:#fff6e8;border-color:#f1d7ac;color:#90530d}
+.balance-card{grid-column:span 12}.balance-title{display:flex;justify-content:space-between;align-items:start;gap:10px;flex-wrap:wrap}.balance-subtitle{font-size:12px;color:var(--muted);margin:0 0 16px}.balance-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 14px}.balance-stat{padding:12px 14px;border:1px solid #dfe8ee;border-radius:11px;background:#f6f9fc}.balance-stat .name{font-size:11px;font-weight:720;color:#5e7387}.balance-stat .number{font-size:20px;line-height:1.35;font-weight:850;color:#102d4c;margin:4px 0 3px}.balance-stat .detail{font-size:11px;color:#63788a}.balance-advice{background:#edf8f7;border-left:4px solid var(--teal);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.55;color:#254657}.balance-advice.warning{background:#fff6e8;border-left-color:var(--amber)}.balance-advice strong{font-weight:800}.balance-meta{color:#697e8e;font-size:11px;line-height:1.55;margin-top:10px}@media(max-width:850px){.balance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.balance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.balance-stat .number{font-size:17px}.balance-stat{padding:9px}}
+.confirmfuse{font-size:12px;color:#344e60;line-height:1.45;display:flex;align-items:center;gap:9px;margin-top:10px}
+.confirmfuse input{accent-color:#087b81;flex:none;width:16px;height:16px}
+.confirmfuse.disabled{opacity:.55}
+.norm-eval{font-size:12px;line-height:1.58;padding:10px 13px;border-radius:10px;background:#eef6f7;border:1px solid #cde5e7;color:#214d60;margin-top:10px}.norm-eval.warn{background:#fff7ea;border-color:#ebd4ad;color:#8b540e}.norm-eval.bad{background:#fff0ef;border-color:#f2c7c4;color:#9e393d}.answer-label{display:block;font-size:11px;letter-spacing:.035em;text-transform:uppercase;opacity:.85;margin-bottom:4px}
+
+.dual-tablescroll{overflow-x:auto}.dual-table{border-collapse:collapse;width:100%;min-width:710px;font-size:12px}.dual-table th{background:#f2f7fb;text-align:left;color:#51687d;padding:10px;border-bottom:1px solid #dae4ec}.dual-table td{padding:11px 10px;border-bottom:1px solid #e7edf2}.dual-table tbody tr:last-child td{border-bottom:none}.dual-table .danger{color:#b94044;font-weight:800}.dual-table .ok{color:#147d62;font-weight:800}.dual-view{min-width:165px}.dual-view select{height:34px;padding:5px 10px}.dual-view label{font-size:11px}
+.dual-imbalance{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0 8px}.dual-imbalance-unit{padding:13px 15px;border-radius:12px;border:1px solid #dce8ee;background:#f5f9fc}.dual-imbalance-unit strong{display:block;color:#234661;font-size:13px}.dual-imbalance-unit output{display:block;font-size:25px;font-weight:850;color:#0a6671;margin:4px 0}.dual-imbalance-unit small{display:block;font-size:11px;color:#597182;line-height:1.4}.dual-imbalance-note{font-size:11px;color:var(--muted);line-height:1.6;margin:6px 0 12px}@media(max-width:480px){.dual-imbalance{grid-template-columns:1fr}.dual-imbalance-unit{padding:10px 12px}.dual-imbalance-unit output{font-size:21px}}
+
+/* Visor interactivo: rango temporal, fases, colores, punteros y máximos */
+.visual-panel{grid-column:span 12;padding:16px 19px}.visual-panel h2{margin:0 0 5px}.visual-intro{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.5}
+.visual-tools{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}.visual-group{display:flex;align-items:center;flex-wrap:wrap;gap:7px}.visual-group .small-field{display:flex;flex-direction:column;gap:5px}.visual-group label,.visual-group .group-title{font-size:11px;font-weight:750;color:#435b70}.visual-group input[type="datetime-local"],.visual-group select{height:38px;border:1px solid #cadbe6;border-radius:8px;background:white;padding:6px 8px;color:#183753;font-size:12px;max-width:190px}
+.visual-group button{height:38px;border:1px solid #cddce6;border-radius:8px;background:#f4f8fa;color:#173e59;font-weight:750;cursor:pointer;padding:0 12px}.visual-group button:hover{background:#e5f1f4}.visual-divider{width:1px;align-self:stretch;min-height:43px;background:#e1e8ee}
+.phase-toggles{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.phase-toggle{position:relative;display:inline-flex;align-items:center;cursor:pointer;gap:7px;border-radius:9px;padding:9px 10px;border:1px solid #d8e4eb;background:#f5f9fc;font-size:12px;font-weight:800;color:#2c5067}.phase-toggle input{accent-color:#176b80;margin:0;width:16px;height:16px}.phase-toggle:has(input:not(:checked)){opacity:.58;background:#f1f1f1}
+.colors-panel{margin-top:14px;border-top:1px solid #e7edf2;padding-top:12px}.colors-panel summary{font-size:12px;font-weight:800;color:#2d526a;cursor:pointer;user-select:none}.colors-grid{display:flex;gap:12px 24px;flex-wrap:wrap;margin-top:13px}.colors-circuit{border:1px solid #e1eaf0;background:#fafcfe;border-radius:10px;padding:10px}.colors-circuit strong{display:block;font-size:12px;color:#233f58;margin-bottom:9px}.colors-circuit .color-options{display:flex;gap:14px;flex-wrap:wrap}.color-pick{display:flex;gap:6px;align-items:center;font-size:11px;font-weight:750;color:#435b70;cursor:pointer}.color-pick input{width:32px;height:28px;padding:1px;border:1px solid #c6d4de;border-radius:6px;cursor:pointer;background:white}.colors-panel .reset-color{align-self:end;height:34px;padding:6px 11px;border-radius:8px;border:1px solid #d4e1e8;background:#f3f7f9;color:#22465e;font-weight:700;cursor:pointer}
+.visual-summary{font-size:11px;color:#527388;font-weight:650;margin-top:11px;line-height:1.5}.canvasbox{isolation:isolate}.chart-hoverline{display:none;position:absolute;top:0;width:1px;background:rgba(30,57,90,.58);pointer-events:none;z-index:2}.chart-hoverdots{position:absolute;inset:0;pointer-events:none;z-index:3}.chart-hoverdot{position:absolute;width:9px;height:9px;border-radius:50%;background:white;border:2px solid;transform:translate(-50%,-50%)}.chart-tooltip{position:absolute;display:none;pointer-events:none;z-index:5;max-height:92%;overflow:hidden;min-width:185px;max-width:min(285px,85%);padding:10px 11px;border:1px solid #bed0dd;box-shadow:0 8px 24px #0b233736;border-radius:11px;background:#fffffff2;color:#213b52;font-size:11px;line-height:1.4;backdrop-filter:blur(6px)}.chart-tooltip .tip-date{font-size:12px;font-weight:800;color:#143651;padding-bottom:6px;margin-bottom:5px;border-bottom:1px solid #e5ebf0}.chart-tooltip .tip-row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:4px}.chart-tooltip .tip-label{display:flex;align-items:center;gap:5px}.chart-tooltip .tip-color{width:8px;height:8px;border-radius:3px;display:inline-block;flex:none}.chart-tooltip .tip-val{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.peak-panel{border-top:1px solid #e6edf2;margin-top:12px;padding:12px 0 0}.peak-panel h3{font-size:13px;color:var(--navy);margin:0 0 9px}.peak-results{display:flex;gap:7px;flex-wrap:wrap}.peak-chip{border:1px solid #d7e5ec;background:#f5fafc;border-radius:9px;padding:7px 10px;min-width:125px}.peak-chip .peak-title{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:#38546a}.peak-chip .peak-swatch{width:9px;height:9px;border-radius:50%;display:inline-block}.peak-chip .peak-number{display:block;font-size:16px;color:var(--navy);font-weight:850;margin:4px 0 1px}.peak-chip .peak-date{font-size:10px;color:#61778a}.peak-annotation{font-size:11px;color:#6c7e8d;line-height:1.5;margin:9px 0 0}
+@media(max-width:800px){.visual-panel{padding:14px}.visual-tools{gap:12px}.visual-divider{display:none}.visual-group{width:100%}.visual-group .small-field{flex:1}.visual-group input[type="datetime-local"]{max-width:none;width:100%}.canvasbox{height:390px}}@media(max-width:430px){.visual-group .small-field{min-width:130px}.visual-group button{flex:1}.colors-circuit{width:100%}.chart-tooltip{font-size:10px}}
+</style></head><body>
+<header><div class="head"><div><div class="eyebrow">Análisis de mediciones eléctricas · BT</div><h1>Perfil de tensión y carga</h1><p>Dos circuitos BT · Holgura total simultánea · Informe técnico PDF</p></div><div class="signature">Diseño · By Juan Kunz</div></div></header>
+<main class="page">
+<div class="topbar" id="toolbar"><label class="filebutton" for="excelFile">↥ &nbsp; Cargar planilla Excel</label><input type="file" id="excelFile" accept=".xlsx,.xlsm"><div class="pdf-choose"><label for="reportScope">Informe de</label><select id="reportScope" aria-label="Elegir circuito del informe PDF"><option value="1">Circuito BT 1</option><option value="2">Circuito BT 2</option><option value="both">Ambos circuitos</option></select></div><button id="pdfBtn" class="button pdf">▤ &nbsp; Generar informe PDF</button><button id="resetBtn" class="button" title="Recuperar el ejemplo de un circuito medido">↺ &nbsp; Volver al ejemplo</button><span class="pill" id="counter">358 intervalos</span><div class="data-info" id="status">Datos cargados del archivo de ejemplo.</div></div>
+<div class="report-hint" id="reportHint" role="status">Para informar ambos circuitos, cargue las dos hojas Excel.</div>
+<div class="grid">
+<section class="card config"><h2 class="section-title">Datos de la SED y evaluación preliminar</h2><div class="forms">
+<div class="field"><label for="sedId">Identificación SED</label><input id="sedId" placeholder="Ej.: SED 7784" type="text"></div>
+<div class="field"><label for="location">Ubicación / poste</label><input id="location" placeholder="Indicar ubicación" type="text"></div>
+<div class="field"><label for="capacity">Capacidad SED (kVA)</label><input id="capacity" type="number" min="1" step="0.5" placeholder="Ingresar manualmente"></div>
+<div class="field"><label for="clients">Clientes conectados</label><input id="clients" type="number" min="0" step="1" placeholder="Total de clientes"></div>
+<div class="field"><label for="system">Tipo de SED (automático)</label><input id="system" type="text" readonly value="Ingrese capacidad"></div>
+<div class="field"><label for="circuits">Circuitos de salida BT</label><select id="circuits"><option value="1">1 circuito</option><option value="2" selected>2 circuitos</option></select></div>
+<div class="field" id="wiringField" style="display:none"><label for="wiring">Disposición monofásica BT</label><select id="wiring"><option value="bifilar">Bifilar</option><option value="trifilar">Trifilar</option></select></div>
+<div class="field"><label for="fuse">Fusible NH BT (A) · Automático</label><input id="fuse" type="text" readonly placeholder="Sin referencia"></div>
+<div class="field"><label for="nominal">Tensión nominal BT (V)</label><input id="nominal" type="number" min="100" step="1" value="220"></div>
+<div class="field"><label for="density">Densidad de red (NTCSD)</label><select id="density"><option value="unknown" selected>No especificada</option><option value="high">Alta o media (±7,5 %)</option><option value="low">Baja, muy baja o extrema (±10 %)</option></select></div>
+<div class="field" id="measureScopeField" style="display:none"><label for="measureScope">Origen de la medición</label><select id="measureScope"><option value="circuit" selected>Por circuito BT, hojas separadas</option><option value="general">Salida general del transformador</option></select><small id="measureScopeAutoHint" style="display:none;font-size:11px;color:#3d7881;line-height:1.45;margin-top:6px">Origen automático: se identificaron dos hojas de medición, una por circuito BT.</small></div>
+</div>
+<div class="autofuse-note" id="fuseSource" role="status">Ingrese la capacidad nominal para determinar automáticamente el tipo de SED y el calibre NH de referencia.</div>
+<div class="autofuse-note alert" id="scopeExplanation" role="status" style="display:none"></div>
+<label class="confirmfuse"><input type="checkbox" id="fuseConfirmed"> He verificado en terreno que los fusibles NH instalados en AMBOS circuitos coinciden con la referencia (cuando se cargan dos hojas).</label>
+<p class="assist"><b>Lectura de dos hojas:</b> el archivo Excel puede contener las hojas <b>«Circuito BT 1»</b> y <b>«Circuito BT 2»</b> (también reconoce <b>«BD»</b> como primera hoja si se agrega una segunda). Cada hoja debe incluir <b>Fecha, Tensión F1/F2/F3 y Corriente L1/L2/L3</b>. Los horarios deben coincidir. No se suman máximos de fechas diferentes.<br><b>Evaluación normativa:</b> NTCSD Chile, art. 3-1: ±7,5 % para redes de densidad alta/media y ±10 % para baja/muy baja/extremadamente baja; al menos 95 % del tiempo con promedios de 10 minutos en siete días. Las lecturas de la planilla son orientativas y no constituyen certificación. <a href="https://www.cne.cl/wp-content/uploads/2024/05/NTCSDx2024.pdf" target="_blank" rel="noopener noreferrer">Fuente CNE</a>.</p>
+<p class="assist"><b>Criterio de clasificación:</b> hasta <b>25 kVA</b> se considera SED bifásica/monofásica para la interfaz; sobre 25 kVA, trifásica. El plano 30-10-A4 denomina sus variantes de BT <b>monofásica bifilar/trifilar</b> y <b>trifásica</b>. Para <b>25 kVA</b> se utiliza NH 100 A; para <b>125 kVA</b>, NH 200 A (1 circuito BT) o NH 100 A (2 circuitos BT). Estas tres asignaciones siguen el criterio indicado por el usuario, ya que el plano no contiene las filas correspondientes. Los demás calibres son <b>referencias del plano</b>. Ninguno acredita por sí solo el fusible instalado. Se considera <b>1 kW por cliente</b> de manera referencial. Para 2 circuitos, incorpore las hojas «Circuito BT 1» y «Circuito BT 2», con las mismas fechas y horas, tensión y corriente de cada fase. La holgura total se calcula solo con intervalos simultáneos.</p></section>
+<section class="metrics" aria-label="Indicadores de medición">
+<div class="metric"><div class="lab" id="peakKvaTitle">Demanda máxima del circuito medido</div><div class="val" id="peakKva">—</div><div class="foot" id="peakKvaFoot">kVA · Corrientes y tensiones simultáneas</div></div>
+<div class="metric"><div class="lab" id="peakALabel">Corriente máxima</div><div class="val" id="peakA">—</div><div class="foot" id="peakAText">Línea con mayor corriente</div></div>
+<div class="metric"><div class="lab">Holgura nominal SED</div><div class="val" id="margin">—</div><div class="foot" id="utilization">Falta medir el otro circuito</div></div>
+<div class="metric"><div class="lab" id="imbTitle">Desequilibrio (Excel)</div><div class="val" id="imb">—</div><div class="foot" id="imbFoot">Hoja BD · Celda N2 · Fórmula original</div></div>
+<div class="metric"><div class="lab" id="phaseLabel">Fase sugerida</div><div class="val" id="phase">—</div><div class="foot">Menor corriente máxima</div></div></section>
+<section class="card visual-panel" aria-label="Ajustes de visualización de los gráficos">
+<h2 class="section-title">Explorador de gráficos</h2>
+<p class="visual-intro">Ajuste el periodo, seleccione L1/L2/L3 y pase el mouse o toque una curva para consultar los valores medidos. Los filtros son <b>solo visuales</b>: no alteran el cálculo técnico de la SED ni los límites de tensión.</p>
+<div class="visual-tools">
+ <div class="visual-group" aria-label="Rango de tiempo"><div class="small-field"><label for="timePreset">Visualizar intervalo</label><select id="timePreset"><option value="all">Todo el periodo</option><option value="6">Últimas 6 horas</option><option value="12">Últimas 12 horas</option><option value="24">Últimas 24 horas</option><option value="48">Últimas 48 horas</option><option value="168">Últimos 7 días</option><option value="custom">Rango personalizado</option></select></div><div class="small-field"><label for="timeStart">Desde</label><input id="timeStart" type="datetime-local" step="60" aria-label="Fecha y hora inicial"></div><div class="small-field"><label for="timeEnd">Hasta</label><input id="timeEnd" type="datetime-local" step="60" aria-label="Fecha y hora final"></div><button id="applyTime" type="button">Aplicar rango</button><button id="resetTime" type="button">Ver todo</button></div>
+ <div class="visual-divider"></div><div class="visual-group"><span class="group-title">Filtrar líneas/fases</span><div class="phase-toggles"><label class="phase-toggle"><input type="checkbox" data-phase="1" checked> L1 / F1</label><label class="phase-toggle"><input type="checkbox" data-phase="2" checked> L2 / F2</label><label class="phase-toggle"><input type="checkbox" data-phase="3" checked> L3 / F3</label></div></div>
+</div><div class="visual-summary" id="visualSummary" aria-live="polite">Mostrando todas las mediciones disponibles.</div>
+<details class="colors-panel"><summary>Personalizar colores de cada circuito y fase</summary><div class="colors-grid"><div class="colors-circuit"><strong>Circuito BT 1 · línea continua</strong><div class="color-options"><label class="color-pick">L1 <input type="color" data-circuit-color="1" data-color-phase="1" aria-label="Color BT1 L1"></label><label class="color-pick">L2 <input type="color" data-circuit-color="1" data-color-phase="2" aria-label="Color BT1 L2"></label><label class="color-pick">L3 <input type="color" data-circuit-color="1" data-color-phase="3" aria-label="Color BT1 L3"></label></div></div><div class="colors-circuit"><strong>Circuito BT 2 · línea punteada</strong><div class="color-options"><label class="color-pick">L1 <input type="color" data-circuit-color="2" data-color-phase="1" aria-label="Color BT2 L1"></label><label class="color-pick">L2 <input type="color" data-circuit-color="2" data-color-phase="2" aria-label="Color BT2 L2"></label><label class="color-pick">L3 <input type="color" data-circuit-color="2" data-color-phase="3" aria-label="Color BT2 L3"></label></div></div><button class="reset-color" id="resetColors" type="button">Colores originales</button></div></details>
+</section>
+<section class="card chart-card"><div class="chart-top"><div><h2 class="chart-title">Perfil de tensión</h2><p class="smallnote" id="voltSubtitle">Tensión por fase, en voltios</p></div><div class="field dual-view" id="graphViewContainer" style="display:none"><label for="graphView">Gráficos</label><select id="graphView"><option value="both">Ambos circuitos</option><option value="1">Circuito BT 1</option><option value="2">Circuito BT 2</option></select></div></div><div class="canvasbox"><canvas id="voltageChart" aria-label="Gráfico de tensiones por fase"></canvas></div><div class="data-note" id="limitsNote"></div><div class="norm-eval" id="normStatus" role="status">La comparación normativa se calculará automáticamente con las mediciones de tensión.</div></section>
+<section class="card chart-card"><div class="chart-top"><div><h2 class="chart-title">Perfil de carga</h2><p class="smallnote" id="loadSubtitle">Corrientes por fase, en amperes</p></div><div class="switch"><button id="currentMode" class="active" type="button">Corriente [A]</button><button id="kvaMode" type="button">Demanda [kVA]</button></div></div><div class="canvasbox"><canvas id="loadChart" aria-label="Gráfico de carga"></canvas></div><div class="peak-panel"><h3>Picos de corriente en las fases seleccionadas</h3><div class="peak-results" id="peakReadout" aria-live="polite"></div><p class="peak-annotation">Máximos individuales en el rango visible; podrían ocurrir en horarios distintos. Los marcadores sobre el gráfico señalan cada pico en modo Corriente [A].</p></div><div class="data-note" id="loadInfo">La demanda aparente del circuito medido se estima como la suma de V × I por fase; no equivale a la carga total de una SED con dos circuitos.</div></section>
+<section class="card balance-card" id="dualSummary" style="display:none" aria-label="Comparación de dos circuitos BT">
+<h2 class="section-title">Mediciones simultáneas de ambos circuitos BT</h2>
+<p class="balance-subtitle" id="dualInfo">La demanda total se obtiene sumando kVA de los dos circuitos en cada fecha y hora coincidente.</p>
+<div class="dual-tablescroll"><table class="dual-table"><thead><tr><th>Salida BT</th><th>Registros</th><th>Demanda máx.</th><th>Línea de I máx.</th><th>I máx.</th><th>Deseq. Excel</th><th>NH ref.</th><th>Revisión NH</th></tr></thead><tbody id="dualRows"></tbody></table></div>
+<div class="dual-imbalance" id="imbByCircuit" aria-label="Desequilibrio separado por circuito BT">
+<div class="dual-imbalance-unit"><strong>Desequilibrio · Circuito BT 1</strong><output id="imbCto1">—</output><small id="imbCto1Line">Calculado solo con mediciones de BT 1</small></div>
+<div class="dual-imbalance-unit"><strong>Desequilibrio · Circuito BT 2</strong><output id="imbCto2">—</output><small id="imbCto2Line">Calculado solo con mediciones de BT 2</small></div>
+</div><p class="dual-imbalance-note">Indicador de la planilla Excel, calculado <b>independientemente</b> para cada circuito: <code>=U20-U19/Y18*100</code>, donde U18, U19 y U20 son las corrientes máximas de L1, L2 y L3 <b>del circuito correspondiente</b>, e Y18 es su promedio. No se mezclan corrientes ni se calcula un desequilibrio único de SED. Este indicador no equivale al desequilibrio trifásico convencional.</p>
+<div class="autofuse-note" id="dualCoverage" role="status">Pendiente de cargar ambos circuitos.</div>
+</section>
+<section class="card balance-card" aria-label="Diagnóstico de corrientes y equilibrio de líneas">
+<div class="balance-title"><div><h2 class="section-title">Corriente máxima y equilibrio de líneas</h2><p class="balance-subtitle">Diagnóstico automático usando las corrientes medidas en la planilla cargada</p></div></div>
+<div class="balance-grid">
+<div class="balance-stat"><div class="name">Línea con mayor corriente máxima</div><div class="number" id="maxLine">—</div><div class="detail" id="maxLineInfo">Mayor registro en amperes</div></div>
+<div class="balance-stat"><div class="name">Mayor corriente promedio</div><div class="number" id="meanMaxLine">—</div><div class="detail" id="meanMaxLineInfo">Identificación de carga sostenida</div></div>
+<div class="balance-stat"><div class="name">Menor corriente promedio</div><div class="number" id="meanMinLine">—</div><div class="detail" id="meanMinLineInfo">Posible línea receptora</div></div>
+<div class="balance-stat"><div class="name">Líneas a revisar para equilibrio</div><div class="number" id="rebalanceLines">—</div><div class="detail">Identificadas por corrientes promedio</div></div>
+</div>
+<div class="balance-advice" id="balanceAdvice">Se analizarán las corrientes al cargar la planilla.</div>
+<p class="balance-meta" id="balanceMethod">Se distinguen corrientes máximas y promedios: los máximos de líneas distintas pueden ocurrir a horas diferentes. La recomendación es informativa y debe verificarse en terreno.</p>
+</section>
+<section class="card analysis"><h2 class="section-title">Resumen de mediciones por fase</h2><p class="balance-subtitle" id="phaseSummaryHelp">Los máximos por línea pueden ocurrir en instantes distintos; usar los promedios para orientar el equilibrado.</p><table><thead><tr><th>Fase</th><th>V mínima</th><th>V máxima</th><th>V promedio</th><th>I promedio</th><th>I máxima</th></tr></thead><tbody id="phaseTable"></tbody></table><div class="subline"></div><div class="tiny-title">Cobertura de medición</div><p class="assist" id="periodText">—</p></section>
+<section class="card conclusion"><h2 class="section-title">Evaluación para un cliente adicional</h2><div id="decisionBox" class="decision"><strong id="connectionAnswer" class="answer-label">¿Es posible conectar un nuevo cliente? Por evaluar</strong><strong id="decisionTitle">Pendiente de parámetros</strong><p id="decisionText">Ingrese capacidad del transformador y protecciones.</p></div><p class="notes" id="methodNote"></p></section>
+<div id="notification" class="statusline">La planilla incluida permite comenzar el análisis. Para evaluar otra SED, utilice el botón «Cargar planilla Excel».</div>
+</div><footer>Dashboard técnico de apoyo · By Juan Kunz · Evaluación orientativa; requiere confirmación en terreno de BT, protecciones, conductores, condiciones de tensión y punto de suministro.</footer>
+</main>
+<script>
+const SAMPLE={"name":"Perfil de Carga 2.xlsx","sheet":"BD","rows":[{"date":"2026-04-24T16:15:00","v1":233.0,"v2":232.5,"v3":232.8,"i1":30.6,"i2":31.8,"i3":34.2},{"date":"2026-04-24T16:30:00","v1":231.1,"v2":230.2,"v3":229.9,"i1":24.6,"i2":32.4,"i3":28.2},{"date":"2026-04-24T16:45:00","v1":231.6,"v2":231.0,"v3":230.3,"i1":23.4,"i2":46.2,"i3":25.8},{"date":"2026-04-24T17:00:00","v1":231.4,"v2":230.7,"v3":230.2,"i1":28.8,"i2":36.0,"i3":51.0},{"date":"2026-04-24T17:15:00","v1":232.1,"v2":231.3,"v3":230.4,"i1":25.8,"i2":55.2,"i3":44.4},{"date":"2026-04-24T17:30:00","v1":231.7,"v2":231.0,"v3":230.1,"i1":32.4,"i2":39.6,"i3":33.0},{"date":"2026-04-24T17:45:00","v1":232.6,"v2":231.7,"v3":230.6,"i1":16.8,"i2":55.2,"i3":48.0},{"date":"2026-04-24T18:00:00","v1":231.2,"v2":230.4,"v3":229.1,"i1":20.4,"i2":59.4,"i3":49.2},{"date":"2026-04-24T18:15:00","v1":228.9,"v2":228.8,"v3":227.3,"i1":30.6,"i2":57.6,"i3":58.8},{"date":"2026-04-24T18:30:00","v1":229.2,"v2":229.0,"v3":227.9,"i1":49.2,"i2":48.6,"i3":68.4},{"date":"2026-04-24T18:45:00","v1":229.5,"v2":229.7,"v3":228.5,"i1":36.0,"i2":54.6,"i3":43.2},{"date":"2026-04-24T19:00:00","v1":229.9,"v2":230.2,"v3":228.5,"i1":31.8,"i2":45.0,"i3":61.2},{"date":"2026-04-24T19:15:00","v1":230.0,"v2":230.5,"v3":228.9,"i1":43.2,"i2":45.0,"i3":39.6},{"date":"2026-04-24T19:30:00","v1":229.9,"v2":230.3,"v3":229.1,"i1":55.8,"i2":45.0,"i3":48.0},{"date":"2026-04-24T19:45:00","v1":230.0,"v2":230.8,"v3":229.5,"i1":37.8,"i2":66.0,"i3":49.2},{"date":"2026-04-24T20:00:00","v1":230.8,"v2":231.2,"v3":229.6,"i1":32.4,"i2":51.6,"i3":51.6},{"date":"2026-04-24T20:15:00","v1":231.5,"v2":231.7,"v3":230.6,"i1":36.0,"i2":63.6,"i3":35.4},{"date":"2026-04-24T20:30:00","v1":231.5,"v2":231.9,"v3":230.7,"i1":49.8,"i2":55.8,"i3":43.2},{"date":"2026-04-24T20:45:00","v1":232.4,"v2":232.8,"v3":232.0,"i1":48.0,"i2":60.0,"i3":33.6},{"date":"2026-04-24T21:00:00","v1":232.9,"v2":233.1,"v3":232.5,"i1":65.4,"i2":54.0,"i3":41.4},{"date":"2026-04-24T21:15:00","v1":229.6,"v2":230.1,"v3":229.9,"i1":41.4,"i2":52.2,"i3":39.0},{"date":"2026-04-24T21:30:00","v1":229.3,"v2":229.5,"v3":229.3,"i1":48.0,"i2":47.4,"i3":53.4},{"date":"2026-04-24T21:45:00","v1":229.4,"v2":229.3,"v3":229.1,"i1":37.2,"i2":55.2,"i3":48.6},{"date":"2026-04-24T22:00:00","v1":230.3,"v2":229.9,"v3":229.6,"i1":39.0,"i2":48.0,"i3":49.8},{"date":"2026-04-24T22:15:00","v1":231.0,"v2":230.3,"v3":230.2,"i1":33.6,"i2":46.8,"i3":42.6},{"date":"2026-04-24T22:30:00","v1":231.6,"v2":230.5,"v3":230.5,"i1":28.2,"i2":45.0,"i3":45.0},{"date":"2026-04-24T22:45:00","v1":232.4,"v2":231.3,"v3":231.8,"i1":28.8,"i2":51.0,"i3":30.0},{"date":"2026-04-24T23:00:00","v1":233.5,"v2":232.1,"v3":232.7,"i1":39.0,"i2":57.0,"i3":27.6},{"date":"2026-04-24T23:15:00","v1":233.8,"v2":232.2,"v3":233.0,"i1":47.4,"i2":45.0,"i3":29.4},{"date":"2026-04-24T23:30:00","v1":232.6,"v2":231.1,"v3":232.3,"i1":52.8,"i2":51.0,"i3":28.8},{"date":"2026-04-24T23:45:00","v1":233.5,"v2":231.8,"v3":232.3,"i1":33.6,"i2":52.2,"i3":31.8},{"date":"2026-04-25T00:00:00","v1":232.6,"v2":231.3,"v3":231.0,"i1":36.0,"i2":43.8,"i3":35.4},{"date":"2026-04-25T00:15:00","v1":233.5,"v2":231.8,"v3":231.3,"i1":14.4,"i2":49.8,"i3":45.0},{"date":"2026-04-25T00:30:00","v1":234.5,"v2":232.2,"v3":232.3,"i1":11.4,"i2":49.8,"i3":38.4},{"date":"2026-04-25T00:45:00","v1":232.8,"v2":230.1,"v3":230.5,"i1":10.8,"i2":56.4,"i3":42.0},{"date":"2026-04-25T01:00:00","v1":232.1,"v2":229.5,"v3":229.7,"i1":12.0,"i2":46.2,"i3":48.6},{"date":"2026-04-25T01:15:00","v1":233.3,"v2":230.4,"v3":231.0,"i1":11.4,"i2":48.0,"i3":42.6},{"date":"2026-04-25T01:30:00","v1":234.3,"v2":231.4,"v3":232.3,"i1":10.2,"i2":47.4,"i3":34.8},{"date":"2026-04-25T01:45:00","v1":234.7,"v2":231.4,"v3":232.8,"i1":12.6,"i2":46.8,"i3":35.4},{"date":"2026-04-25T02:00:00","v1":235.0,"v2":231.6,"v3":232.7,"i1":12.6,"i2":48.0,"i3":36.0},{"date":"2026-04-25T02:15:00","v1":235.4,"v2":232.6,"v3":233.6,"i1":22.8,"i2":30.6,"i3":27.6},{"date":"2026-04-25T02:30:00","v1":233.7,"v2":231.6,"v3":232.1,"i1":16.2,"i2":43.8,"i3":40.2},{"date":"2026-04-25T02:45:00","v1":233.4,"v2":231.3,"v3":231.1,"i1":7.2,"i2":45.0,"i3":36.6},{"date":"2026-04-25T03:00:00","v1":232.1,"v2":230.2,"v3":229.9,"i1":7.2,"i2":42.0,"i3":31.8},{"date":"2026-04-25T03:15:00","v1":234.1,"v2":232.1,"v3":232.3,"i1":9.0,"i2":42.6,"i3":42.6},{"date":"2026-04-25T03:30:00","v1":234.0,"v2":231.8,"v3":232.0,"i1":9.0,"i2":42.6,"i3":38.4},{"date":"2026-04-25T03:45:00","v1":233.1,"v2":230.8,"v3":231.1,"i1":7.2,"i2":42.6,"i3":30.6},{"date":"2026-04-25T04:00:00","v1":233.7,"v2":231.4,"v3":231.8,"i1":7.8,"i2":42.6,"i3":34.2},{"date":"2026-04-25T04:15:00","v1":234.0,"v2":231.5,"v3":232.0,"i1":6.6,"i2":42.6,"i3":22.8},{"date":"2026-04-25T04:30:00","v1":234.0,"v2":231.7,"v3":232.3,"i1":9.6,"i2":42.6,"i3":32.4},{"date":"2026-04-25T04:45:00","v1":233.9,"v2":231.7,"v3":232.3,"i1":8.4,"i2":43.2,"i3":26.4},{"date":"2026-04-25T05:00:00","v1":234.3,"v2":231.8,"v3":232.5,"i1":6.0,"i2":43.8,"i3":21.0},{"date":"2026-04-25T05:15:00","v1":234.4,"v2":231.7,"v3":232.2,"i1":5.4,"i2":52.2,"i3":42.0},{"date":"2026-04-25T05:30:00","v1":234.6,"v2":231.9,"v3":232.8,"i1":8.4,"i2":51.0,"i3":22.8},{"date":"2026-04-25T05:45:00","v1":233.6,"v2":231.4,"v3":231.9,"i1":15.0,"i2":49.8,"i3":37.8},{"date":"2026-04-25T06:00:00","v1":233.8,"v2":231.2,"v3":231.8,"i1":16.2,"i2":49.8,"i3":30.6},{"date":"2026-04-25T06:15:00","v1":233.9,"v2":231.4,"v3":232.0,"i1":15.0,"i2":49.2,"i3":33.6},{"date":"2026-04-25T06:30:00","v1":233.9,"v2":231.4,"v3":232.0,"i1":26.4,"i2":49.2,"i3":30.0},{"date":"2026-04-25T06:45:00","v1":234.1,"v2":231.9,"v3":232.4,"i1":18.0,"i2":60.6,"i3":20.4},{"date":"2026-04-25T07:00:00","v1":232.8,"v2":230.9,"v3":231.4,"i1":26.4,"i2":49.2,"i3":33.6},{"date":"2026-04-25T07:15:00","v1":231.8,"v2":230.1,"v3":230.5,"i1":25.8,"i2":54.6,"i3":31.2},{"date":"2026-04-25T07:30:00","v1":231.4,"v2":229.7,"v3":229.8,"i1":21.6,"i2":64.8,"i3":45.0},{"date":"2026-04-25T07:45:00","v1":231.4,"v2":229.8,"v3":229.8,"i1":19.8,"i2":58.8,"i3":36.6},{"date":"2026-04-25T08:00:00","v1":231.0,"v2":229.4,"v3":229.3,"i1":24.6,"i2":55.2,"i3":31.2},{"date":"2026-04-25T08:15:00","v1":229.7,"v2":228.3,"v3":228.2,"i1":20.4,"i2":49.2,"i3":38.4},{"date":"2026-04-25T08:30:00","v1":231.9,"v2":230.0,"v3":231.5,"i1":27.0,"i2":52.8,"i3":46.2},{"date":"2026-04-25T08:45:00","v1":230.4,"v2":228.6,"v3":229.7,"i1":28.2,"i2":54.0,"i3":60.0},{"date":"2026-04-25T09:00:00","v1":231.0,"v2":229.3,"v3":230.5,"i1":35.4,"i2":63.6,"i3":67.2},{"date":"2026-04-25T09:15:00","v1":229.9,"v2":229.2,"v3":230.1,"i1":18.6,"i2":46.8,"i3":35.4},{"date":"2026-04-25T09:30:00","v1":231.4,"v2":229.2,"v3":231.1,"i1":19.2,"i2":61.2,"i3":45.0},{"date":"2026-04-25T09:45:00","v1":233.2,"v2":230.7,"v3":232.8,"i1":34.2,"i2":54.0,"i3":38.4},{"date":"2026-04-25T10:00:00","v1":232.4,"v2":229.9,"v3":232.4,"i1":40.2,"i2":67.2,"i3":33.6},{"date":"2026-04-25T10:15:00","v1":231.3,"v2":229.8,"v3":230.7,"i1":54.0,"i2":52.8,"i3":46.8},{"date":"2026-04-25T10:30:00","v1":231.4,"v2":230.3,"v3":230.1,"i1":48.6,"i2":55.8,"i3":55.2},{"date":"2026-04-25T10:45:00","v1":230.4,"v2":229.2,"v3":229.0,"i1":45.6,"i2":57.6,"i3":64.2},{"date":"2026-04-25T11:00:00","v1":232.8,"v2":231.0,"v3":230.5,"i1":46.8,"i2":57.6,"i3":56.4},{"date":"2026-04-25T11:15:00","v1":232.0,"v2":231.0,"v3":230.3,"i1":78.0,"i2":56.4,"i3":57.0},{"date":"2026-04-25T11:30:00","v1":231.5,"v2":230.5,"v3":229.6,"i1":55.8,"i2":56.4,"i3":63.0},{"date":"2026-04-25T11:45:00","v1":231.4,"v2":230.9,"v3":230.0,"i1":67.8,"i2":49.2,"i3":42.6},{"date":"2026-04-25T12:00:00","v1":231.9,"v2":230.9,"v3":230.6,"i1":48.0,"i2":54.0,"i3":51.0},{"date":"2026-04-25T12:15:00","v1":232.4,"v2":231.1,"v3":230.5,"i1":44.4,"i2":42.6,"i3":38.4},{"date":"2026-04-25T12:30:00","v1":231.7,"v2":231.1,"v3":230.4,"i1":57.0,"i2":57.0,"i3":36.6},{"date":"2026-04-25T12:45:00","v1":231.4,"v2":231.0,"v3":230.2,"i1":43.8,"i2":48.6,"i3":53.4},{"date":"2026-04-25T13:00:00","v1":230.9,"v2":230.2,"v3":229.5,"i1":34.2,"i2":47.4,"i3":41.4},{"date":"2026-04-25T13:15:00","v1":230.7,"v2":229.8,"v3":229.1,"i1":45.0,"i2":61.8,"i3":42.0},{"date":"2026-04-25T13:30:00","v1":230.0,"v2":229.1,"v3":228.2,"i1":42.6,"i2":55.8,"i3":34.8},{"date":"2026-04-25T13:45:00","v1":231.3,"v2":230.6,"v3":229.7,"i1":43.2,"i2":54.6,"i3":31.2},{"date":"2026-04-25T14:00:00","v1":232.6,"v2":231.3,"v3":231.5,"i1":33.0,"i2":54.6,"i3":36.0},{"date":"2026-04-25T14:15:00","v1":231.8,"v2":230.1,"v3":230.3,"i1":39.0,"i2":52.2,"i3":51.0},{"date":"2026-04-25T14:30:00","v1":231.8,"v2":230.3,"v3":230.5,"i1":56.4,"i2":56.4,"i3":29.4},{"date":"2026-04-25T14:45:00","v1":229.7,"v2":227.8,"v3":228.8,"i1":48.6,"i2":51.0,"i3":34.2},{"date":"2026-04-25T15:00:00","v1":229.5,"v2":228.1,"v3":229.0,"i1":52.8,"i2":40.8,"i3":30.6},{"date":"2026-04-25T15:15:00","v1":230.3,"v2":228.8,"v3":229.6,"i1":48.0,"i2":48.0,"i3":35.4},{"date":"2026-04-25T15:30:00","v1":231.0,"v2":229.2,"v3":230.3,"i1":33.6,"i2":41.4,"i3":22.8},{"date":"2026-04-25T15:45:00","v1":231.8,"v2":229.8,"v3":231.0,"i1":53.4,"i2":55.2,"i3":35.4},{"date":"2026-04-25T16:00:00","v1":231.9,"v2":229.9,"v3":230.8,"i1":22.8,"i2":43.8,"i3":27.0},{"date":"2026-04-25T16:15:00","v1":231.9,"v2":230.3,"v3":230.7,"i1":27.6,"i2":46.2,"i3":51.0},{"date":"2026-04-25T16:30:00","v1":231.7,"v2":230.4,"v3":230.2,"i1":43.8,"i2":37.2,"i3":49.8},{"date":"2026-04-25T16:45:00","v1":232.0,"v2":231.2,"v3":231.2,"i1":38.4,"i2":44.4,"i3":45.6},{"date":"2026-04-25T17:00:00","v1":232.2,"v2":230.6,"v3":230.9,"i1":44.4,"i2":47.4,"i3":46.8},{"date":"2026-04-25T17:15:00","v1":231.7,"v2":230.2,"v3":230.6,"i1":42.0,"i2":49.2,"i3":35.4},{"date":"2026-04-25T17:30:00","v1":231.6,"v2":229.9,"v3":230.2,"i1":21.6,"i2":52.8,"i3":45.0},{"date":"2026-04-25T17:45:00","v1":231.4,"v2":229.9,"v3":230.6,"i1":28.2,"i2":52.2,"i3":37.8},{"date":"2026-04-25T18:00:00","v1":230.5,"v2":229.0,"v3":229.6,"i1":26.4,"i2":54.0,"i3":32.4},{"date":"2026-04-25T18:15:00","v1":228.9,"v2":228.4,"v3":228.4,"i1":36.6,"i2":50.4,"i3":29.4},{"date":"2026-04-25T18:30:00","v1":229.5,"v2":228.1,"v3":228.0,"i1":30.0,"i2":48.6,"i3":46.2},{"date":"2026-04-25T18:45:00","v1":230.3,"v2":229.5,"v3":229.3,"i1":37.2,"i2":55.2,"i3":39.0},{"date":"2026-04-25T19:00:00","v1":229.3,"v2":228.5,"v3":228.0,"i1":34.8,"i2":49.2,"i3":60.0},{"date":"2026-04-25T19:15:00","v1":229.8,"v2":229.2,"v3":228.1,"i1":34.2,"i2":48.0,"i3":61.8},{"date":"2026-04-25T19:30:00","v1":230.0,"v2":229.2,"v3":228.8,"i1":37.8,"i2":61.8,"i3":58.8},{"date":"2026-04-25T19:45:00","v1":230.1,"v2":229.1,"v3":228.7,"i1":42.0,"i2":67.2,"i3":61.2},{"date":"2026-04-25T20:00:00","v1":229.9,"v2":229.2,"v3":228.3,"i1":28.8,"i2":63.0,"i3":75.0},{"date":"2026-04-25T20:15:00","v1":230.8,"v2":231.5,"v3":229.5,"i1":34.8,"i2":63.0,"i3":84.6},{"date":"2026-04-25T20:30:00","v1":231.0,"v2":231.6,"v3":229.5,"i1":40.8,"i2":58.2,"i3":76.2},{"date":"2026-04-25T20:45:00","v1":231.8,"v2":232.1,"v3":230.4,"i1":24.6,"i2":68.4,"i3":78.0},{"date":"2026-04-25T21:00:00","v1":232.4,"v2":232.4,"v3":230.8,"i1":38.4,"i2":62.4,"i3":79.8},{"date":"2026-04-25T21:15:00","v1":232.7,"v2":232.6,"v3":231.2,"i1":37.8,"i2":48.6,"i3":73.2},{"date":"2026-04-25T21:30:00","v1":232.9,"v2":232.5,"v3":231.2,"i1":48.0,"i2":49.2,"i3":86.4},{"date":"2026-04-25T21:45:00","v1":233.9,"v2":233.3,"v3":231.9,"i1":27.6,"i2":46.8,"i3":77.4},{"date":"2026-04-25T22:00:00","v1":233.5,"v2":232.4,"v3":231.4,"i1":23.4,"i2":52.8,"i3":61.2},{"date":"2026-04-25T22:15:00","v1":233.4,"v2":231.5,"v3":231.1,"i1":21.6,"i2":55.8,"i3":60.0},{"date":"2026-04-25T22:30:00","v1":234.3,"v2":232.5,"v3":231.8,"i1":19.8,"i2":54.6,"i3":61.8},{"date":"2026-04-25T22:45:00","v1":232.9,"v2":232.0,"v3":230.3,"i1":25.8,"i2":55.8,"i3":61.2},{"date":"2026-04-25T23:00:00","v1":233.2,"v2":232.1,"v3":230.7,"i1":27.0,"i2":42.6,"i3":63.6},{"date":"2026-04-25T23:15:00","v1":234.1,"v2":232.8,"v3":231.5,"i1":24.6,"i2":56.4,"i3":70.2},{"date":"2026-04-25T23:30:00","v1":232.4,"v2":231.6,"v3":229.9,"i1":25.2,"i2":57.0,"i3":71.4},{"date":"2026-04-25T23:45:00","v1":232.7,"v2":231.9,"v3":230.3,"i1":24.6,"i2":42.6,"i3":58.2},{"date":"2026-04-26T00:00:00","v1":233.3,"v2":232.7,"v3":231.0,"i1":22.2,"i2":42.6,"i3":57.6},{"date":"2026-04-26T00:15:00","v1":233.8,"v2":232.7,"v3":231.0,"i1":13.8,"i2":40.8,"i3":59.4},{"date":"2026-04-26T00:30:00","v1":234.5,"v2":233.6,"v3":231.4,"i1":13.2,"i2":40.2,"i3":61.8},{"date":"2026-04-26T00:45:00","v1":233.5,"v2":232.6,"v3":230.7,"i1":12.0,"i2":49.8,"i3":66.0},{"date":"2026-04-26T01:00:00","v1":234.2,"v2":233.0,"v3":231.5,"i1":10.8,"i2":51.6,"i3":48.0},{"date":"2026-04-26T01:15:00","v1":232.5,"v2":231.7,"v3":230.8,"i1":12.0,"i2":39.6,"i3":43.2},{"date":"2026-04-26T01:30:00","v1":231.9,"v2":231.3,"v3":230.5,"i1":10.2,"i2":46.2,"i3":57.6},{"date":"2026-04-26T01:45:00","v1":233.0,"v2":232.0,"v3":231.4,"i1":7.8,"i2":37.8,"i3":40.8},{"date":"2026-04-26T02:00:00","v1":233.9,"v2":232.7,"v3":232.6,"i1":8.4,"i2":38.4,"i3":26.4},{"date":"2026-04-26T02:15:00","v1":234.5,"v2":232.8,"v3":233.0,"i1":9.6,"i2":44.4,"i3":33.0},{"date":"2026-04-26T02:30:00","v1":233.1,"v2":231.7,"v3":231.8,"i1":21.6,"i2":38.4,"i3":27.6},{"date":"2026-04-26T02:45:00","v1":233.8,"v2":232.1,"v3":232.3,"i1":12.6,"i2":37.2,"i3":48.6},{"date":"2026-04-26T03:00:00","v1":234.3,"v2":232.5,"v3":232.6,"i1":7.2,"i2":38.4,"i3":43.2},{"date":"2026-04-26T03:15:00","v1":234.2,"v2":232.5,"v3":232.5,"i1":7.2,"i2":36.6,"i3":39.0},{"date":"2026-04-26T03:30:00","v1":233.9,"v2":232.3,"v3":232.3,"i1":6.6,"i2":36.6,"i3":31.2},{"date":"2026-04-26T03:45:00","v1":234.4,"v2":232.4,"v3":232.8,"i1":7.8,"i2":36.0,"i3":38.4},{"date":"2026-04-26T04:00:00","v1":234.3,"v2":232.5,"v3":232.7,"i1":9.6,"i2":37.2,"i3":38.4},{"date":"2026-04-26T04:15:00","v1":234.1,"v2":232.4,"v3":232.6,"i1":7.8,"i2":36.6,"i3":36.0},{"date":"2026-04-26T04:30:00","v1":233.8,"v2":231.9,"v3":232.4,"i1":13.8,"i2":36.6,"i3":31.8},{"date":"2026-04-26T04:45:00","v1":233.8,"v2":232.0,"v3":232.3,"i1":15.0,"i2":36.0,"i3":36.0},{"date":"2026-04-26T05:00:00","v1":233.9,"v2":232.0,"v3":232.4,"i1":16.2,"i2":36.6,"i3":34.8},{"date":"2026-04-26T05:15:00","v1":234.2,"v2":232.4,"v3":232.7,"i1":9.6,"i2":35.4,"i3":32.4},{"date":"2026-04-26T05:30:00","v1":234.1,"v2":232.4,"v3":232.9,"i1":16.8,"i2":42.6,"i3":27.0},{"date":"2026-04-26T05:45:00","v1":233.9,"v2":232.0,"v3":232.7,"i1":13.2,"i2":40.2,"i3":38.4},{"date":"2026-04-26T06:00:00","v1":233.9,"v2":231.8,"v3":232.4,"i1":16.2,"i2":42.0,"i3":34.2},{"date":"2026-04-26T06:15:00","v1":234.1,"v2":232.3,"v3":232.9,"i1":7.8,"i2":40.8,"i3":37.2},{"date":"2026-04-26T06:30:00","v1":234.2,"v2":232.1,"v3":232.7,"i1":6.6,"i2":41.4,"i3":37.2},{"date":"2026-04-26T06:45:00","v1":233.7,"v2":231.9,"v3":232.5,"i1":9.0,"i2":39.6,"i3":35.4},{"date":"2026-04-26T07:00:00","v1":233.9,"v2":232.0,"v3":232.5,"i1":6.6,"i2":40.2,"i3":28.8},{"date":"2026-04-26T07:15:00","v1":233.4,"v2":231.5,"v3":232.2,"i1":13.2,"i2":51.0,"i3":25.8},{"date":"2026-04-26T07:30:00","v1":233.0,"v2":230.9,"v3":232.0,"i1":13.8,"i2":57.6,"i3":29.4},{"date":"2026-04-26T07:45:00","v1":233.5,"v2":231.6,"v3":232.4,"i1":22.2,"i2":51.6,"i3":39.6},{"date":"2026-04-26T08:00:00","v1":233.8,"v2":231.9,"v3":232.3,"i1":14.4,"i2":57.6,"i3":33.6},{"date":"2026-04-26T08:15:00","v1":233.0,"v2":231.3,"v3":231.3,"i1":15.6,"i2":50.4,"i3":34.2},{"date":"2026-04-26T08:30:00","v1":231.7,"v2":230.9,"v3":230.7,"i1":17.4,"i2":50.4,"i3":33.6},{"date":"2026-04-26T08:45:00","v1":231.7,"v2":231.0,"v3":230.3,"i1":22.2,"i2":56.4,"i3":34.8},{"date":"2026-04-26T09:00:00","v1":230.7,"v2":230.0,"v3":229.6,"i1":42.6,"i2":57.0,"i3":42.0},{"date":"2026-04-26T09:15:00","v1":229.4,"v2":229.0,"v3":228.1,"i1":21.6,"i2":49.8,"i3":55.2},{"date":"2026-04-26T09:30:00","v1":229.4,"v2":227.5,"v3":227.3,"i1":26.4,"i2":64.8,"i3":55.2},{"date":"2026-04-26T09:45:00","v1":231.8,"v2":228.5,"v3":228.3,"i1":23.4,"i2":73.8,"i3":59.4},{"date":"2026-04-26T10:00:00","v1":231.6,"v2":228.7,"v3":228.2,"i1":28.2,"i2":69.0,"i3":45.0},{"date":"2026-04-26T10:15:00","v1":230.5,"v2":227.5,"v3":227.3,"i1":25.8,"i2":70.2,"i3":46.8},{"date":"2026-04-26T10:30:00","v1":231.4,"v2":228.6,"v3":227.8,"i1":25.8,"i2":67.8,"i3":47.4},{"date":"2026-04-26T10:45:00","v1":231.5,"v2":228.7,"v3":228.2,"i1":22.2,"i2":72.0,"i3":30.0},{"date":"2026-04-26T11:00:00","v1":230.8,"v2":227.6,"v3":227.7,"i1":25.2,"i2":73.8,"i3":45.0},{"date":"2026-04-26T11:15:00","v1":230.6,"v2":227.8,"v3":227.6,"i1":19.8,"i2":87.6,"i3":57.6},{"date":"2026-04-26T11:30:00","v1":232.4,"v2":230.0,"v3":229.1,"i1":39.6,"i2":69.0,"i3":54.0},{"date":"2026-04-26T11:45:00","v1":233.9,"v2":231.4,"v3":231.1,"i1":50.4,"i2":66.6,"i3":26.4},{"date":"2026-04-26T12:00:00","v1":232.9,"v2":231.6,"v3":231.0,"i1":37.8,"i2":61.2,"i3":29.4},{"date":"2026-04-26T12:15:00","v1":230.6,"v2":229.2,"v3":228.1,"i1":57.6,"i2":76.2,"i3":34.2},{"date":"2026-04-26T12:30:00","v1":230.3,"v2":229.0,"v3":227.9,"i1":59.4,"i2":61.8,"i3":31.2},{"date":"2026-04-26T12:45:00","v1":230.3,"v2":229.2,"v3":227.3,"i1":46.2,"i2":48.6,"i3":33.0},{"date":"2026-04-26T13:00:00","v1":229.5,"v2":228.8,"v3":227.0,"i1":51.0,"i2":46.8,"i3":39.6},{"date":"2026-04-26T13:15:00","v1":229.7,"v2":230.0,"v3":228.8,"i1":57.0,"i2":65.4,"i3":61.8},{"date":"2026-04-26T13:30:00","v1":229.0,"v2":229.1,"v3":228.5,"i1":48.6,"i2":64.8,"i3":42.6},{"date":"2026-04-26T13:45:00","v1":229.8,"v2":229.5,"v3":228.8,"i1":28.8,"i2":66.0,"i3":66.6},{"date":"2026-04-26T14:00:00","v1":230.1,"v2":229.4,"v3":228.9,"i1":26.4,"i2":49.8,"i3":45.6},{"date":"2026-04-26T14:15:00","v1":229.8,"v2":229.8,"v3":228.8,"i1":38.4,"i2":52.2,"i3":49.2},{"date":"2026-04-26T14:30:00","v1":230.3,"v2":230.3,"v3":229.8,"i1":47.4,"i2":62.4,"i3":36.6},{"date":"2026-04-26T14:45:00","v1":229.9,"v2":229.7,"v3":229.4,"i1":48.6,"i2":65.4,"i3":42.6},{"date":"2026-04-26T15:00:00","v1":230.5,"v2":230.3,"v3":230.0,"i1":27.0,"i2":57.0,"i3":44.4},{"date":"2026-04-26T15:15:00","v1":230.8,"v2":230.1,"v3":230.0,"i1":19.2,"i2":54.6,"i3":47.4},{"date":"2026-04-26T15:30:00","v1":231.0,"v2":230.3,"v3":230.4,"i1":22.2,"i2":61.8,"i3":40.2},{"date":"2026-04-26T15:45:00","v1":231.1,"v2":230.2,"v3":230.0,"i1":32.4,"i2":66.0,"i3":66.6},{"date":"2026-04-26T16:00:00","v1":231.8,"v2":230.5,"v3":230.4,"i1":20.4,"i2":72.0,"i3":66.0},{"date":"2026-04-26T16:15:00","v1":231.0,"v2":230.0,"v3":229.7,"i1":54.0,"i2":72.0,"i3":54.0},{"date":"2026-04-26T16:30:00","v1":231.2,"v2":230.4,"v3":230.1,"i1":41.4,"i2":55.2,"i3":65.4},{"date":"2026-04-26T16:45:00","v1":231.1,"v2":230.9,"v3":230.2,"i1":36.0,"i2":49.2,"i3":62.4},{"date":"2026-04-26T17:00:00","v1":231.1,"v2":230.8,"v3":230.4,"i1":32.4,"i2":67.8,"i3":47.4},{"date":"2026-04-26T17:15:00","v1":231.4,"v2":230.9,"v3":230.9,"i1":34.8,"i2":63.0,"i3":42.0},{"date":"2026-04-26T17:30:00","v1":231.0,"v2":230.9,"v3":230.7,"i1":35.4,"i2":61.8,"i3":55.8},{"date":"2026-04-26T17:45:00","v1":230.6,"v2":230.2,"v3":229.8,"i1":37.2,"i2":58.2,"i3":43.8},{"date":"2026-04-26T18:00:00","v1":229.5,"v2":229.3,"v3":228.8,"i1":46.2,"i2":64.8,"i3":51.0},{"date":"2026-04-26T18:15:00","v1":229.1,"v2":229.5,"v3":228.8,"i1":35.4,"i2":59.4,"i3":48.0},{"date":"2026-04-26T18:30:00","v1":230.3,"v2":230.4,"v3":229.9,"i1":61.8,"i2":75.0,"i3":54.6},{"date":"2026-04-26T18:45:00","v1":230.0,"v2":231.1,"v3":229.8,"i1":45.6,"i2":59.4,"i3":76.2},{"date":"2026-04-26T19:00:00","v1":228.5,"v2":229.4,"v3":228.2,"i1":45.0,"i2":58.2,"i3":73.8},{"date":"2026-04-26T19:15:00","v1":232.2,"v2":231.5,"v3":231.1,"i1":49.2,"i2":61.2,"i3":65.4},{"date":"2026-04-26T19:30:00","v1":234.3,"v2":232.8,"v3":232.3,"i1":48.6,"i2":61.8,"i3":78.6},{"date":"2026-04-26T19:45:00","v1":234.3,"v2":232.9,"v3":232.7,"i1":36.0,"i2":59.4,"i3":66.0},{"date":"2026-04-26T20:00:00","v1":234.7,"v2":233.6,"v3":232.8,"i1":31.8,"i2":58.2,"i3":82.2},{"date":"2026-04-26T20:15:00","v1":230.9,"v2":231.5,"v3":227.7,"i1":33.0,"i2":55.8,"i3":90.0},{"date":"2026-04-26T20:30:00","v1":231.2,"v2":231.3,"v3":228.0,"i1":46.8,"i2":79.8,"i3":73.2},{"date":"2026-04-26T20:45:00","v1":232.0,"v2":231.8,"v3":228.9,"i1":45.0,"i2":82.8,"i3":85.8},{"date":"2026-04-26T21:00:00","v1":232.6,"v2":232.8,"v3":229.8,"i1":52.8,"i2":57.6,"i3":76.8},{"date":"2026-04-26T21:15:00","v1":231.6,"v2":231.9,"v3":229.2,"i1":50.4,"i2":90.0,"i3":66.6},{"date":"2026-04-26T21:30:00","v1":232.4,"v2":232.2,"v3":229.6,"i1":49.2,"i2":67.8,"i3":64.8},{"date":"2026-04-26T21:45:00","v1":232.2,"v2":231.5,"v3":230.0,"i1":48.0,"i2":79.8,"i3":52.2},{"date":"2026-04-26T22:00:00","v1":231.6,"v2":230.5,"v3":229.7,"i1":40.2,"i2":69.0,"i3":64.2},{"date":"2026-04-26T22:15:00","v1":232.8,"v2":231.8,"v3":230.7,"i1":41.4,"i2":59.4,"i3":58.2},{"date":"2026-04-26T22:30:00","v1":232.8,"v2":231.9,"v3":231.0,"i1":39.6,"i2":55.8,"i3":50.4},{"date":"2026-04-26T22:45:00","v1":232.4,"v2":231.0,"v3":230.6,"i1":29.4,"i2":56.4,"i3":58.8},{"date":"2026-04-26T23:00:00","v1":232.3,"v2":230.8,"v3":230.0,"i1":38.4,"i2":67.8,"i3":67.2},{"date":"2026-04-26T23:15:00","v1":234.3,"v2":232.0,"v3":231.8,"i1":32.4,"i2":60.6,"i3":49.2},{"date":"2026-04-26T23:30:00","v1":233.1,"v2":230.7,"v3":230.7,"i1":29.4,"i2":63.6,"i3":51.0},{"date":"2026-04-26T23:45:00","v1":233.2,"v2":230.4,"v3":230.6,"i1":28.8,"i2":64.8,"i3":72.6},{"date":"2026-04-27T00:00:00","v1":233.9,"v2":230.8,"v3":231.3,"i1":40.2,"i2":59.4,"i3":57.0},{"date":"2026-04-27T00:15:00","v1":234.6,"v2":231.1,"v3":232.0,"i1":39.6,"i2":58.8,"i3":58.2},{"date":"2026-04-27T00:30:00","v1":234.2,"v2":232.4,"v3":232.1,"i1":34.8,"i2":51.6,"i3":72.6},{"date":"2026-04-27T00:45:00","v1":233.5,"v2":232.0,"v3":231.4,"i1":25.2,"i2":51.0,"i3":60.6},{"date":"2026-04-27T01:00:00","v1":233.3,"v2":231.6,"v3":231.4,"i1":24.6,"i2":42.6,"i3":69.6},{"date":"2026-04-27T01:15:00","v1":234.1,"v2":232.3,"v3":231.9,"i1":18.0,"i2":42.6,"i3":65.4},{"date":"2026-04-27T01:30:00","v1":234.1,"v2":232.9,"v3":232.3,"i1":18.6,"i2":42.6,"i3":64.8},{"date":"2026-04-27T01:45:00","v1":233.6,"v2":232.5,"v3":232.1,"i1":18.0,"i2":43.2,"i3":49.2},{"date":"2026-04-27T02:00:00","v1":233.9,"v2":232.7,"v3":232.6,"i1":10.2,"i2":37.2,"i3":49.2},{"date":"2026-04-27T02:15:00","v1":234.5,"v2":233.2,"v3":233.2,"i1":17.4,"i2":42.0,"i3":43.2},{"date":"2026-04-27T02:30:00","v1":233.9,"v2":232.1,"v3":231.7,"i1":9.6,"i2":40.2,"i3":48.6},{"date":"2026-04-27T02:45:00","v1":233.2,"v2":230.9,"v3":230.4,"i1":10.8,"i2":41.4,"i3":60.0},{"date":"2026-04-27T03:00:00","v1":232.8,"v2":230.4,"v3":229.4,"i1":7.8,"i2":41.4,"i3":67.2},{"date":"2026-04-27T03:15:00","v1":232.9,"v2":230.3,"v3":229.6,"i1":7.8,"i2":41.4,"i3":61.8},{"date":"2026-04-27T03:30:00","v1":233.4,"v2":230.7,"v3":230.0,"i1":6.6,"i2":48.6,"i3":66.6},{"date":"2026-04-27T03:45:00","v1":233.6,"v2":230.9,"v3":230.3,"i1":6.6,"i2":47.4,"i3":64.8},{"date":"2026-04-27T04:00:00","v1":233.7,"v2":231.1,"v3":230.5,"i1":8.4,"i2":37.2,"i3":64.8},{"date":"2026-04-27T04:15:00","v1":233.8,"v2":231.1,"v3":230.5,"i1":7.8,"i2":40.2,"i3":62.4},{"date":"2026-04-27T04:30:00","v1":234.0,"v2":231.1,"v3":230.6,"i1":6.0,"i2":40.8,"i3":51.6},{"date":"2026-04-27T04:45:00","v1":233.6,"v2":230.6,"v3":230.4,"i1":9.0,"i2":49.2,"i3":45.6},{"date":"2026-04-27T05:00:00","v1":234.0,"v2":231.1,"v3":230.8,"i1":18.6,"i2":39.6,"i3":59.4},{"date":"2026-04-27T05:15:00","v1":233.7,"v2":231.0,"v3":230.6,"i1":17.4,"i2":41.4,"i3":48.6},{"date":"2026-04-27T05:30:00","v1":233.6,"v2":230.9,"v3":230.7,"i1":11.4,"i2":43.2,"i3":42.6},{"date":"2026-04-27T05:45:00","v1":233.0,"v2":230.3,"v3":229.9,"i1":12.6,"i2":49.8,"i3":36.0},{"date":"2026-04-27T06:00:00","v1":231.7,"v2":229.3,"v3":228.9,"i1":7.8,"i2":49.2,"i3":34.2},{"date":"2026-04-27T06:15:00","v1":233.9,"v2":231.5,"v3":231.1,"i1":10.2,"i2":54.6,"i3":37.2},{"date":"2026-04-27T06:30:00","v1":232.7,"v2":230.7,"v3":230.4,"i1":10.8,"i2":57.0,"i3":40.8},{"date":"2026-04-27T06:45:00","v1":231.1,"v2":229.0,"v3":228.9,"i1":9.0,"i2":55.8,"i3":41.4},{"date":"2026-04-27T07:00:00","v1":231.9,"v2":230.0,"v3":229.7,"i1":15.6,"i2":55.2,"i3":52.2},{"date":"2026-04-27T07:15:00","v1":231.0,"v2":229.3,"v3":228.7,"i1":19.8,"i2":70.2,"i3":38.4},{"date":"2026-04-27T07:30:00","v1":233.1,"v2":231.8,"v3":230.8,"i1":40.8,"i2":64.2,"i3":21.0},{"date":"2026-04-27T07:45:00","v1":233.6,"v2":232.4,"v3":231.8,"i1":18.0,"i2":60.0,"i3":30.0},{"date":"2026-04-27T08:00:00","v1":232.8,"v2":231.7,"v3":230.8,"i1":17.4,"i2":54.6,"i3":37.8},{"date":"2026-04-27T08:15:00","v1":231.0,"v2":230.3,"v3":229.2,"i1":33.0,"i2":56.4,"i3":50.4},{"date":"2026-04-27T08:30:00","v1":231.4,"v2":230.6,"v3":229.8,"i1":30.0,"i2":61.8,"i3":27.6},{"date":"2026-04-27T08:45:00","v1":232.6,"v2":231.7,"v3":230.7,"i1":33.6,"i2":66.0,"i3":46.8},{"date":"2026-04-27T09:00:00","v1":231.8,"v2":230.8,"v3":229.6,"i1":24.6,"i2":57.0,"i3":51.6},{"date":"2026-04-27T09:15:00","v1":229.6,"v2":228.8,"v3":227.7,"i1":35.4,"i2":66.0,"i3":62.4},{"date":"2026-04-27T16:00:00","v1":230.4,"v2":230.7,"v3":231.6,"i1":46.8,"i2":88.2,"i3":58.2},{"date":"2026-04-27T16:15:00","v1":230.9,"v2":230.8,"v3":231.2,"i1":54.6,"i2":84.0,"i3":92.4},{"date":"2026-04-27T16:30:00","v1":229.9,"v2":230.1,"v3":230.0,"i1":55.8,"i2":81.0,"i3":78.0},{"date":"2026-04-27T16:45:00","v1":229.9,"v2":230.4,"v3":229.4,"i1":41.4,"i2":55.8,"i3":89.4},{"date":"2026-04-27T17:00:00","v1":230.2,"v2":230.8,"v3":230.1,"i1":36.0,"i2":71.4,"i3":87.0},{"date":"2026-04-27T17:15:00","v1":231.3,"v2":232.0,"v3":231.2,"i1":42.0,"i2":67.8,"i3":83.4},{"date":"2026-04-27T17:30:00","v1":231.5,"v2":232.7,"v3":232.1,"i1":39.6,"i2":70.8,"i3":78.0},{"date":"2026-04-27T17:45:00","v1":230.6,"v2":228.4,"v3":231.3,"i1":37.8,"i2":51.6,"i3":63.6},{"date":"2026-04-27T18:00:00","v1":230.2,"v2":228.7,"v3":231.2,"i1":33.0,"i2":54.6,"i3":66.6},{"date":"2026-04-27T18:15:00","v1":229.5,"v2":228.2,"v3":230.4,"i1":50.4,"i2":51.0,"i3":67.2},{"date":"2026-04-27T18:30:00","v1":230.2,"v2":229.1,"v3":230.3,"i1":40.2,"i2":48.6,"i3":78.0},{"date":"2026-04-27T18:45:00","v1":231.0,"v2":229.5,"v3":230.7,"i1":57.6,"i2":46.2,"i3":83.4},{"date":"2026-04-27T19:00:00","v1":229.9,"v2":228.6,"v3":229.6,"i1":60.6,"i2":56.4,"i3":91.8},{"date":"2026-04-27T19:15:00","v1":230.1,"v2":228.5,"v3":229.7,"i1":45.0,"i2":53.4,"i3":64.8},{"date":"2026-04-27T19:30:00","v1":230.7,"v2":229.2,"v3":230.4,"i1":42.0,"i2":49.8,"i3":75.6},{"date":"2026-04-27T19:45:00","v1":230.3,"v2":228.6,"v3":229.6,"i1":55.2,"i2":54.6,"i3":79.8},{"date":"2026-04-27T20:00:00","v1":232.0,"v2":230.3,"v3":231.6,"i1":45.0,"i2":62.4,"i3":76.8},{"date":"2026-04-27T20:15:00","v1":232.4,"v2":231.6,"v3":232.5,"i1":69.6,"i2":57.0,"i3":84.6},{"date":"2026-04-27T20:30:00","v1":233.0,"v2":232.7,"v3":232.7,"i1":62.4,"i2":55.8,"i3":101.4},{"date":"2026-04-27T20:45:00","v1":233.4,"v2":232.3,"v3":232.3,"i1":58.2,"i2":47.4,"i3":88.8},{"date":"2026-04-27T21:00:00","v1":234.0,"v2":232.5,"v3":232.4,"i1":51.0,"i2":57.6,"i3":83.4},{"date":"2026-04-27T21:15:00","v1":232.6,"v2":231.1,"v3":230.7,"i1":47.4,"i2":60.6,"i3":81.0},{"date":"2026-04-27T21:30:00","v1":233.5,"v2":231.4,"v3":231.4,"i1":51.6,"i2":67.8,"i3":73.2},{"date":"2026-04-27T21:45:00","v1":232.9,"v2":231.6,"v3":231.3,"i1":46.8,"i2":72.0,"i3":82.2},{"date":"2026-04-27T22:00:00","v1":230.2,"v2":228.9,"v3":228.6,"i1":38.4,"i2":66.0,"i3":97.2},{"date":"2026-04-27T22:15:00","v1":231.1,"v2":228.9,"v3":228.6,"i1":25.2,"i2":64.8,"i3":80.4},{"date":"2026-04-27T22:30:00","v1":232.3,"v2":229.8,"v3":229.8,"i1":19.8,"i2":60.0,"i3":86.4},{"date":"2026-04-27T22:45:00","v1":234.5,"v2":232.3,"v3":231.7,"i1":16.2,"i2":58.2,"i3":93.6},{"date":"2026-04-27T23:00:00","v1":234.8,"v2":231.8,"v3":231.8,"i1":16.2,"i2":60.0,"i3":93.6},{"date":"2026-04-27T23:15:00","v1":234.6,"v2":231.3,"v3":231.6,"i1":15.6,"i2":59.4,"i3":81.6},{"date":"2026-04-27T23:30:00","v1":235.3,"v2":232.1,"v3":232.4,"i1":15.6,"i2":58.8,"i3":90.0},{"date":"2026-04-27T23:45:00","v1":233.6,"v2":231.6,"v3":231.5,"i1":19.2,"i2":57.6,"i3":56.4},{"date":"2026-04-28T00:00:00","v1":233.8,"v2":231.9,"v3":232.1,"i1":17.4,"i2":51.6,"i3":58.2},{"date":"2026-04-28T00:15:00","v1":233.3,"v2":231.5,"v3":231.2,"i1":12.6,"i2":51.0,"i3":46.8},{"date":"2026-04-28T00:30:00","v1":233.5,"v2":231.2,"v3":230.9,"i1":13.2,"i2":59.4,"i3":51.0},{"date":"2026-04-28T00:45:00","v1":233.7,"v2":230.9,"v3":231.2,"i1":9.6,"i2":55.2,"i3":39.6},{"date":"2026-04-28T01:00:00","v1":234.4,"v2":231.3,"v3":232.1,"i1":7.2,"i2":55.8,"i3":42.0},{"date":"2026-04-28T01:15:00","v1":234.9,"v2":232.3,"v3":233.1,"i1":7.2,"i2":52.8,"i3":36.0},{"date":"2026-04-28T01:30:00","v1":234.1,"v2":232.1,"v3":232.3,"i1":7.8,"i2":55.8,"i3":48.0},{"date":"2026-04-28T01:45:00","v1":233.4,"v2":231.6,"v3":231.1,"i1":9.0,"i2":50.4,"i3":44.4},{"date":"2026-04-28T02:00:00","v1":230.8,"v2":229.1,"v3":228.6,"i1":10.2,"i2":51.0,"i3":47.4},{"date":"2026-04-28T02:15:00","v1":230.8,"v2":228.9,"v3":228.6,"i1":10.2,"i2":49.2,"i3":37.8},{"date":"2026-04-28T02:30:00","v1":230.8,"v2":229.0,"v3":228.6,"i1":10.8,"i2":50.4,"i3":51.6},{"date":"2026-04-28T02:45:00","v1":231.4,"v2":229.3,"v3":229.5,"i1":7.2,"i2":49.8,"i3":30.0},{"date":"2026-04-28T03:00:00","v1":231.8,"v2":229.8,"v3":230.0,"i1":9.6,"i2":43.8,"i3":40.8},{"date":"2026-04-28T03:15:00","v1":232.4,"v2":230.3,"v3":230.1,"i1":24.6,"i2":45.0,"i3":40.8},{"date":"2026-04-28T03:30:00","v1":231.1,"v2":228.9,"v3":228.9,"i1":15.6,"i2":49.2,"i3":39.6},{"date":"2026-04-28T03:45:00","v1":231.4,"v2":229.2,"v3":229.2,"i1":13.2,"i2":47.4,"i3":37.8},{"date":"2026-04-28T04:00:00","v1":232.0,"v2":229.7,"v3":229.8,"i1":19.8,"i2":43.8,"i3":48.0},{"date":"2026-04-28T04:15:00","v1":232.0,"v2":229.7,"v3":229.8,"i1":7.8,"i2":43.2,"i3":43.8},{"date":"2026-04-28T04:30:00","v1":231.8,"v2":229.2,"v3":229.3,"i1":15.0,"i2":42.6,"i3":43.8},{"date":"2026-04-28T04:45:00","v1":231.8,"v2":229.3,"v3":229.4,"i1":9.6,"i2":43.2,"i3":52.2},{"date":"2026-04-28T05:00:00","v1":231.8,"v2":229.5,"v3":229.6,"i1":8.4,"i2":44.4,"i3":39.6},{"date":"2026-04-28T05:15:00","v1":231.7,"v2":229.5,"v3":229.4,"i1":15.6,"i2":43.8,"i3":51.6},{"date":"2026-04-28T05:30:00","v1":231.2,"v2":229.3,"v3":229.1,"i1":18.0,"i2":39.0,"i3":48.0},{"date":"2026-04-28T05:45:00","v1":230.9,"v2":229.1,"v3":228.7,"i1":16.8,"i2":37.8,"i3":51.0},{"date":"2026-04-28T06:00:00","v1":230.2,"v2":228.5,"v3":228.1,"i1":15.0,"i2":36.6,"i3":44.4},{"date":"2026-04-28T06:15:00","v1":229.3,"v2":228.2,"v3":227.5,"i1":10.2,"i2":45.0,"i3":43.8},{"date":"2026-04-28T06:30:00","v1":229.1,"v2":228.1,"v3":228.0,"i1":12.6,"i2":49.2,"i3":48.0},{"date":"2026-04-28T06:45:00","v1":231.6,"v2":230.4,"v3":229.9,"i1":24.0,"i2":47.4,"i3":56.4},{"date":"2026-04-28T07:00:00","v1":232.0,"v2":231.1,"v3":230.4,"i1":32.4,"i2":40.8,"i3":58.8},{"date":"2026-04-28T07:15:00","v1":230.3,"v2":229.9,"v3":228.9,"i1":14.4,"i2":47.4,"i3":50.4},{"date":"2026-04-28T07:30:00","v1":228.8,"v2":228.5,"v3":227.5,"i1":34.2,"i2":52.2,"i3":49.2},{"date":"2026-04-28T07:45:00","v1":231.1,"v2":228.5,"v3":228.4,"i1":14.4,"i2":41.4,"i3":61.8},{"date":"2026-04-28T08:00:00","v1":230.7,"v2":228.6,"v3":227.8,"i1":19.8,"i2":51.6,"i3":50.4},{"date":"2026-04-28T08:15:00","v1":231.7,"v2":230.6,"v3":228.7,"i1":27.0,"i2":51.6,"i3":45.6},{"date":"2026-04-28T08:30:00","v1":232.4,"v2":231.0,"v3":229.1,"i1":31.2,"i2":51.6,"i3":43.8},{"date":"2026-04-28T08:45:00","v1":233.6,"v2":232.0,"v3":230.1,"i1":36.6,"i2":51.0,"i3":43.2},{"date":"2026-04-28T09:00:00","v1":233.7,"v2":232.5,"v3":230.7,"i1":31.2,"i2":43.2,"i3":36.0},{"date":"2026-04-28T09:15:00","v1":232.4,"v2":231.1,"v3":228.8,"i1":21.6,"i2":46.8,"i3":48.6},{"date":"2026-04-28T09:30:00","v1":230.9,"v2":229.9,"v3":227.0,"i1":28.2,"i2":47.4,"i3":56.4},{"date":"2026-04-28T09:45:00","v1":230.6,"v2":230.3,"v3":227.2,"i1":24.0,"i2":43.8,"i3":64.2},{"date":"2026-04-28T10:00:00","v1":230.9,"v2":231.0,"v3":228.0,"i1":27.0,"i2":43.8,"i3":51.0},{"date":"2026-04-28T10:15:00","v1":230.2,"v2":230.9,"v3":228.2,"i1":22.2,"i2":61.8,"i3":51.0},{"date":"2026-04-28T10:30:00","v1":230.5,"v2":231.6,"v3":228.7,"i1":32.4,"i2":31.2,"i3":47.4},{"date":"2026-04-28T10:45:00","v1":230.8,"v2":232.1,"v3":229.2,"i1":25.2,"i2":36.6,"i3":46.2},{"date":"2026-04-28T11:00:00","v1":230.1,"v2":231.1,"v3":228.7,"i1":23.4,"i2":45.6,"i3":27.0},{"date":"2026-04-28T11:15:00","v1":230.2,"v2":231.2,"v3":228.7,"i1":27.6,"i2":46.8,"i3":33.6},{"date":"2026-04-28T11:30:00","v1":229.4,"v2":230.5,"v3":228.2,"i1":22.2,"i2":44.4,"i3":31.2},{"date":"2026-04-28T11:45:00","v1":229.3,"v2":230.6,"v3":227.7,"i1":19.8,"i2":46.2,"i3":48.0},{"date":"2026-04-28T12:00:00","v1":229.6,"v2":230.8,"v3":227.7,"i1":24.0,"i2":44.4,"i3":43.8},{"date":"2026-04-28T12:15:00","v1":229.6,"v2":230.3,"v3":228.0,"i1":36.6,"i2":41.4,"i3":34.2},{"date":"2026-04-28T12:30:00","v1":232.2,"v2":232.4,"v3":230.4,"i1":19.8,"i2":42.6,"i3":28.2},{"date":"2026-04-28T12:45:00","v1":232.9,"v2":233.2,"v3":230.8,"i1":24.0,"i2":45.6,"i3":42.0},{"date":"2026-04-28T13:00:00","v1":232.6,"v2":233.1,"v3":230.3,"i1":24.0,"i2":39.6,"i3":38.4},{"date":"2026-04-28T13:15:00","v1":232.2,"v2":232.7,"v3":230.1,"i1":19.2,"i2":35.4,"i3":27.0},{"date":"2026-04-28T13:30:00","v1":232.0,"v2":232.2,"v3":230.1,"i1":16.2,"i2":46.8,"i3":40.2},{"date":"2026-04-28T13:45:00","v1":231.5,"v2":231.7,"v3":229.6,"i1":24.0,"i2":54.6,"i3":39.6},{"date":"2026-04-28T14:00:00","v1":231.4,"v2":231.8,"v3":229.2,"i1":19.2,"i2":54.0,"i3":42.0},{"date":"2026-04-28T14:15:00","v1":232.9,"v2":232.9,"v3":230.4,"i1":32.4,"i2":55.8,"i3":57.0},{"date":"2026-04-28T14:30:00","v1":231.9,"v2":231.6,"v3":230.2,"i1":24.6,"i2":66.0,"i3":42.0},{"date":"2026-04-28T14:45:00","v1":232.6,"v2":231.7,"v3":230.4,"i1":27.0,"i2":69.6,"i3":61.8},{"date":"2026-04-28T15:00:00","v1":233.3,"v2":232.3,"v3":231.1,"i1":27.6,"i2":61.2,"i3":44.4},{"date":"2026-04-28T15:15:00","v1":232.9,"v2":232.4,"v3":231.1,"i1":31.2,"i2":43.2,"i3":49.2},{"date":"2026-04-28T15:30:00","v1":234.1,"v2":233.8,"v3":232.0,"i1":28.8,"i2":39.0,"i3":50.4},{"date":"2026-04-28T15:45:00","v1":232.6,"v2":232.3,"v3":230.2,"i1":37.2,"i2":39.6,"i3":63.6},{"date":"2026-04-28T16:00:00","v1":232.1,"v2":231.7,"v3":229.7,"i1":29.4,"i2":51.0,"i3":59.4}],"vmin":198,"vmax":242,"factor":60};
+const COLORS={l1:'#2964bc',l2:'#ef8743',l3:'#268f7a',red:'#c33e4a',grid:'#e6edf1',text:'#587084'};
+const $=id=>document.getElementById(id);
+const nf=new Intl.NumberFormat('es-CL',{maximumFractionDigits:2});const nf1=new Intl.NumberFormat('es-CL',{minimumFractionDigits:1,maximumFractionDigits:1});
+const state={rows:SAMPLE.rows,source:SAMPLE.name,sheet:SAMPLE.sheet,lo:SAMPLE.vmin,hi:SAMPLE.vmax,display:'current',metrics:null,computed:[],dataHas3:true};
+function n(v){if(v===null||v===undefined||v==='')return null;const x=typeof v==='number'?v:Number(String(v).replace(',','.'));return Number.isFinite(x)?x:null}
+function norm(s){return String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\w]+/g,' ').trim().replace(/\s+/g,' ')}
+function parseDate(v){if(v instanceof Date&&!isNaN(v))return v;if(typeof v==='number'&&v>20000&&v<100000)return (()=>{const z=new Date((v-25569)*864e5);return new Date(z.getUTCFullYear(),z.getUTCMonth(),z.getUTCDate(),z.getUTCHours(),z.getUTCMinutes(),z.getUTCSeconds())})();let m=String(v??'').trim().match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);if(m)return new Date(+m[3],+m[2]-1,+m[1],+(m[4]||0),+(m[5]||0),+(m[6]||0));const d=new Date(v);return isNaN(d)?null:d}
+function dateLabel(d,full=false){if(!d)return '—';const pad=v=>String(v).padStart(2,'0');return`${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}${full?' '+pad(d.getHours())+':'+pad(d.getMinutes()):''}`}
+function pointLabel(d){const pad=v=>String(v).padStart(2,'0');return`${pad(d.getDate())}/${pad(d.getMonth()+1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`}
+function avg(a){return a.length?a.reduce((s,x)=>s+x,0)/a.length:null}
+function pctile(a,p){if(!a.length)return null;const b=[...a].sort((x,y)=>x-y),i=(b.length-1)*p,lo=Math.floor(i),hi=Math.ceil(i);return b[lo]+(b[hi]-b[lo])*(i-lo)}
+function fmt(x,u='',digits=1){return Number.isFinite(x)?(digits===1?nf1.format(x):nf.format(x))+(u?' '+u:''):'—'}
+function notif(msg,error=false){$('notification').textContent=msg;$('notification').classList.toggle('error',error)}
+/* XLSX_DATA_LOADER */
+function u16(d,o){return d.getUint16(o,true)} function u32(d,o){return d.getUint32(o,true)}
+async function inflateRaw(bytes){
+  if(typeof DecompressionStream==='undefined')throw new Error('El navegador no soporta descompresión ZIP. Use Chrome, Edge o Safari actualizado.');
+  const ds=new DecompressionStream('deflate-raw');
+  const ab=await new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer();
+  return new Uint8Array(ab);
+}
+class ZipReader{
+  constructor(ab){this.bytes=new Uint8Array(ab);this.dv=new DataView(ab);this.entries=new Map()}
+  scan(){
+    const d=this.dv,b=this.bytes;let e=-1;
+    for(let i=b.length-22;i>=Math.max(0,b.length-66000);i--){if(u32(d,i)===0x06054b50){e=i;break}}
+    if(e<0)throw new Error('El archivo no parece ser un XLSX válido.');
+    const total=u16(d,e+10),cd=u32(d,e+16);let p=cd;const dec=new TextDecoder();
+    for(let k=0;k<total;k++){
+      if(u32(d,p)!==0x02014b50)break;
+      const method=u16(d,p+10),cs=u32(d,p+20),us=u32(d,p+24),fn=u16(d,p+28),ex=u16(d,p+30),cm=u16(d,p+32),lo=u32(d,p+42);
+      const name=dec.decode(b.slice(p+46,p+46+fn));this.entries.set(name,{method,cs,us,lo});p+=46+fn+ex+cm;
+    }
+  }
+  async file(name){
+    const e=this.entries.get(name);if(!e)return null;const d=this.dv,b=this.bytes,p=e.lo;
+    if(u32(d,p)!==0x04034b50)throw new Error('ZIP dañado.');
+    const fn=u16(d,p+26),ex=u16(d,p+28),start=p+30+fn+ex,part=b.slice(start,start+e.cs);
+    if(e.method===0)return part;if(e.method===8)return await inflateRaw(part);throw new Error('Método ZIP no soportado: '+e.method);
+  }
+  async text(name){const x=await this.file(name);return x?new TextDecoder('utf-8').decode(x):null}
+}
+function xml(txt){return new DOMParser().parseFromString(txt,'application/xml')}
+function colIndex(ref){let m=String(ref||'').match(/^([A-Z]+)/i),v=0;if(!m)return 0;for(const ch of m[1].toUpperCase())v=v*26+(ch.charCodeAt(0)-64);return v-1}
+function textOf(node){return [...node.getElementsByTagNameNS('*','t')].map(x=>x.textContent||'').join('')}
+async function parseXlsx(file){
+  const zr=new ZipReader(await file.arrayBuffer());zr.scan();
+  const wbxml=xml(await zr.text('xl/workbook.xml')),relsxml=xml(await zr.text('xl/_rels/workbook.xml.rels'));
+  const relMap={};[...relsxml.getElementsByTagNameNS('*','Relationship')].forEach(r=>relMap[r.getAttribute('Id')]=r.getAttribute('Target'));
+  const sheets=[...wbxml.getElementsByTagNameNS('*','sheet')].map(s=>({name:s.getAttribute('name'),rid:s.getAttribute('r:id')||s.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships','id')}));
+  let sh=sheets.find(x=>norm(x.name)==='bd')||sheets[0];if(!sh)throw new Error('No se encontraron hojas.');
+  let target=relMap[sh.rid];if(!target)throw new Error('No se pudo localizar la hoja seleccionada.');
+  target=target.replace(/^\/?/,'');const sheetPath=target.startsWith('xl/')?target:'xl/'+target.replace(/^\.\//,'');
+  const ssTxt=await zr.text('xl/sharedStrings.xml');const shared=[];
+  if(ssTxt){const sdoc=xml(ssTxt);[...sdoc.getElementsByTagNameNS('*','si')].forEach(si=>shared.push(textOf(si)))}
+  const sdoc=xml(await zr.text(sheetPath));const matrix=[];
+  [...sdoc.getElementsByTagNameNS('*','row')].forEach(row=>{
+    const rn=(parseInt(row.getAttribute('r'))||matrix.length+1)-1;const arr=matrix[rn]||(matrix[rn]=[]);
+    [...row.getElementsByTagNameNS('*','c')].forEach(c=>{
+      const ci=colIndex(c.getAttribute('r')),t=c.getAttribute('t'),v=c.getElementsByTagNameNS('*','v')[0],is=c.getElementsByTagNameNS('*','is')[0];let val=null;
+      if(t==='s')val=shared[parseInt(v?.textContent||'0')]??'';
+      else if(t==='inlineStr')val=is?textOf(is):'';
+      else if(t==='str')val=v?.textContent??'';
+      else if(t==='b')val=(v?.textContent==='1');
+      else {const raw=v?.textContent;if(raw!==undefined&&raw!==null&&raw!==''){const z=Number(raw);val=Number.isFinite(z)?z:raw}}
+      arr[ci]=val;
+    });
+  });
+  return {sheetName:sh.name,matrix};
+}
+
+function findHeaderRow(matrix){let best={idx:0,score:-1};for(let r=0;r<Math.min(22,matrix.length);r++){let hs=(matrix[r]||[]).map(norm),s=0;if(hs.some(x=>x.includes('fecha')))s+=6;if(hs.some(x=>x.includes('corriente l1')))s+=4;if(hs.some(x=>x.includes('tension f1')))s+=3;if(hs.some(x=>x.includes('corriente l2')))s+=2;if(s>best.score)best={idx:r,score:s}}return best.idx}
+function idx(headers,preds){const h=headers.map(norm);for(const f of preds){const i=h.findIndex(k=>typeof f==='string'?k===f:f(k));if(i>=0)return i}return -1}
+function nv(row,col){return col<0?null:n(row?.[col])}
+function initialNumeric(matrix,start,col){if(col<0)return null;for(let k=start;k<matrix.length;k++){const x=nv(matrix[k],col);if(x!==null)return x}return null}
+async function onExcel(file){try{$('pdfBtn').disabled=true;notif('Leyendo '+file.name+' ...');const {sheetName,matrix}=await parseXlsx(file),hr=findHeaderRow(matrix),h=matrix[hr]||[];
+ const cD=idx(h,['fecha',x=>x.includes('fecha')]),v=[1,2,3].map(i=>idx(h,[`tension f${i}`,`voltaje f${i}`,x=>x.includes('tension')&&x.includes('f'+i)]));
+ const ci=[1,2,3].map(i=>idx(h,[`corriente l${i} a`,`corriente l${i}`,x=>x.includes('corriente l'+i)&&!x.includes('media')]));
+ const cm=[1,2,3].map(i=>idx(h,[x=>x.includes('corriente media l'+i)]));const fc=idx(h,['factor']),mincol=idx(h,['limite minimo',x=>x.includes('limite minimo')]),maxcol=idx(h,['limite maximo',x=>x.includes('limite maximo')]);
+ if(cD<0||v[0]<0||(ci[0]<0&&cm[0]<0))throw Error('No se reconoce Fecha, Tensión F1 o Corriente L1. Se requiere una planilla semejante a la hoja BD.');
+ const factor=initialNumeric(matrix,hr+1,fc)??1,rows=[];
+ for(let k=hr+1;k<matrix.length;k++){const r=matrix[k]||[],d=parseDate(r[cD]);if(!d)continue;const cur=ci.map((c,i)=>{const a=nv(r,c);return a!==null?a:(nv(r,cm[i])!==null?nv(r,cm[i])*factor:null)});const voltage=v.map(c=>nv(r,c));if(cur[0]===null||voltage[0]===null)continue;
+ rows.push({date:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}T${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:00`,v1:voltage[0],v2:voltage[1],v3:voltage[2],i1:cur[0],i2:cur[1],i3:cur[2]});}
+ if(!rows.length)throw Error('No se encontraron mediciones de tensión/corriente válidas.');
+ rows.sort((a,b)=>a.date.localeCompare(b.date));state.rows=rows;state.source=file.name;state.sheet=sheetName;state.lo=initialNumeric(matrix,hr+1,mincol);state.hi=initialNumeric(matrix,hr+1,maxcol);
+ recompute();notif(`Se analizaron ${rows.length} intervalos de ${file.name}. Se ha actualizado el informe y los dos gráficos.`);
+ }catch(e){console.error(e);notif('Error en Excel: '+e.message,true)}finally{$('pdfBtn').disabled=false}}
+// Plano CGE 30-10-A4: columna BAJA TENSION / NH.
+// No interpolar capacidades del plano. Excepciones por criterio aportado por usuario (NO constan en el plano): 25 kVA NH100; 125 kVA NH200 (1 cto) / NH100 (2 ctos).
+const NH_BT_PLANO={
+ mono:{bifilar:{1:{5:25,10:40,15:63},2:{5:16,10:25,15:40}},trifilar:{1:{10:25,15:40},2:{10:16,15:16}}},
+ tri:{1:{10:16,15:25,30:40,45:63,50:63,75:125,100:125,112.5:160,150:200},
+      2:{45:40,50:40,75:63,112.5:100,150:125,300:250}}
+};
+function referenceNH(capacity,system,wiring,circuits){
+ if(!(capacity>0))return null;
+  if(capacity===25 && system==='mono')return 100; // criterio del usuario, no del plano
+ if(capacity===125 && system==='tri')return circuits===1?200:100; // criterio del usuario, no del plano
+ const t=system==='mono'?NH_BT_PLANO.mono[wiring]?.[circuits]:NH_BT_PLANO.tri[circuits];
+ return t&&Object.prototype.hasOwnProperty.call(t,capacity)?t[capacity]:null;
+}
+function evaluateBTVoltage(phases,voltage,density,first,last){
+ const p=v=>Math.round(v*10)/10;
+ // Aplicar el umbral a cada fase por separado: una fase deficiente no queda disimulada por las demás.
+ const bandPercent=band=>{const percentByPhase=phases.filter(arr=>arr.length).map(arr=>100*arr.filter(v=>v>=voltage*(1-band)-1e-8 && v<=voltage*(1+band)+1e-8).length/arr.length);return percentByPhase.length?Math.min(...percentByPhase):null};
+ const highPct=bandPercent(.075),lowPct=bandPercent(.10),hardPct=bandPercent(.15);
+ const band=density==='high'?.075:density==='low'?.10:null;
+ const selectedPct=band===null?null:bandPercent(band);
+ const minV=band===null?null:voltage*(1-band),maxV=band===null?null:voltage*(1+band);
+ const allowed=hardPct>=100-1e-7;
+ let status='review',heading='Densidad de red pendiente',detail='';
+ if(!allowed){status='bad';heading='Tensiones fuera del límite absoluto ±15 %';detail='Se requiere evaluación correctiva de tensión antes de proponer nuevas conexiones.'}
+ else if(density==='unknown'){
+   if(highPct>=95){status='ok';heading='Lecturas compatibles con ambas bandas BT';detail=`±7,5 %: al menos ${p(highPct)} % por fase; ±10 %: al menos ${p(lowPct)} %. Definir densidad para la evaluación formal.`}
+   else if(lowPct>=95){status='review';heading='Definir densidad de red';detail=`±7,5 %: mínimo ${p(highPct)} % por fase; ±10 %: mínimo ${p(lowPct)} %. La evaluación cambia según la densidad.`}
+   else{status='bad';heading='Voltajes observados fuera de las bandas BT';detail=`±7,5 %: mínimo ${p(highPct)} % por fase; ±10 %: mínimo ${p(lowPct)} %. Revisar regulación.`}
+ }else if(selectedPct>=95){status='ok';heading='Lecturas compatibles con la banda BT aplicable';detail=`Dentro de ${band===.075?'±7,5':'±10'} %: mínimo ${p(selectedPct)} % por fase. Banda ${p(minV)}–${p(maxV)} V.`}
+ else{status='bad';heading='Lecturas fuera de la banda BT aplicable';detail=`Mínimo ${p(selectedPct)} % por fase dentro de ${band===.075?'±7,5':'±10'} % (${p(minV)}–${p(maxV)} V).`}
+ const days=(last-first)/86400000;
+ // Resultado explícito. Con registros de intervalos diferentes del protocolo normativo,
+ // se comparan las bandas pero NO se certifica legalmente el suministro.
+ const reportVerdict=status==='ok'
+   ?'SÍ: VOLTAJES DENTRO DE LOS LÍMITES NTCSD DE REFERENCIA'
+   :status==='bad'
+     ?'NO: VOLTAJES FUERA DE LOS LÍMITES NTCSD DE REFERENCIA'
+     :'POR DETERMINAR: FALTA DEFINIR DENSIDAD DE RED';
+ const reportQualifier=status==='ok'
+   ?(density==='unknown'?'Las mediciones cumplen ambas bandas de referencia: ±7,5 % y ±10 %.':'Las mediciones cumplen la banda de referencia asociada a la densidad ingresada.')
+   :status==='review'?'La conclusión depende de la clasificación de densidad de red.':'Las mediciones no alcanzan el criterio del 95 % en la banda aplicable.';
+ const caution=`Evaluación preliminar: datos de ${p(days)} días, sin protocolo completo de registros promediados cada 10 min durante 7 días en el punto de conexión. No equivale a certificación normativa.`;
+ return{highPct,lowPct,hardPct,selectedPct,band,status,heading,detail,reportVerdict,reportQualifier,caution,days,nominal:voltage,density,lo:minV,hi:maxV};
+}
+function recompute(){const raw=state.rows,capacity=n($('capacity').value),capValid=capacity!==null&&capacity>0,system=capValid?(capacity<=25?'mono':'tri'):'tri',tri=system==='tri',circuits=Number($('circuits').value)||1,wiring=$('wiring').value;
+ const typeText=capValid?(tri?'Trifásica':'Bifásica / monofásica'):'Ingrese capacidad';
+ $('system').value=typeText;
+ $('wiringField').style.display=capValid&&!tri?'block':'none';
+ $('measureScopeField').style.display=circuits===2?'block':'none';$('measureScope').disabled=false;$('measureScopeAutoHint').style.display='none';
+ const fuse=capValid?referenceNH(capacity,system,wiring,circuits):null;
+ const userNH=capValid&&(capacity===25&&system==='mono'||capacity===125&&system==='tri');
+ const sourceLabel=userNH?'criterio indicado por el usuario':'plano CGE 30-10-A4';
+ const key=capValid?[capacity,system,tri?'trifasica':wiring,circuits,fuse??'NA'].join('|'):'';
+ if(state.previousFuseKey!==key){$('fuseConfirmed').checked=false;state.previousFuseKey=key}
+ $('fuse').value=fuse===null?'Sin referencia':String(fuse)+' A';
+ const confirm=$('fuseConfirmed'),confirmed=!!(fuse&&confirm.checked);
+ confirm.disabled=!fuse;confirm.parentElement.classList.toggle('disabled',!fuse);
+ const lineText=!capValid?'Ingrese capacidad nominal en kVA para determinar el tipo de SED y el NH de referencia.'
+ :fuse===null?`El plano 30-10-A4 no indica fusible NH para ${capacity} kVA, ${tri?'trifásica':'monofásica '+wiring}, ${circuits} circuito(s). No se puede asignar un calibre automático. Verificar el equipo real.`
+ :userNH?`SED ${capacity} kVA · NH ${fuse} A para ${circuits} circuito(s) BT, por criterio indicado por el usuario (NO figura en el plano 30-10-A4). ${confirmed?'Coincidencia del fusible instalado confirmada por el usuario.':'Verifique el fusible realmente instalado antes de evaluar la conexión.'}`
+ :`Plano 30-10-A4 · ${capacity} kVA · ${tri?'trifásica':'monofásica '+wiring} · ${circuits} circuito(s) BT: NH ${fuse} A de REFERENCIA. ${confirmed?'Calibre instalado confirmado por el usuario.':'Pendiente de comprobar calibre realmente instalado.'}`;
+ $('fuseSource').textContent=lineText;$('fuseSource').classList.toggle('alert',capValid&&!fuse);
+ const rows=raw.map(r=>({...r,dateObj:parseDate(r.date)})).filter(r=>r.dateObj&&n(r.v1)!==null&&n(r.i1)!==null).sort((a,b)=>a.dateObj-b.dateObj);if(!rows.length)return;
+ const three=rows.every(r=>[r.v1,r.v2,r.v3,r.i1,r.i2,r.i3].every(Number.isFinite));state.dataHas3=three;
+ const voltage=+($('nominal').value)||220;const validData=capValid&&(tri?three:(!three&&wiring==='bifilar'));const d=rows.map(r=>{const currents=tri?[r.i1,r.i2,r.i3]:[r.i1];const volts=tri?[r.v1,r.v2,r.v3]:[r.v1];const kva=currents.reduce((s,i,j)=>s+(i===null?0:i)*(volts[j]??voltage),0)/1000;// El desequilibrio se calcula con la fórmula literal de BD!N2 (no por intervalo).
+ return{...r,kva}});state.computed=d;
+ const phaseNum=tri?3:1,stats=Array.from({length:phaseNum},(_,i)=>{const vs=d.map(r=>r['v'+(i+1)]).filter(Number.isFinite),is=d.map(r=>r['i'+(i+1)]).filter(Number.isFinite);return{label:'L'+(i+1),vmin:vs.length?Math.min(...vs):null,vmax:vs.length?Math.max(...vs):null,vavg:avg(vs),imax:is.length?Math.max(...is):null,iavg:avg(is)}});
+ // Balance visual independiente de la capacidad ingresada; siempre usa las líneas realmente medidas.
+ const observedStats=Array.from({length:three?3:1},(_,i)=>{const currents=d.map(r=>r['i'+(i+1)]).filter(Number.isFinite);return {label:'L'+(i+1),imax:currents.length?Math.max(...currents):null,iavg:avg(currents)}});
+ const maxObserved=observedStats.reduce((best,item)=>item.imax>best.imax?item:best,observedStats[0]);
+ const maxTime=d.find(r=>r['i'+maxObserved.label.slice(1)]===maxObserved.imax)?.dateObj||null;
+ const avgHigh=observedStats.reduce((best,item)=>item.iavg>best.iavg?item:best,observedStats[0]);
+ const avgLow=observedStats.reduce((best,item)=>item.iavg<best.iavg?item:best,observedStats[0]);
+ const meanOfMeans=avg(observedStats.map(item=>item.iavg));
+ // 5 % es un umbral de presentación para evitar recomendar traslados por diferencias minúsculas: NO es un límite normativo.
+ const displayTolerance=Number.isFinite(meanOfMeans)?meanOfMeans*.05:0;
+ const transferFrom=three?observedStats.filter(item=>item.iavg>meanOfMeans+displayTolerance).sort((a,b)=>b.iavg-a.iavg):[];
+ const transferTo=three?observedStats.filter(item=>item.iavg<meanOfMeans-displayTolerance).sort((a,b)=>a.iavg-b.iavg):[];
+ const isBalanceNeeded=three&&transferFrom.length>0&&transferTo.length>0;
+ const transferNames=transferFrom.map(item=>item.label).join(' y ');
+ const receiveNames=transferTo.map(item=>item.label).join(' y ');
+ const balanceAdvice=three?(isBalanceNeeded?`Se recomienda revisar el traslado de cargas monofásicas de ${transferNames} hacia ${receiveNames}. ${avgHigh.label} presenta la mayor corriente promedio (${fmt(avgHigh.iavg,'A')}) y ${maxObserved.label} registra el mayor pico (${fmt(maxObserved.imax,'A')}); revisar ambas condiciones antes de redistribuir.`:'Las corrientes promedio no presentan diferencias superiores al 5 % de su promedio global: no se propone un traslado automático por este indicador.'):'Se dispone de una sola línea medida; no es posible recomendar equilibrio entre fases con este archivo.';
+ const balanceAlert=capValid&&((tri&&!three)||(!tri&&three));
+ const currMax=Math.max(...stats.map(s=>s.imax??0)),phase=tri?stats.reduce((best,s)=>s.imax<best.imax?s:best,stats[0]):stats[0];const vals=d.flatMap(r=>tri?[r.v1,r.v2,r.v3]:[r.v1]).filter(Number.isFinite);const rangeValid=Number.isFinite(state.lo)&&Number.isFinite(state.hi)&&state.hi>state.lo;const inRange=rangeValid?100*vals.filter(v=>v>=state.lo&&v<=state.hi).length/vals.length:null;
+ const phaseVoltages=Array.from({length:three?3:1},(_,i)=>d.map(r=>r['v'+(i+1)]).filter(Number.isFinite));
+ const normative=evaluateBTVoltage(phaseVoltages,voltage,$('density').value,d[0].dateObj,d[d.length-1].dateObj);
+ const measureScope=circuits===2?$('measureScope').value:'circuit';
+ const partialCircuit=circuits===2&&measureScope==='circuit';
+ const scopeLabel=partialCircuit?'Uno de 2 circuitos BT':circuits===2?'Salida general, 2 circuitos':'Salida BT, circuito único';
+ const peak=Math.max(...d.map(r=>r.kva)),peakIdx=d.findIndex(r=>r.kva===peak);const clientsRaw=$('clients').value,clients=clientsRaw===''?null:n(clientsRaw);const nominalA=capValid?(tri?capacity*1000/(3*voltage):capacity*1000/voltage):null;const projAdd=1000/voltage;const projected=phase.imax+projAdd;const head=capValid&&!partialCircuit?capacity-peak:null;
+ // Respeta literalmente Excel BD!N2: =U20-U19/Y18*100
+ // BD!U18, U19 y U20 son MAX(J), MAX(K) y MAX(L); BD!Y18 = AVERAGE(U18,U19,U20).
+ // El orden de operaciones es el de Excel: U20 - ((U19/Y18) * 100), sin agregar paréntesis.
+ const excelU18=tri?stats[0].imax:null,excelU19=tri?stats[1].imax:null,excelU20=tri?stats[2].imax:null;
+ const excelY18=tri?avg([excelU18,excelU19,excelU20]):null;
+ const imbExcel=tri&&Number.isFinite(excelY18)&&excelY18!==0?excelU20-excelU19/excelY18*100:null;
+ const phaseProjectedMax=Math.max(...stats.map(s=>s.imax+(s.label===phase.label?projAdd:0)));
+ let verdict='pendiente',title='Faltan antecedentes para evaluar',reason='Ingrese capacidad nominal en kVA para comenzar.';
+ if(!capValid){title='Ingrese capacidad nominal de la SED';reason='Es necesaria la potencia del transformador para determinar el tipo de SED y buscar su protección de referencia.'}
+ else if(!validData){title='Medición y tipo de SED no coinciden';reason=tri?'La SED determinada es trifásica pero el archivo no contiene 3 fases completas.':wiring==='trifilar'?'La disposición monofásica trifilar requiere mediciones de ambos conductores y una evaluación específica; no basta con una fase.':'La SED se clasifica como monofásica/bifásica, pero la planilla tiene mediciones trifásicas. Cargue mediciones correspondientes a esta SED.'}
+ else if(!partialCircuit&&(peak+1>capacity+1e-9||phaseProjectedMax>nominalA+1e-9)){verdict='bad';title='No recomendable por capacidad';reason=`Demanda máxima ${fmt(peak,'kVA')} y corriente máxima proyectada ${fmt(phaseProjectedMax,'A')}. Se requiere revisar la capacidad nominal de ${fmt(capacity,'kVA')} y la distribución por fase.`}
+ else if(fuse===null){title='Fusible sin referencia en el plano';reason=`El plano 30-10-A4 no entrega calibre para esta capacidad y configuración (${capacity} kVA, ${circuits} circuito(s) BT). La evaluación de protecciones queda pendiente.`}
+ else if(circuits===2&&measureScope!=='circuit'){verdict='warn';title='Faltan mediciones por circuito BT';reason='La SED dispone de dos circuitos y las mediciones están declaradas como salida general. No se puede contrastar la corriente total con el NH de cada circuito ni confirmar una nueva conexión.'}
+ else if(partialCircuit){
+   // Es imposible determinar la holgura total sin medir el segundo circuito.
+   // Sí es posible alertar por el NH del circuito efectivamente medido.
+   const exceeds=phaseProjectedMax>fuse+1e-9;
+   if(exceeds&&confirmed){verdict='bad';title='No recomendable por protección del circuito medido';reason=`El circuito registra hasta ${fmt(maxObserved.imax,'A')} en ${maxObserved.label}; al incorporar el cliente, el máximo estimado es ${fmt(phaseProjectedMax,'A')}, superior al NH ${fmt(fuse,'A')} confirmado. Falta además la carga del otro circuito.`}
+   else if(exceeds){verdict='warn';title='Posible límite de fusible en el circuito medido';reason=`La corriente máxima registrada es ${fmt(maxObserved.imax,'A')} (${maxObserved.label}), mayor que el NH ${fmt(fuse,'A')} de referencia. Verificar fusible real y cargas del otro circuito antes de conectar otro cliente.`}
+   else{verdict='warn';title='Circuito medido sin superar NH; falta el otro circuito';reason=`La demanda máxima del circuito medido es ${fmt(peak,'kVA')}; corriente máxima estimada con otro cliente: ${fmt(phaseProjectedMax,'A')} frente a NH ${fmt(fuse,'A')} de referencia${confirmed?' confirmado':''}. No se conoce la demanda total ni la holgura global de la SED: medir el segundo circuito.`}
+ }
+ else if(phaseProjectedMax>fuse+1e-9){verdict=confirmed?'bad':'warn';title=confirmed?'No recomendable por protección BT':'Referencia NH potencialmente insuficiente';reason=`La corriente máxima proyectada (${fmt(phaseProjectedMax,'A')}) supera el NH ${fmt(fuse,'A')} ${confirmed?'verificado en terreno':'asignado por '+sourceLabel}. Se requiere revisión técnica.`}
+ else if(!confirmed){verdict='warn';title='Holgura nominal; confirmar protección instalada';reason=`La carga se encuentra bajo la capacidad nominal y el calibre NH configurado (${fmt(fuse,'A')}; ${sourceLabel}). Antes de concluir la factibilidad debe verificarse el calibre instalado y las condiciones de la red.`}
+ else if(normative.status!=='ok'||phaseProjectedMax>=.9*fuse||(peak+1)/capacity>.9){verdict='warn';title='Holgura disponible: requiere revisión';reason=`Existen márgenes nominales, pero hay alertas de tensión, utilización o proximidad al NH. El equilibrio de fases requiere revisión independiente. Verificar protección, caída de tensión, conductores y condiciones de la conexión.`}
+ else{verdict='good';title='Conexión preliminarmente factible';reason=`Holgura nominal ${fmt(head,'kVA')}; corriente máxima proyectada ${fmt(phaseProjectedMax,'A')} bajo el calibre NH ${fmt(fuse,'A')} (${sourceLabel}) informado como verificado. Requiere validación técnica y normativa en terreno.`}
+ const connectionAnswer=verdict==='good'?'SÍ, PRELIMINARMENTE':verdict==='bad'?'NO RECOMENDABLE':'NO CONCLUYENTE / VERIFICAR';
+ const m={normative,measureScope,partialCircuit,scopeLabel,connectionAnswer,tri,typeText,system,wiring,circuits,confirmed,userNH,sourceLabel,fuseSource:lineText,validData,stats,records:d.length,start:d[0].dateObj,end:d[d.length-1].dateObj,peak,peakDate:d[peakIdx].dateObj,average:avg(d.map(r=>r.kva)),phase:phase.label,phasePeak:phase.imax,projected,highest:maxObserved.imax,maxLine:maxObserved.label,maxTime,observedStats,avgHigh,avgLow,meanOfMeans,transferNames,receiveNames,isBalanceNeeded,balanceAdvice,balanceAlert,threeMeasured:three,capacity:capValid?capacity:null,clients,clientPower:clients===null?null:clients*1,nominal:voltage,nominalA,head,util:capValid&&!partialCircuit?peak/capacity*100:null,fuse,imbExcel,excelU18,excelU19,excelU20,excelY18,inRange,rangeValid,lo:state.lo,hi:state.hi,vmin:Math.min(...vals),vmax:Math.max(...vals),title,reason,verdict,deltaI:projAdd};state.metrics=m;updateUI();drawCharts()}
+function updateUI(){const m=state.metrics;$('status').textContent=`${state.source} · Hoja ${state.sheet} · ${dateLabel(m.start,true)} a ${dateLabel(m.end,true)}`;$('counter').textContent=`${m.records} intervalos`;
+ $('peakKvaTitle').textContent=m.partialCircuit?'Demanda máxima del circuito medido':'Demanda máxima estimada de SED';$('peakKvaFoot').textContent=m.scopeLabel+' · tensión y corriente simultáneas';$('peakKva').textContent=fmt(m.peak,'kVA');$('peakA').textContent=fmt(m.highest,'A');$('peakAText').textContent=`${m.maxLine} · máximo observado${m.maxTime?' · '+dateLabel(m.maxTime,true):''}`;
+ $('maxLine').textContent=`${m.maxLine} · ${fmt(m.highest,'A')}`;
+ $('maxLineInfo').textContent=m.maxTime?`Registro: ${dateLabel(m.maxTime,true)}`:'Máximo medido';
+ $('meanMaxLine').textContent=`${m.avgHigh.label} · ${fmt(m.avgHigh.iavg,'A')}`;
+ $('meanMaxLineInfo').textContent='Promedio de todo el periodo';
+ $('meanMinLine').textContent=m.threeMeasured?`${m.avgLow.label} · ${fmt(m.avgLow.iavg,'A')}`:'No aplica';
+ $('meanMinLineInfo').textContent=m.threeMeasured?'Línea con menor carga promedio':'Medición de una línea';
+ $('rebalanceLines').textContent=m.threeMeasured?(m.isBalanceNeeded?m.transferNames:'Sin traslado sugerido'):'No aplica';
+ $('balanceAdvice').className='balance-advice'+(m.balanceAlert?' warning':'');
+ $('balanceAdvice').textContent=m.balanceAdvice+(m.balanceAlert?' ATENCIÓN: la cantidad de líneas medidas no coincide con el tipo de SED seleccionado; no usar este diagnóstico para aprobar una conexión.':'');
+ $('balanceMethod').textContent=m.threeMeasured?`Criterio visual: comparar el promedio de cada línea con el promedio de las 3, considerando diferencias mayores al 5 % solo para señalar líneas que conviene revisar. La corriente máxima ${m.maxLine} y los promedios no son necesariamente simultáneos. El desequilibrio mostrado conserva la fórmula BD!N2 del Excel y NO se usa para definir el traslado. Si hay dos circuitos BT, deben medirse y equilibrarse por circuito. Confirmar la redistribución en terreno.`:'No hay comparación de tres fases. Para una SED monofásica/bifilar se evalúa la línea disponible; una bifilar/trifilar exige las mediciones correspondientes. Verificar protecciones, neutro y caída de tensión.';$('margin').textContent=m.partialCircuit?'No evaluable':fmt(m.head,'kVA');$('utilization').textContent=m.partialCircuit?'Falta medir el segundo circuito':m.capacity?`Utilización: ${fmt(m.util,'%')}`:'Ingrese capacidad en kVA';$('imb').textContent=m.tri?fmt(m.imbExcel,'%'):'No aplica';$('phase').textContent=m.validData?m.phase:'Por verificar';
+ $('limitsNote').textContent=m.rangeValid?`Límites de referencia en Excel: ${nf.format(m.lo)} a ${nf.format(m.hi)} V · Lecturas dentro de ese rango: ${fmt(m.inRange,'%')}.`:'La planilla no entrega límites auxiliares de tensión.';
+ $('normStatus').className='norm-eval'+(m.normative.status==='review'?' warn':m.normative.status==='bad'?' bad':'');
+ const normBox=$('normStatus');
+ normBox.replaceChildren();
+ const normVerdict=document.createElement('strong');normVerdict.textContent=m.normative.reportVerdict;
+ normVerdict.style.display='block';normVerdict.style.fontSize='13px';normVerdict.style.marginBottom='4px';
+ normBox.append(normVerdict,document.createTextNode(`${m.normative.detail} ${m.normative.caution}`));
+ $('phaseTable').innerHTML=m.stats.map(s=>`<tr><td class="${m.phase===s.label&&m.validData?'mark':''}">${s.label}${m.phase===s.label&&m.validData?' ★':''}</td><td>${fmt(s.vmin,'V')}</td><td>${fmt(s.vmax,'V')}</td><td>${fmt(s.vavg,'V')}</td><td>${fmt(s.iavg,'A')}</td><td>${fmt(s.imax,'A')}</td></tr>`).join('');
+ $('periodText').textContent=`${m.records} registros · Inicio ${dateLabel(m.start,true)} · Término ${dateLabel(m.end,true)} · Mínimo global: ${fmt(m.vmin,'V')} · Máximo global: ${fmt(m.vmax,'V')}.`;
+ const box=$('decisionBox');box.className='decision'+(m.verdict==='pendiente'?'':' '+(m.verdict==='good'?'good':m.verdict==='warn'?'warn':'bad'));
+ $('connectionAnswer').textContent='¿Conectar un nuevo cliente? '+m.connectionAnswer;
+ $('decisionTitle').textContent=m.title;$('decisionText').textContent=m.reason;
+ $('methodNote').innerHTML=m.validData?`<b>Fase propuesta: ${m.phase}</b> por menor corriente máxima observada (${fmt(m.phasePeak,'A')}). Para un cliente adicional de 1 kW a ${fmt(m.nominal,'V')} (FP supuesto 1), se suman ${fmt(m.deltaI,'A')} a esa fase. ${m.clients!==null?'Clientes existentes: '+m.clients+' (potencia nominal referencial: '+fmt(m.clientPower,'kW')+'). ':''}<b>NH BT ${m.fuse===null?'sin referencia':(Math.round(m.fuse)+' A')}</b> (${m.circuits} circuito(s), ${m.confirmed?'verificado en terreno':m.userNH?'criterio del usuario sin verificar':'referencia de plano sin verificar'}). ${m.partialCircuit?'La planilla representa solo un circuito BT de dos; no se puede calcular la holgura global del transformador. ':''}El desequilibrio mostrado reproduce literalmente la fórmula de BD!N2 (=U20-U19/Y18*100), y no representa el percentil 95 ni reemplaza la revisión del balance de fases. Es obligatorio revisar la curva de protección y los conductores.`:`<b>Advertencia:</b> ${m.reason} La selección de fusible es una referencia, no una confirmación de equipo instalado.`;
+ $('scopeExplanation').style.display=m.circuits===2?'block':'none';$('scopeExplanation').textContent=m.partialCircuit?'MEDICIÓN PARCIAL: el Excel mide solo uno de los dos circuitos BT. Corriente, demanda, tensiones y equilibrio corresponden a ese circuito. La holgura de la SED y la conexión definitiva requieren información del otro circuito.':'MEDICIÓN GENERAL: el Excel mide ambos circuitos juntos. Para evaluar el NH de cada salida y una nueva conexión, se requieren sus corrientes por separado.';$('loadInfo').textContent=m.partialCircuit?'Demanda aparente del circuito BT medido (V × I por fase). La carga total de la SED no puede deducirse sin el segundo circuito.':'Demanda aparente estimada como suma de V × I por fase; no equivale a potencia activa (kW).';$('currentMode').classList.toggle('active',state.display==='current');$('kvaMode').classList.toggle('active',state.display==='kva');$('loadSubtitle').textContent=state.display==='current'?(m.partialCircuit?'Corriente por fase · circuito BT medido':'Corrientes por fase, en amperes'):(m.partialCircuit?'Demanda aparente del circuito medido, en kVA':'Demanda aparente estimada, en kVA');}
+/* CHART_DRAWER */
+function niceStep(range){const r=Math.max(range,1e-9),raw=r/5,p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;return(m<1.5?1:m<3?2:m<7?5:10)*p}
+const INITIAL_PHASE_COLORS={1:{1:'#2964bc',2:'#e7813c',3:'#268f7a'},2:{1:'#8055ba',2:'#d04977',3:'#8a9a2d'}};
+const phaseColors=JSON.parse(JSON.stringify(INITIAL_PHASE_COLORS));
+const visualState={phase:{1:true,2:true,3:true},from:null,to:null,preset:'all',printFull:false};
+function phaseColor(c,i){return phaseColors[c]?.[i]||INITIAL_PHASE_COLORS[1][i]}
+function showPhase(i){return visualState.printFull||visualState.phase[i]}
+function selectedPhases(tri){return(tri?[1,2,3]:[1]).filter(showPhase)}
+function rowsInWindow(rows){if(visualState.printFull||(!visualState.from&&!visualState.to))return rows;return rows.filter(r=>{const dt=r.dateObj||parseDate(r.date);return dt&&(!visualState.from||dt>=visualState.from)&&(!visualState.to||dt<=visualState.to)})}
+function phaseDemand(row,indices){return indices.reduce((sum,i)=>sum+((row['v'+i]||0)*(row['i'+i]||0)/1000),0)}
+function chartBlank(canvas,message){const box=canvas.parentElement,rect=box.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2),w=Math.max(240,rect.width),h=Math.max(240,rect.height);canvas.width=w*dpr;canvas.height=h*dpr;canvas.style.width=w+'px';canvas.style.height=h+'px';const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='white';ctx.fillRect(0,0,w,h);ctx.font='13px Segoe UI,Arial';ctx.textAlign='center';ctx.fillStyle='#627a8d';ctx.fillText(message,w/2,h/2);canvas.__chartPlot=null;hideHover(canvas)}
+function drawLineChart(canvas,datasets,opt={}){
+ const rect=canvas.parentElement.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2),W=Math.max(240,rect.width),H=Math.max(240,rect.height);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);canvas.style.width=W+'px';canvas.style.height=H+'px';
+ const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,W,H);c.fillStyle='#fff';c.fillRect(0,0,W,H);
+ const ml=W<440?49:58,mr=17,mb=52,pw=W-ml-mr;
+ c.font='11px Segoe UI, Arial';let legendX=ml,legendRows=1;
+ datasets.forEach(ds=>{const len=c.measureText(ds.label).width+39;if(legendX+len>W-mr){legendRows++;legendX=ml}legendX+=len});
+ const mt=Math.min(H*.46,Math.max(46,16+legendRows*17)),ph=H-mt-mb;
+ const all=datasets.flatMap(ds=>ds.data.filter(Number.isFinite));if(!all.length){chartBlank(canvas,'Sin datos para las fases y el periodo seleccionados');return}
+ let ymin=opt.ymin??Math.min(...all),ymax=opt.ymax??Math.max(...all);if(ymin===ymax){ymin-=1;ymax+=1}const pad=(ymax-ymin)*.07;ymin-=pad;ymax+=pad;let step=niceStep(ymax-ymin),start=Math.floor(ymin/step)*step,end=Math.ceil(ymax/step)*step;
+ c.font='11px Segoe UI, Arial';c.strokeStyle=COLORS.grid;c.fillStyle=COLORS.text;c.lineWidth=1;c.textAlign='right';c.textBaseline='middle';
+ for(let v=start;v<=end+step/2;v+=step){const y=mt+ph-(v-start)/(end-start)*ph;c.beginPath();c.moveTo(ml,y);c.lineTo(W-mr,y);c.stroke();c.fillText(nf.format(v),ml-7,y)}
+ c.strokeStyle='#b8c2cf';c.beginPath();c.moveTo(ml,mt);c.lineTo(ml,mt+ph);c.lineTo(W-mr,mt+ph);c.stroke();
+ const labels=opt.labels||[],ticks=Math.min(W<440?3:5,labels.length),idxs=[];for(let k=0;k<ticks;k++)idxs.push(Math.round(k*(labels.length-1)/(ticks-1||1)));
+ c.textAlign='center';c.textBaseline='top';idxs.forEach(i=>{const x=ml+(i/(Math.max(labels.length-1,1)))*pw;c.fillText(labels[i]||'',Math.max(ml+28,Math.min(W-mr-29,x)),mt+ph+7)});
+ c.save();c.translate(15,mt+ph/2);c.rotate(-Math.PI/2);c.textAlign='center';c.textBaseline='top';c.font='12px Segoe UI, Arial';c.fillStyle='#39485a';c.fillText(opt.yTitle||'',0,0);c.restore();
+ datasets.forEach(ds=>{c.strokeStyle=ds.color;c.lineWidth=ds.width||1.8;c.setLineDash(ds.dash||[]);c.beginPath();let started=false;ds.data.forEach((v,i)=>{if(!Number.isFinite(v))return;const x=ml+(i/(Math.max(ds.data.length-1,1)))*pw,y=mt+ph-(v-start)/(end-start)*ph;if(!started){c.moveTo(x,y);started=true}else c.lineTo(x,y)});c.stroke();c.setLineDash([]);
+  if(opt.highlightPeaks&&ds.peak&&ds.data.length){const peak=Math.max(...ds.data.filter(Number.isFinite)),index=ds.data.findIndex(v=>v===peak);if(index>=0){const x=ml+index/Math.max(ds.data.length-1,1)*pw,y=mt+ph-(peak-start)/(end-start)*ph;c.beginPath();c.arc(x,y,4.3,0,2*Math.PI);c.fillStyle=ds.color;c.fill();c.strokeStyle='#ffffff';c.lineWidth=1.6;c.stroke()}}
+ });
+ let lx=ml,ly=12;c.font='11px Segoe UI, Arial';c.textAlign='left';c.textBaseline='middle';
+ datasets.forEach(ds=>{const tw=c.measureText(ds.label).width+39;if(lx+tw>W-mr){lx=ml;ly+=17}c.strokeStyle=ds.color;c.lineWidth=3;c.setLineDash(ds.dash||[]);c.beginPath();c.moveTo(lx,ly);c.lineTo(lx+20,ly);c.stroke();c.setLineDash([]);c.fillStyle='#39485a';c.fillText(ds.label,lx+25,ly);lx+=tw});
+ canvas.__chartPlot={ml,mr,mt,ph,pw,W,H,start,end,datasets,labels,dates:opt.dates||[],unit:opt.unit||'',count:labels.length};
+ hideHover(canvas);
+}
+function drawCharts(){if(!state.metrics)return;const m=state.metrics,d=rowsInWindow(state.computed),labels=d.map(r=>pointLabel(r.dateObj)),dates=d.map(r=>dateLabel(r.dateObj,true)),p=selectedPhases(m.tri);
+ const vds=p.map(i=>({label:`Tensión F${i}`,data:d.map(r=>r['v'+i]),color:phaseColor(1,i)}));
+ if(m.normative?.band){const b=m.normative.band;vds.push({label:'Mín. NTCSD',data:d.map(()=>m.nominal*(1-b)),color:COLORS.red,dash:[4,4],width:1.5,reference:true},{label:'Máx. NTCSD',data:d.map(()=>m.nominal*(1+b)),color:COLORS.red,dash:[4,4],width:1.5,reference:true})}else if(m.rangeValid){vds.push({label:'Mín. auxiliar Excel',data:d.map(()=>m.lo),color:COLORS.red,dash:[5,4],width:1.4,reference:true},{label:'Máx. auxiliar Excel',data:d.map(()=>m.hi),color:COLORS.red,dash:[5,4],width:1.4,reference:true})}
+ if(!d.length||!p.length){chartBlank($('voltageChart'),'Sin registros o fases seleccionadas');chartBlank($('loadChart'),'Sin registros o fases seleccionadas');updatePeakReadout();updateVisualSummary();return}
+ drawLineChart($('voltageChart'),vds,{labels,dates,yTitle:'Tensión [V]',unit:'V'});
+ const series=state.display==='kva'?[{label:p.length===(m.tri?3:1)?'Demanda aparente [kVA]':`Demanda ${p.map(i=>'L'+i).join('+')} [kVA]`,data:d.map(r=>phaseDemand(r,p)),color:'#116878',width:2.3}]:p.map(i=>({label:`Corriente L${i}`,data:d.map(r=>r['i'+i]),color:phaseColor(1,i),peak:true}));
+ drawLineChart($('loadChart'),series,{labels,dates,yTitle:state.display==='kva'?'Demanda [kVA]':'Corriente [A]',unit:state.display==='kva'?'kVA':'A',highlightPeaks:state.display==='current'});
+ updatePeakReadout();updateVisualSummary();
+}
+/* PDF_MAKER */
+function asciiBytes(s){const a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i)&255;return a}
+function concatBytes(parts){let n=parts.reduce((s,p)=>s+p.length,0),o=new Uint8Array(n),k=0;for(const p of parts){o.set(p,k);k+=p.length}return o}
+function winByte(ch){const cp=ch.codePointAt(0);if(cp<=255)return cp;const map={'€':128,'“':147,'”':148,'‘':145,'’':146,'–':150,'—':151,'•':149};return map[ch]??63}
+function hexText(s){let h='';for(const ch of String(s)){h+=winByte(ch).toString(16).padStart(2,'0')}return'<'+h.toUpperCase()+'>'}
+function pdfEscTextCmd(s,x,y,size=9,bold=false){return`BT /${bold?'F2':'F1'} ${size} Tf ${x.toFixed(2)} ${y.toFixed(2)} Td ${hexText(s)} Tj ET\n`}
+function canvasJpeg(canvas,q=.9){const url=canvas.toDataURL('image/jpeg',q),bin=atob(url.split(',')[1]),a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return{bytes:a,w:canvas.width,h:canvas.height}}
+function mm(x){return x*2.834645669} const PW=mm(210),PH=mm(297);
+function topY(mmY){return PH-mm(mmY)}
+function txt(s,x,y,size=9,bold=false){return pdfEscTextCmd(s,mm(x),topY(y),size,bold)}
+function rect(x,y,w,h,fillRgb=null,strokeRgb=[200,205,213]){let out='';if(fillRgb)out+=`${fillRgb.join(' ')} rg ${mm(x)} ${PH-mm(y+h)} ${mm(w)} ${mm(h)} re f\n`;if(strokeRgb)out+=`${strokeRgb.join(' ')} RG 0.5 w ${mm(x)} ${PH-mm(y+h)} ${mm(w)} ${mm(h)} re S\n`;return out}
+function line(x1,y1,x2,y2,rgb=[220,225,232]){return`${rgb.join(' ')} RG 0.5 w ${mm(x1)} ${topY(y1)} m ${mm(x2)} ${topY(y2)} l S\n`}
+function wrapText(str,maxChars){const words=String(str).split(/\s+/),lines=[];let cur='';for(const w of words){if((cur+' '+w).trim().length>maxChars&&cur){lines.push(cur);cur=w}else cur=(cur+' '+w).trim()}if(cur)lines.push(cur);return lines}
+class SimplePDF{
+  constructor(){this.obj=[null];this.pages=[];this.font1=this.reserve();this.font2=this.reserve();this.set(this.font1,asciiBytes('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>'));this.set(this.font2,asciiBytes('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'))}
+  reserve(){this.obj.push(null);return this.obj.length-1}
+  set(id,bytes){this.obj[id]=bytes}
+  addImage(j){const id=this.reserve(),head=`<< /Type /XObject /Subtype /Image /Width ${j.w} /Height ${j.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${j.bytes.length} >>\nstream\n`,foot='\nendstream';this.set(id,concatBytes([asciiBytes(head),j.bytes,asciiBytes(foot)]));return id}
+  addPage(content,images){this.pages.push({content,images})}
+  build(){
+    const catalog=this.reserve(),pagesId=this.reserve(),pageIds=[];
+    for(const p of this.pages){const contentId=this.reserve(),contentBytes=asciiBytes(p.content);this.set(contentId,asciiBytes(`<< /Length ${contentBytes.length} >>\nstream\n${p.content}endstream`));const pid=this.reserve();pageIds.push(pid);
+      const xo=Object.entries(p.images||{}).map(([n,id])=>`/${n} ${id} 0 R`).join(' ');
+      this.set(pid,asciiBytes(`<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 ${PW.toFixed(2)} ${PH.toFixed(2)}] /Resources << /Font << /F1 ${this.font1} 0 R /F2 ${this.font2} 0 R >> /XObject << ${xo} >> >> /Contents ${contentId} 0 R >>`));
+    }
+    this.set(pagesId,asciiBytes(`<< /Type /Pages /Count ${pageIds.length} /Kids [${pageIds.map(x=>x+' 0 R').join(' ')}] >>`));this.set(catalog,asciiBytes(`<< /Type /Catalog /Pages ${pagesId} 0 R >>`));
+    const chunks=[new Uint8Array([37,80,68,70,45,49,46,52,10,37,226,227,207,211,10])],offs=[0];let pos=chunks[0].length;
+    for(let i=1;i<this.obj.length;i++){offs[i]=pos;const b=concatBytes([asciiBytes(`${i} 0 obj\n`),this.obj[i]||asciiBytes('<<>>'),asciiBytes('\nendobj\n')]);chunks.push(b);pos+=b.length}
+    const xref=pos;let xr=`xref\n0 ${this.obj.length}\n0000000000 65535 f \n`;for(let i=1;i<this.obj.length;i++)xr+=String(offs[i]).padStart(10,'0')+' 00000 n \n';
+    xr+=`trailer\n<< /Size ${this.obj.length} /Root ${catalog} 0 R >>\nstartxref\n${xref}\n%%EOF\n`;chunks.push(asciiBytes(xr));return concatBytes(chunks);
+  }
+}
+function pdfHeader(title,m){let s='0.082 0.227 0.404 rg 0 '+(PH-mm(22))+' '+PW+' '+mm(22)+' re f\n';s+='0.941 0.498 0.184 rg 0 '+(PH-mm(24))+' '+PW+' '+mm(2)+' re f\n';s+='1 1 1 rg '+txt(title,14,14,15,true).replace(/^BT/,'BT');s+='1 1 1 rg '+txt('Periodo: '+String(m.start.getMonth()+1).padStart(2,'0')+m.start.getFullYear(),168,14,8,false);s+='0.082 0.125 0.200 rg\n';return s}
+function pdfField(x,y,w,label,value){return rect(x,y,w,12,null,[0.72,0.76,0.82])+`0.38 0.43 0.49 rg\n`+txt(label,x+2,y+4,6.5,false)+`0.08 0.13 0.20 rg\n`+txt(String(value??'-').slice(0,40),x+2,y+9,8.3,true)}
+function pdfSection(y,t){return rect(14,y,182,7,[0.957,0.969,0.984],null)+`0.082 0.227 0.404 rg\n`+txt(t,16,y+4.8,9,true)+`0.08 0.13 0.20 rg\n`}
+function imgCmd(name,x,y,w,h){return`q ${mm(w)} 0 0 ${mm(h)} ${mm(x)} ${PH-mm(y+h)} cm /${name} Do Q\n`}
+
+function pdfLabeled(x,y,w,label,value){return pdfField(x,y,w,label,value)}
+function pdfRow(x,y,cols){let s='';for(const col of cols){s+=rect(x,y,col[0],9,null,[.82,.85,.90])+txt(String(col[1]??'—').slice(0,40),x+2,y+5.9,8,false);x+=col[0]}return s}
+function addParagraph(s,y,lineText,max=98){const lines=wrapText(lineText,max);for(const t of lines){if(y>275)break;s+='0.12 0.19 0.29 rg\n'+txt(t,16,y,8.5,false);y+=4.7}return{s,y}}
+function newPDF(){const m=state.metrics;if(!m)return;const pdfDoc=new SimplePDF(),imV=pdfDoc.addImage(canvasJpeg($('voltageChart'))),imL=pdfDoc.addImage(canvasJpeg($('loadChart')));
+ let p=pdfHeader('INFORME DE PERFIL DE TENSIÓN Y CARGA',m);p+=pdfLabeled(14,30,59,'Identificación SED',$('sedId').value.trim()||'No informada');p+=pdfLabeled(73,30,68,'Ubicación / Poste',$('location').value.trim()||'No informada');p+=pdfLabeled(141,30,55,'Capacidad SED',m.capacity?(m.capacity+' kVA'):'Por ingresar');
+ p+=pdfLabeled(14,42,59,'Tipo de SED',m.typeText);p+=pdfLabeled(73,42,68,'Clientes conectados',m.clients===null?'No informados':String(m.clients));p+=pdfLabeled(141,42,55,'Intervalos válidos',m.records);
+ p+=pdfLabeled(14,54,60,'Inicio de registros',dateLabel(m.start,true));p+=pdfLabeled(74,54,61,'Fin de registros',dateLabel(m.end,true));p+=pdfLabeled(135,54,61,'Medición BT',m.scopeLabel);
+ p+=pdfSection(72,'COMPORTAMIENTO DE VARIABLES · RESUMEN POR FASE');
+ p+=rect(14,81,182,9,[.93,.95,.97],null);p+='0.14 0.22 0.34 rg\n';const xs=[17,46,72,98,125,156];['Fase','V mín.','V máx.','V prom.','I prom.','I máx.'].forEach((s,i)=>p+=txt(s,xs[i],87,8,true));
+ let yy=90;for(const s of m.stats){p+=rect(14,yy,182,10,null,[.85,.87,.90]);[s.label,fmt(s.vmin),fmt(s.vmax),fmt(s.vavg),fmt(s.iavg),fmt(s.imax)].forEach((v,i)=>p+=txt(v,xs[i],yy+6.5,8.5,false));yy+=10;}
+ p+=pdfSection(128,'PERFIL DE TENSIÓN [V]');p+=imgCmd('ImV',14,137,182,62);p+=pdfSection(204,state.display==='kva'?'PERFIL DE CARGA [kVA]':'PERFIL DE CORRIENTE [A]');p+=imgCmd('ImL',14,213,182,62);
+ p+='0.34 0.40 0.48 rg\n'+txt('Fuente de datos: '+state.source.slice(0,86),14,287,8,false);p+='0.34 0.40 0.48 rg\n'+txt('Documento orientativo · By Juan Kunz · 1 / 2',14,292,8,false);pdfDoc.addPage(p,{ImV:imV,ImL:imL});
+ let p2=pdfHeader('INFORME DE PERFIL DE TENSIÓN Y CARGA',m);p2+=pdfSection(30,'CAPACIDAD SED Y PROTECCIONES BT');
+ p2+=pdfLabeled(14,41,60,m.partialCircuit?'Demanda del circuito':'Carga máxima estimada',fmt(m.peak,'kVA'));p2+=pdfLabeled(74,41,61,'Utilización de SED',m.partialCircuit?'No evaluable':fmt(m.util,'%'));p2+=pdfLabeled(135,41,61,'Holgura total SED',m.partialCircuit?'No evaluable':fmt(m.head,'kVA'));
+ p2+=pdfLabeled(14,53,60,'Fase recomendada',m.validData?m.phase:'Por verificar');p2+=pdfLabeled(74,53,61,'I máxima / línea',m.maxLine+' / '+fmt(m.highest,'A'));p2+=pdfLabeled(135,53,61,'Fusible NH BT',m.fuse===null?'Sin referencia':(Math.round(m.fuse)+' A'));
+ p2+=pdfLabeled(14,65,60,'Circuitos / medición BT',m.partialCircuit?'2 ctos., 1 medido':m.circuits+' cto. '+(m.tri?'trifásico':m.wiring));p2+=pdfLabeled(74,65,61,'Desequilibrio Excel N2',m.tri?fmt(m.imbExcel,'%'):'No aplica');p2+=pdfLabeled(135,65,61,'Nueva conexión',m.connectionAnswer);
+ p2+=pdfSection(83,'ESTADO DE TENSIÓN BT · NTCSD CHILE, ART. 3-1');
+ p2+=pdfLabeled(14,93,60,'Tensión mínima medida',fmt(m.vmin,'V'));p2+=pdfLabeled(74,93,61,'Tensión máxima medida',fmt(m.vmax,'V'));p2+=pdfLabeled(135,93,61,'Tensión nominal',fmt(m.nominal,'V'));
+ // Respuesta explícita SI / NO / POR DETERMINAR, sin confundir el chequeo con certificación.
+ const normFill=m.normative.status==='ok'?[.902,.967,.940]:m.normative.status==='bad'?[.996,.918,.910]:[.998,.965,.874];
+ const normInk=m.normative.status==='ok'?'0.08 0.39 0.29 rg\n':m.normative.status==='bad'?'0.59 0.18 0.19 rg\n':'0.45 0.32 0.10 rg\n';
+ p2+=rect(14,108,182,10,normFill,[.82,.85,.87]);p2+=normInk+txt(m.normative.reportVerdict,16,114.7,9.3,true);
+ p2+='0.15 0.23 0.33 rg\n';let vy=123;
+ for(const line of wrapText(m.normative.detail,107).slice(0,2)){p2+=txt(line,16,vy,8.2,false);vy+=4.8}
+ p2+='0.34 0.40 0.48 rg\n'+txt('Evaluación preliminar con los registros aportados; NO es una certificación normativa.',16,137,7.6,false);
+ p2+=pdfSection(148,'¿SE PUEDE CONECTAR UN CLIENTE NUEVO?');
+ p2+='0.07 0.32 0.39 rg\n'+txt(m.connectionAnswer,16,163,11,true);
+ let cy=172;for(const row of wrapText(m.title+'. '+m.reason,103).slice(0,5)){p2+='0.11 0.18 0.28 rg\n'+txt(row,16,cy,8.1,false);cy+=5.1}
+ p2+=pdfSection(209,'DIAGNÓSTICO DE CORRIENTES Y EQUILIBRIO');
+ const balancing=m.threeMeasured?`${m.maxLine} tiene el máximo ${fmt(m.highest,'A')}; ${m.avgHigh.label} presenta mayor promedio (${fmt(m.avgHigh.iavg,'A')}). ${m.isBalanceNeeded?'Revisar balanceo desde '+m.transferNames+' hacia '+m.receiveNames+'.':'Sin traslado recomendado por medias.'}`:`Solo se dispone de una línea medida; no corresponde balancear tres fases.`;
+ let by=220;for(const row of wrapText((m.partialCircuit?'Cálculo aplicado solo al circuito BT medido. ': '')+balancing,105).slice(0,5)){p2+='0.11 0.18 0.28 rg\n'+txt(row,16,by,8.1,false);by+=5.2}
+ p2+='0.34 0.40 0.48 rg\n'+txt('Documento orientativo · By Juan Kunz · 2 / 2',14,292,8,false);pdfDoc.addPage(p2,{});
+ const blob=new Blob([pdfDoc.build()],{type:'application/pdf'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Informe_Perfil_Tension_Carga_'+(($('sedId').value||'SED').trim().replace(/[^\w-]+/g,'_'))+'.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);notif('Informe PDF generado con la medición actual.');}
+
+/* === ACTUALIZACIÓN: DOS CIRCUITOS BT, MEDICIÓN SIMULTÁNEA Y HOLGURA TOTAL === */
+const originalRecompute=recompute;
+const originalUpdateUI=updateUI;
+const originalDrawCharts=drawCharts;
+const originalNewPDF=newPDF;
+state.dual=false;
+state.circuitsData=[];
+state.dualCount=0;
+state.graphView='both';
+const dateKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}T${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:00`;
+function matrixRows(matrix){
+ const headerIndex=findHeaderRow(matrix),h=matrix[headerIndex]||[];
+ const dateCol=idx(h,['fecha',x=>x.includes('fecha')]),vcols=[1,2,3].map(i=>idx(h,[`tension f${i}`,`voltaje f${i}`,x=>x.includes('tension')&&x.includes('f'+i)]));
+ const currentCols=[1,2,3].map(i=>idx(h,[`corriente l${i} a`,`corriente l${i}`,x=>x.includes('corriente l'+i)&&!x.includes('media')]));
+ const measuredCols=[1,2,3].map(i=>idx(h,[x=>x.includes('corriente media l'+i)]));
+ const factorCol=idx(h,['factor']),lowerCol=idx(h,['limite minimo',x=>x.includes('limite minimo')]),upperCol=idx(h,['limite maximo',x=>x.includes('limite maximo')]);
+ if(dateCol<0||vcols[0]<0||(currentCols[0]<0&&measuredCols[0]<0))return null;
+ const factor=initialNumeric(matrix,headerIndex+1,factorCol)??1,rows=[];
+ for(let k=headerIndex+1;k<matrix.length;k++){
+   const r=matrix[k]||[],d=parseDate(r[dateCol]);if(!d)continue;
+   const vv=vcols.map(c=>nv(r,c)),ii=currentCols.map((col,i)=>{const direct=nv(r,col);return direct!==null?direct:(nv(r,measuredCols[i])!==null?nv(r,measuredCols[i])*factor:null)});
+   if(vv[0]===null||ii[0]===null)continue;
+   rows.push({date:dateKey(d),v1:vv[0],v2:vv[1],v3:vv[2],i1:ii[0],i2:ii[1],i3:ii[2]});
+ }
+ rows.sort((a,b)=>a.date.localeCompare(b.date));
+ return rows.length?{rows,vmin:initialNumeric(matrix,headerIndex+1,lowerCol),vmax:initialNumeric(matrix,headerIndex+1,upperCol)}:null;
+}
+async function workbookSheets(file){
+ const zr=new ZipReader(await file.arrayBuffer());zr.scan();
+ const wb=xml(await zr.text('xl/workbook.xml')),rels=xml(await zr.text('xl/_rels/workbook.xml.rels'));
+ const relMap=new Map([...rels.getElementsByTagNameNS('*','Relationship')].map(x=>[x.getAttribute('Id'),x.getAttribute('Target')]));
+ const allSheets=[...wb.getElementsByTagNameNS('*','sheet')],strings=[];
+ const ss=await zr.text('xl/sharedStrings.xml');if(ss){const doc=xml(ss);[...doc.getElementsByTagNameNS('*','si')].forEach(x=>strings.push(textOf(x)))}
+ const parsed=[];
+ for(const sh of allSheets){
+   const name=sh.getAttribute('name'),rel=sh.getAttribute('r:id')||sh.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships','id');
+   let path=relMap.get(rel);if(!path)continue;
+   path=path.replace(/^\//,'');if(!path.startsWith('xl/'))path='xl/'+path.replace(/^\.\//,'');
+   const content=await zr.text(path);if(!content)continue;
+   const doc=xml(content),matrix=[];
+   for(const row of [...doc.getElementsByTagNameNS('*','row')]){
+     const rn=(parseInt(row.getAttribute('r'))||matrix.length+1)-1,arr=matrix[rn]||(matrix[rn]=[]);
+     for(const c of [...row.getElementsByTagNameNS('*','c')]){
+       const ci=colIndex(c.getAttribute('r')),type=c.getAttribute('t'),v=c.getElementsByTagNameNS('*','v')[0],is=c.getElementsByTagNameNS('*','is')[0];let val=null;
+       if(type==='s')val=strings[parseInt(v?.textContent||'0')]??'';
+       else if(type==='inlineStr')val=is?textOf(is):'';
+       else if(type==='str')val=v?.textContent??'';
+       else if(type==='b')val=v?.textContent==='1';
+       else {const raw=v?.textContent;if(raw!==undefined&&raw!==null&&raw!==''){const x=Number(raw);val=Number.isFinite(x)?x:raw}}
+       arr[ci]=val;
+     }
+   }
+   const found=matrixRows(matrix);if(found)parsed.push({sheet:name,...found});
+ }
+ const priority=name=>{const x=norm(name);if(/(circuito|cto|circuit) (bt )?1/.test(x)||x==='bd'||x==='circuito 1')return 0;if(/(circuito|cto|circuit) (bt )?2/.test(x)||x==='bd2')return 1;return 2};
+ parsed.sort((a,b)=>priority(a.sheet)-priority(b.sheet));
+ return parsed;
+}
+async function onExcel(file){
+ try{
+   $('pdfBtn').disabled=true;notif('Leyendo hojas de '+file.name+' ...');
+   const sheets=await workbookSheets(file);
+   if(!sheets.length)throw Error('Ninguna hoja contiene Fecha, Tensión F1 y Corriente L1 con mediciones válidas.');
+   if(sheets.length>2){notif('Se encontraron '+sheets.length+' hojas con mediciones. Se utilizarán las dos primeras identificadas.',false)}
+   resetVisualForNewData();
+   state.source=file.name;state.circuitsData=sheets.slice(0,2);state.dual=sheets.length>=2;state.dualCount=state.circuitsData.length;
+   state.rows=sheets[0].rows;state.sheet=state.dual?sheets.slice(0,2).map(s=>s.sheet).join(' + '):sheets[0].sheet;
+   state.lo=sheets[0].vmin;state.hi=sheets[0].vmax;
+   if(state.dual){$('circuits').value='2';$('measureScope').value='circuit';$('graphView').value='both';state.graphView='both'}
+   $('reportScope').value=state.dual?'both':'1';updateReportScope();
+   recompute();
+   notif(state.dual?`Se importaron ${sheets[0].rows.length} registros (${sheets[0].sheet}) y ${sheets[1].rows.length} registros (${sheets[1].sheet}). ${state.metrics?.matchedCount||0} intervalos con fecha y hora coincidentes.`:`Se importó una hoja (${sheets[0].sheet}). Para calcular la holgura total de dos circuitos, agregue las mediciones del otro circuito.`,false);
+ }catch(e){console.error(e);notif('Error al cargar Excel: '+e.message,true)}finally{$('pdfBtn').disabled=false}
+}
+function asCircuit(c,index,voltage,tri){
+ const byDate=new Map(),complete=[];let duplicates=0;
+ for(const row of c.rows){if(byDate.has(row.date)){duplicates++;continue}const good=tri?[row.v1,row.v2,row.v3,row.i1,row.i2,row.i3].every(Number.isFinite):[row.v1,row.i1].every(Number.isFinite);if(!good)continue;
+   const kva=(tri?[1,2,3]:[1]).reduce((a,i)=>a+row['v'+i]*row['i'+i]/1000,0);
+   const item={...row,kva};byDate.set(row.date,item);complete.push(item);
+ }
+ complete.sort((a,b)=>a.date.localeCompare(b.date));
+ const lineN=tri?3:1;
+ const stats=Array.from({length:lineN},(_,i)=>{let k=i+1;const vals=complete.map(x=>x['i'+k]);return {label:'L'+k,iavg:avg(vals),imax:vals.length?Math.max(...vals):null,vmin:complete.length?Math.min(...complete.map(x=>x['v'+k])):null,vmax:complete.length?Math.max(...complete.map(x=>x['v'+k])):null,vavg:avg(complete.map(x=>x['v'+k]))}});
+ const peak=Math.max(0,...complete.map(x=>x.kva)),maxLine=stats.length?stats.reduce((a,b)=>b.imax>a.imax?b:a,stats[0]):null;
+ // Respeta EXACTAMENTE la fórmula Excel N2 para cada circuito independiente:
+ // =U20-U19/Y18*100; U18=MAX(L1), U19=MAX(L2), U20=MAX(L3), Y18=PROMEDIO(U18:U20).
+ // No sumar las fases ni usar máximos del total de SED; Excel evalúa primero división y multiplicación.
+ const y18=tri&&stats.length===3?avg(stats.map(f=>f.imax)):null;
+ const imbExcel=tri&&Number.isFinite(y18)&&y18!==0?stats[2].imax-stats[1].imax/y18*100:null;
+ return {...c,index,byDate,complete,stats,peak,maxLine,imbExcel,duplicates,valid:complete.length>0};
+}
+function dualCalculation(){
+ const capacity=n($('capacity').value),capValid=capacity!==null&&capacity>0,tri=!capValid||capacity>25,nominal=n($('nominal').value)||220;
+ const circuits=state.circuitsData.map((c,i)=>asCircuit(c,i+1,nominal,tri));
+ const [a,b]=circuits;
+ const times=a.complete.map(r=>r.date).filter(date=>b.byDate.has(date));
+ const matched=times.map(t=>{const p=a.byDate.get(t),q=b.byDate.get(t);return {date:t,dateObj:parseDate(t),p,q,kva:p.kva+q.kva,i1:p.i1+q.i1,i2:tri?p.i2+q.i2:null,i3:tri?p.i3+q.i3:null}}).filter(r=>r.dateObj);
+ const coverage=Math.min(a.complete.length,b.complete.length)?matched.length/Math.min(a.complete.length,b.complete.length):0;
+ const full=!!matched.length,peak=full?Math.max(...matched.map(r=>r.kva)):null;
+ const when=full?matched.find(x=>x.kva===peak):null;
+ const voltages=circuits.flatMap(c=>(tri?[1,2,3]:[1]).map(i=>matched.map(t=>(c.index===1?t.p:t.q)['v'+i])));
+ const vals=voltages.flat().filter(Number.isFinite);
+ const normEval=full?evaluateBTVoltage(voltages,nominal,$('density').value,matched[0].dateObj,matched[matched.length-1].dateObj):null;
+ const nh=capValid?referenceNH(capacity,tri?'tri':'mono',$('wiring').value,2):null;
+ const lines=circuits.flatMap(c=>c.stats.map(s=>({...s,circuit:c.index})));
+ const selection=lines.length?lines.reduce((best,row)=>!best||row.imax<best.imax?row:best,null):null;
+ const biggest=lines.length?lines.reduce((best,row)=>!best||row.imax>best.imax?row:best,null):null;
+ const topAvg=lines.length?lines.reduce((best,row)=>!best||row.iavg>best.iavg?row:best,null):null;
+ const lowAvg=lines.length?lines.reduce((best,row)=>!best||row.iavg<best.iavg?row:best,null):null;
+ const head=capValid&&full?capacity-peak:null;
+ const util=capValid&&full?peak/capacity*100:null;
+ const projectedA=selection?selection.imax+1000/nominal:null;
+ const projectedDemand=full?peak+1:null; // Cliente monofásico referencial de 1 kW, FP=1.
+ const currentInExcess=nh!==null&&circuits.some(c=>c.maxLine&&c.maxLine.imax>nh+1e-9);
+ const protects=nh!==null&&projectedA!==null&&projectedA<nh-1e-9;
+ const enoughData=matched.length>=96&&coverage>=.8;
+ const confirm=!!$('fuseConfirmed').checked;
+ let verdict='warn',title='Requiere revisión',reason='';
+ if(!capValid){title='Ingrese capacidad de la SED';reason='No se puede establecer la holgura nominal sin indicar los kVA de placa.'}
+ else if(!full){title='No hay registros simultáneos';reason='Las dos hojas deben tener fechas y horas coincidentes. No se calcula la demanda total ni la holgura.'}
+ else if(!enoughData){title='Medición conjunta insuficiente';reason=`Solo ${matched.length} intervalos comunes (${fmt(coverage*100,'%')}, respecto de la hoja con menos registros). Se muestra holgura medida, pero no corresponde concluir factibilidad con cobertura incompleta.`}
+ else if(peak>capacity+1e-9||projectedDemand>capacity+1e-9){verdict='bad';title='No recomendable por capacidad SED';reason=`La demanda conjunta alcanza ${fmt(peak,'kVA')}; con un cliente adicional se estiman ${fmt(projectedDemand,'kVA')}, frente a ${fmt(capacity,'kVA')} nominales.`}
+ else if(nh===null){title='No hay NH de referencia';reason='Para estos kVA y dos circuitos no existe calibre NH en el plano ni en los criterios indicados. Verificar protección real.'}
+ else if(currentInExcess||!protects){verdict=confirm?'bad':'warn';title='Revisar la protección BT de los circuitos';reason=`Se midieron corrientes máximas de ${fmt(a.maxLine?.imax,'A')} (BT 1) y ${fmt(b.maxLine?.imax,'A')} (BT 2), frente a NH ${fmt(nh,'A')} por circuito. ${currentInExcess?'Existe al menos una corriente máxima superior al calibre de referencia. ':''}Verificar fusibles instalados y curvas antes de conectar.`}
+ else if(normEval&&normEval.status==='bad'){verdict='bad';title='No recomendable por tensión';reason='Una o más tensiones medidas están fuera de las bandas de referencia NTCSD. Revisar antes de nuevas conexiones.'}
+ else if(!confirm){title='Holgura observada, protecciones sin verificar';reason=`Demanda conjunta máxima ${fmt(peak,'kVA')}; holgura nominal ${fmt(head,'kVA')}. Falta confirmar NH instalado en ambos circuitos y condiciones de conexión.`}
+ else if(normEval?.status!=='ok'||util>90||projectedA>=nh*.9){title='Posible conexión; requiere revisión';reason='Existen márgenes nominales, pero se deben revisar tensión, conductores, protección y proximidad a la capacidad de los equipos.'}
+ else{verdict='good';title='Conexión preliminarmente factible';reason=`Holgura medida ${fmt(head,'kVA')}; se recomienda el circuito BT ${selection.circuit}, ${selection.label} (${fmt(selection.imax,'A')} de máximo), sujeto a revisión técnica en terreno.`}
+ const connectionAnswer=verdict==='good'?'SÍ, PRELIMINARMENTE':verdict==='bad'?'NO RECOMENDABLE':'NO CONCLUYENTE / VERIFICAR';
+ const phaseStats=Array.from({length:tri?3:1},(_,i)=>{const k=i+1;const amps=matched.map(x=>x['i'+k]);return {label:'L'+k,imax:amps.length?Math.max(...amps):null,iavg:avg(amps),vmin:null,vmax:null,vavg:null}});
+ return {dual:true,circuitsData:circuits,matched,matchedCount:matched.length,coverage,unmatched1:a.complete.length-matched.length,unmatched2:b.complete.length-matched.length,peak,when,head,util,capacity:capValid?capacity:null,nominal,tri,nh,stats:phaseStats,selection,biggest,topAvg,lowAvg,normative:normEval,voltageMin:vals.length?Math.min(...vals):null,voltageMax:vals.length?Math.max(...vals):null,currentInExcess,valid:full,confirmed:confirm,reason,title,verdict,connectionAnswer,clients:$('clients').value?Number($('clients').value):null,enoughData};
+}
+recompute=function(){
+ if(!state.dual){$('dualSummary').style.display='none';$('graphViewContainer').style.display='none';$('imbTitle').textContent='Desequilibrio (Excel) · circuito medido';$('imbFoot').textContent='Fórmula original BD!N2 · Solo circuito medido';$('phaseSummaryHelp').textContent='Los máximos por línea pueden ocurrir en instantes distintos; usar los promedios para orientar el equilibrado.';return originalRecompute()}
+ const cap=n($('capacity').value),tri=!(cap>0)||cap>25,circuits=2;
+ $('circuits').value='2';$('measureScope').value='circuit';
+ $('system').value=cap>0?(tri?'Trifásica':'Bifásica / monofásica'):'Ingrese capacidad';
+ $('wiringField').style.display=cap>0&&!tri?'block':'none';$('measureScopeField').style.display='block';$('measureScope').disabled=true;$('measureScopeAutoHint').style.display='block';$('measureScopeAutoHint').textContent='Origen automático: hojas '+state.circuitsData.slice(0,2).map(c=>'«'+c.sheet+'»').join(' y ')+'. Cada hoja corresponde a un circuito BT distinto.';
+ const fuse=cap>0?referenceNH(cap,tri?'tri':'mono',$('wiring').value,circuits):null;
+ const key=[cap,tri,$('wiring').value,circuits,fuse].join('|');if(state.previousFuseKey!==key){$('fuseConfirmed').checked=false;state.previousFuseKey=key}
+ $('fuse').value=fuse===null?'Sin referencia':`${fuse} A`;
+ $('fuseConfirmed').disabled=!fuse;
+ $('fuseConfirmed').parentElement.classList.toggle('disabled',!fuse);
+ $('fuseSource').textContent=fuse!==null?`Para ${cap} kVA con 2 circuitos: referencia NH ${fuse} A POR CIRCUITO. ${cap===125||cap===25?'Criterio proporcionado por el usuario.':'Referencia del plano 30-10-A4.'} Comprobar las dos protecciones instaladas.`:`No hay NH definido para ${cap||'esta'} kVA en 2 circuitos. Verificar los calibres reales.`;
+ $('fuseSource').classList.toggle('alert',fuse===null);
+ state.dualMetrics=dualCalculation();
+ const m=state.dualMetrics;m.start=m.matched[0]?.dateObj||parseDate(state.circuitsData[0].rows[0]?.date)||new Date();m.end=m.matched[m.matched.length-1]?.dateObj||m.start;state.metrics=m;state.computed=m.matched;
+ dualUpdateUI();dualDrawCharts();
+};
+function dualUpdateUI(){
+ const m=state.dualMetrics;
+ $('dualSummary').style.display='block';$('graphViewContainer').style.display='block';
+ $('status').textContent=`${state.source} · ${state.circuitsData.map(c=>c.sheet).join(' + ')} · ${m.matchedCount} intervalos simultáneos`;
+ $('counter').textContent=`${m.matchedCount} comunes`;
+ $('peakKvaTitle').textContent='Demanda máxima total SED';$('peakKvaFoot').textContent='Suma simultánea BT 1 + BT 2, en kVA';$('peakKva').textContent=fmt(m.peak,'kVA');
+ $('peakALabel').textContent='Mayor corriente de circuito';$('peakA').textContent=fmt(m.biggest?.imax,'A');$('peakAText').textContent=m.biggest?`BT ${m.biggest.circuit} · ${m.biggest.label}`:'Sin lecturas';
+ $('margin').textContent=fmt(m.head,'kVA');$('utilization').textContent=m.util===null?'Sin medición coincidente / capacidad':`Utilización conjunta: ${fmt(m.util,'%')}`;
+ $('imbTitle').textContent='Desequilibrio Excel por circuito';$('imb').textContent=`BT 1: ${fmt(m.circuitsData[0].imbExcel,'%')}`;$('imbFoot').textContent=`BT 2: ${fmt(m.circuitsData[1].imbExcel,'%')} · Fórmula N2 individual`;
+ for(const c of m.circuitsData){$('imbCto'+c.index).textContent=fmt(c.imbExcel,'%');$('imbCto'+c.index+'Line').textContent=c.imbExcel===null?'No aplica: faltan tres corrientes por fase.':`Máximas: ${c.stats.map(s=>s.label+' '+fmt(s.imax,'A')).join(' · ')}`;}
+ $('phaseLabel').textContent='Circuito y fase sugeridos';$('phase').textContent=m.selection?`BT ${m.selection.circuit} · ${m.selection.label}`:'—';
+ $('dualInfo').textContent='Cada circuito se analiza por separado frente a su NH. La holgura del transformador se obtiene con los kVA de ambos a la MISMA fecha y hora.';
+ $('dualRows').innerHTML=m.circuitsData.map(c=>`<tr><td><strong>BT ${c.index}</strong> · ${c.sheet.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</td><td>${c.complete.length}</td><td>${fmt(c.peak,'kVA')}</td><td>${c.maxLine?.label??'—'}</td><td>${fmt(c.maxLine?.imax,'A')}</td><td><strong>${fmt(c.imbExcel,'%')}</strong></td><td>${fmt(m.nh,'A')}</td><td class="${m.nh!==null&&c.maxLine?.imax>m.nh?'danger':m.nh===null?'':'ok'}">${m.nh===null?'Verificar':c.maxLine?.imax>m.nh?'Revisar > NH':'Bajo NH'}</td></tr>`).join('');
+ $('dualCoverage').className='autofuse-note'+(!m.enoughData?' alert':'');
+ $('dualCoverage').textContent=m.matchedCount?`Coincidencia: ${m.matchedCount} intervalos (${fmt(m.coverage*100,'%')} respecto de la serie menor). Sin pareja: ${m.unmatched1} en BT 1 y ${m.unmatched2} en BT 2. Pico total simultáneo: ${fmt(m.peak,'kVA')} (${dateLabel(m.when?.dateObj,true)}). La suma de los máximos individuales NO se usa como pico total.`:'No hay fechas y horas comunes entre las dos hojas. Corrija el registro horario antes de estimar la holgura de la SED.';
+ $('maxLine').textContent=m.biggest?`BT ${m.biggest.circuit} · ${m.biggest.label}`:'—';$('maxLineInfo').textContent=fmt(m.biggest?.imax,'A');
+ $('meanMaxLine').textContent=m.topAvg?`BT ${m.topAvg.circuit} · ${m.topAvg.label}`:'—';$('meanMaxLineInfo').textContent=fmt(m.topAvg?.iavg,'A');
+ $('meanMinLine').textContent=m.lowAvg?`BT ${m.lowAvg.circuit} · ${m.lowAvg.label}`:'—';$('meanMinLineInfo').textContent=fmt(m.lowAvg?.iavg,'A');
+ $('rebalanceLines').textContent=m.selection?`BT ${m.selection.circuit} ${m.selection.label}`:'Por revisar';
+ $('balanceAdvice').textContent=`Mayor pico: BT ${m.biggest?.circuit||'—'} ${m.biggest?.label||''} (${fmt(m.biggest?.imax,'A')}). Circuito/fase con menor corriente máxima: BT ${m.selection?.circuit||'—'} ${m.selection?.label||''} (${fmt(m.selection?.imax,'A')}). Revisar el balance interno de cada salida y las protecciones antes de redistribuir cargas.`;
+ $('balanceMethod').textContent='Para un nuevo cliente, la selección se orienta por la menor corriente máxima entre los seis conductores medidos; los máximos individuales pueden no coincidir temporalmente. Revisar fase, carga actual y tensión del punto de conexión.';
+ $('phaseSummaryHelp').textContent='Mediciones de cada circuito (no máximos simultáneos). La suma de corrientes por fase requiere comprobar correspondencia de fases en terreno.';
+ $('phaseTable').innerHTML=m.circuitsData.flatMap(c=>c.stats.map(s=>`<tr><td class="${m.selection?.circuit===c.index&&m.selection?.label===s.label?'mark':''}">BT ${c.index} · ${s.label}</td><td>${fmt(s.vmin,'V')}</td><td>${fmt(s.vmax,'V')}</td><td>${fmt(s.vavg,'V')}</td><td>${fmt(s.iavg,'A')}</td><td>${fmt(s.imax,'A')}</td></tr>`)).join('');
+ $('periodText').textContent=m.when?`${m.matchedCount} registros coincidentes. Inicio: ${dateLabel(m.matched[0].dateObj,true)}. Término: ${dateLabel(m.matched[m.matched.length-1].dateObj,true)}. Pico de SED: ${dateLabel(m.when.dateObj,true)}.`:'Las fechas y horas de las dos hojas no coinciden.';
+ $('scopeExplanation').style.display='block';$('scopeExplanation').textContent='MEDICIÓN CONJUNTA: las dos hojas se analizan por circuito. Holgura total estimada mediante sumas de demanda APARENTE (kVA) en intervalos coincidentes. Los fusibles NH se comparan de forma independiente por salida BT.';
+ $('loadInfo').textContent='BT 1 y BT 2: corriente por fase y demanda propia de cada salida. En kVA se muestra además la demanda TOTAL simultánea de la SED.';
+ const nbox=$('normStatus');nbox.className='norm-eval'+(m.normative?.status==='bad'?' bad':m.normative?.status!=='ok'?' warn':'');nbox.replaceChildren();const strong=document.createElement('strong');strong.textContent=m.normative?.reportVerdict||'POR DETERMINAR: SIN INTERVALOS COMUNES';strong.style.display='block';nbox.append(strong,document.createTextNode(' '+(m.normative?.detail||'No hay registros simultáneos para comparar voltajes. La evaluación total permanece pendiente.')));
+ const bx=$('decisionBox');bx.className='decision '+(m.verdict==='good'?'good':m.verdict==='bad'?'bad':'warn');$('connectionAnswer').textContent='¿Conectar un nuevo cliente? '+m.connectionAnswer;$('decisionTitle').textContent=m.title;$('decisionText').textContent=m.reason;
+ $('methodNote').textContent=`Demanda pico conjunta: ${fmt(m.peak,'kVA')}. Holgura nominal: ${fmt(m.head,'kVA')}. Fase sugerida: BT ${m.selection?.circuit||'—'} ${m.selection?.label||'—'}. La comparación de corriente se realiza contra NH ${fmt(m.nh,'A')} por circuito. Desequilibrio Excel N2 calculado por separado: BT 1 ${fmt(m.circuitsData[0].imbExcel,'%')} y BT 2 ${fmt(m.circuitsData[1].imbExcel,'%')}. No se calcula a partir de la suma de circuitos; no equivale al método normativo. Una conclusión favorable requiere validación de fusibles, caída de tensión y conductores en terreno.`;
+ $('currentMode').classList.toggle('active',state.display==='current');$('kvaMode').classList.toggle('active',state.display==='kva');$('loadSubtitle').textContent=state.display==='current'?'Corrientes de ambos circuitos BT por fase':'Demanda aparente conjunta de la SED y por circuito';
+}
+function dualDrawCharts(){
+ const m=state.dualMetrics,d=rowsInWindow(m.matched),labels=d.map(r=>pointLabel(r.dateObj)),dates=d.map(r=>dateLabel(r.dateObj,true)),view=state.graphView,ps=selectedPhases(m.tri);
+ const chosen=m.circuitsData.filter(c=>view==='both'||String(c.index)===view),voltageSets=[],loadSets=[];
+ for(const circuit of chosen){const sub=d.map(t=>circuit.index===1?t.p:t.q);
+  for(const i of ps){voltageSets.push({label:`BT${circuit.index} F${i}`,data:sub.map(r=>r['v'+i]),color:phaseColor(circuit.index,i),dash:circuit.index===2?[5,4]:[],width:1.7});
+   if(state.display==='current')loadSets.push({label:`BT${circuit.index} L${i}`,data:sub.map(r=>r['i'+i]),color:phaseColor(circuit.index,i),dash:circuit.index===2?[5,4]:[],peak:true,width:1.8});}
+  if(state.display==='kva')loadSets.push({label:`BT${circuit.index}${ps.length<(m.tri?3:1)?' (fases filtradas)':''}`,data:sub.map(r=>phaseDemand(r,ps)),color:phaseColor(circuit.index,1),dash:circuit.index===2?[5,4]:[],width:2.1});
+ }
+ if(state.display==='kva'&&view==='both')loadSets.push({label:ps.length===(m.tri?3:1)?'TOTAL SED':'Suma fases visibles',data:d.map(r=>phaseDemand(r.p,ps)+phaseDemand(r.q,ps)),color:'#126d69',width:3});
+ let excelLimitsDrawn=false;
+ if(m.normative?.band){voltageSets.push({label:'Límite inferior NTCSD',data:d.map(()=>m.nominal*(1-m.normative.band)),color:COLORS.red,dash:[3,4],width:1.4,reference:true},{label:'Límite superior NTCSD',data:d.map(()=>m.nominal*(1+m.normative.band)),color:COLORS.red,dash:[3,4],width:1.4,reference:true})}
+ else{
+  const rendered=new Set();for(const circuit of chosen){const lower=circuit.vmin,upper=circuit.vmax;if(!Number.isFinite(lower)||!Number.isFinite(upper)||lower>=upper)continue;
+   const tag=lower+'|'+upper;if(rendered.has(tag))continue;rendered.add(tag);excelLimitsDrawn=true;
+   voltageSets.push({label:'Mín. Excel'+(view==='both'&&m.circuitsData.length>1&&rendered.size>1?' BT'+circuit.index:''),data:d.map(()=>lower),color:COLORS.red,dash:[4,4],width:1.4,reference:true},{label:'Máx. Excel'+(view==='both'&&m.circuitsData.length>1&&rendered.size>1?' BT'+circuit.index:''),data:d.map(()=>upper),color:COLORS.red,dash:[4,4],width:1.4,reference:true});
+  }
+ }
+ if(!d.length||!ps.length){chartBlank($('voltageChart'),'Sin intervalos coincidentes o fases seleccionadas');chartBlank($('loadChart'),'Sin intervalos coincidentes o fases seleccionadas');updatePeakReadout();updateVisualSummary();return}
+ drawLineChart($('voltageChart'),voltageSets,{labels,dates,yTitle:'Tensión [V]',unit:'V'});
+ drawLineChart($('loadChart'),loadSets,{labels,dates,yTitle:state.display==='kva'?'Demanda [kVA]':'Corriente [A]',unit:state.display==='kva'?'kVA':'A',highlightPeaks:state.display==='current'});
+ $('limitsNote').textContent=`BT1 y BT2 (línea continua / punteada), ${view==='both'?'ambos circuitos':view==='1'?'solo BT 1':'solo BT 2'}. ${excelLimitsDrawn?'Las líneas rojas reflejan límites auxiliares del Excel, no las bandas normativas. ':''}${m.normative?.reportVerdict||'Sin comparación normativa'}`;
+ $('voltSubtitle').textContent=view==='both'?'Tensiones de ambos circuitos, por fase':'Tensiones de BT '+view+', por fase';
+ updatePeakReadout();updateVisualSummary();
+}
+updateUI=function(){return state.dual?dualUpdateUI():originalUpdateUI()};
+drawCharts=function(){return state.dual?dualDrawCharts():originalDrawCharts()};
+
+function updatePeakReadout(){
+ const panel=$('peakReadout');if(!panel)return;panel.replaceChildren();const phaseIds=selectedPhases(state.dual?state.dualMetrics.tri:state.metrics.tri);
+ const selectedCircuits=state.dual?state.dualMetrics.circuitsData.filter(c=>state.graphView==='both'||String(c.index)===state.graphView):[{index:1}];
+ const matches=state.dual?rowsInWindow(state.dualMetrics.matched):rowsInWindow(state.computed);
+ if(!matches.length||!phaseIds.length){panel.textContent='No hay registros para la selección actual.';return}
+ for(const circuit of selectedCircuits)for(const i of phaseIds){let peak=-Infinity,when=null;for(const x of matches){const row=state.dual?(circuit.index===1?x.p:x.q):x;const v=row['i'+i];if(Number.isFinite(v)&&v>peak){peak=v;when=x.dateObj||parseDate(row.date)}}
+  if(!Number.isFinite(peak))continue;const card=document.createElement('div');card.className='peak-chip';const heading=document.createElement('div');heading.className='peak-title';const dot=document.createElement('span');dot.className='peak-swatch';dot.style.background=phaseColor(circuit.index,i);heading.append(dot,document.createTextNode(`BT ${circuit.index} · L${i}`));const number=document.createElement('strong');number.className='peak-number';number.textContent=fmt(peak,'A');const whenEl=document.createElement('span');whenEl.className='peak-date';whenEl.textContent=dateLabel(when,true);card.append(heading,number,whenEl);panel.append(card)}
+}
+function updateVisualSummary(){
+ updateTimeInputs();
+ const raw=state.dual?(state.dualMetrics?.matched||[]):(state.computed||[]),visible=rowsInWindow(raw),phaseIds=selectedPhases(state.dual?state.dualMetrics?.tri:state.metrics?.tri);
+ const label=visible.length?`Del ${dateLabel(visible[0].dateObj,true)} al ${dateLabel(visible[visible.length-1].dateObj,true)}`:'Sin registros en ese intervalo';
+ $('visualSummary').textContent=`${label} · ${visible.length} de ${raw.length} registros · Fases: ${phaseIds.length?phaseIds.map(i=>'L'+i).join(', '):'ninguna'}. Los indicadores e informes mantienen los registros completos.`;
+}
+function timeValue(date){if(!date||Number.isNaN(+date))return '';return dateKey(date).slice(0,16)}
+function timeSources(){return state.dual?(state.dualMetrics?.matched||[]):(state.computed||[])}
+function updateTimeInputs(fullReset=false){
+ const rows=timeSources(),first=rows[0]?.dateObj||null,last=rows[rows.length-1]?.dateObj||null;
+ for(const id of ['timeStart','timeEnd']){const input=$(id);input.min=first?timeValue(first):'';input.max=last?timeValue(last):''}
+ if(fullReset){visualState.preset='all';visualState.from=null;visualState.to=null;$('timePreset').value='all'}
+ if(visualState.preset==='all'){$('timeStart').value=timeValue(first);$('timeEnd').value=timeValue(last)}
+ else{$('timeStart').value=timeValue(visualState.from||first);$('timeEnd').value=timeValue(visualState.to||last)}
+}
+function applyPresetTime(preset){
+ const rows=timeSources();if(!rows.length)return;
+ visualState.preset=preset;$('timePreset').value=preset;
+ const first=rows[0].dateObj,last=rows[rows.length-1].dateObj;
+ if(preset==='all'){visualState.from=null;visualState.to=null}
+ else if(preset!=='custom'){visualState.from=new Date(Math.max(+first,+last-Number(preset)*3600000));visualState.to=new Date(+last)}
+ updateTimeInputs();drawCharts();
+}
+function applyCustomTime(){
+ const from=$('timeStart').value?new Date($('timeStart').value):null,to=$('timeEnd').value?new Date($('timeEnd').value):null;
+ if(!from||!to||Number.isNaN(+from)||Number.isNaN(+to)||from>to){notif('Seleccione fechas y horas válidas. El inicio debe ser anterior o igual al término.',true);return}
+ visualState.from=from;visualState.to=new Date(+to+59999);visualState.preset='custom';$('timePreset').value='custom';drawCharts();
+}
+function resetTime(){applyPresetTime('all')}
+function syncPhaseToggles(){document.querySelectorAll('input[data-phase]').forEach(el=>el.checked=visualState.phase[Number(el.dataset.phase)])}
+function syncColorInputs(){document.querySelectorAll('input[data-circuit-color]').forEach(el=>{el.value=phaseColor(Number(el.dataset.circuitColor),Number(el.dataset.colorPhase))})}
+function persistColors(){try{localStorage.setItem('dashboard_bt_chart_colors_v1',JSON.stringify(phaseColors))}catch{}}
+function restoreColors(){try{const saved=JSON.parse(localStorage.getItem('dashboard_bt_chart_colors_v1')||'null');if(saved)for(const c of [1,2])for(const p of [1,2,3])if(/^#[0-9a-f]{6}$/i.test(saved[c]?.[p]||''))phaseColors[c][p]=saved[c][p]}catch{}syncColorInputs()}
+function initHover(canvas){
+ const parent=canvas.parentElement;
+ const line=document.createElement('div');line.className='chart-hoverline';const dots=document.createElement('div');dots.className='chart-hoverdots';const tip=document.createElement('div');tip.className='chart-tooltip';parent.append(line,dots,tip);
+ canvas.__hover={line,dots,tip};
+ canvas.addEventListener('pointermove',ev=>{
+  if(visualState.printFull)return;const pl=canvas.__chartPlot;if(!pl?.count)return;
+  const bounds=canvas.getBoundingClientRect(),x=ev.clientX-bounds.left,y=ev.clientY-bounds.top;
+  if(x<pl.ml||x>pl.ml+pl.pw||y<pl.mt||y>pl.mt+pl.ph){hideHover(canvas);return}
+  const idx=Math.round((x-pl.ml)/pl.pw*Math.max(pl.count-1,0));const px=pl.ml+idx/Math.max(pl.count-1,1)*pl.pw;
+  line.style.cssText=`display:block;left:${px}px;top:${pl.mt}px;height:${pl.ph}px`;
+  tip.replaceChildren();const heading=document.createElement('div');heading.className='tip-date';heading.textContent=pl.dates[idx]||pl.labels[idx];tip.append(heading);dots.replaceChildren();
+  for(const ds of pl.datasets){const val=ds.data[idx];if(!Number.isFinite(val))continue;
+   const row=document.createElement('div');row.className='tip-row';const name=document.createElement('span');name.className='tip-label';const marker=document.createElement('span');marker.className='tip-color';marker.style.background=ds.color;name.append(marker,document.createTextNode(ds.label));const value=document.createElement('strong');value.className='tip-val';value.textContent=fmt(val,pl.unit,2);row.append(name,value);tip.append(row);
+   if(!ds.reference){const dot=document.createElement('div');dot.className='chart-hoverdot';dot.style.borderColor=ds.color;dot.style.left=px+'px';dot.style.top=(pl.mt+pl.ph-(val-pl.start)/(pl.end-pl.start)*pl.ph)+'px';dots.append(dot)}
+  }
+  tip.style.display='block';const tipW=Math.min(285,Math.max(185,tip.offsetWidth));const left=px+13+tipW>pl.W?px-tipW-13:px+13;tip.style.left=Math.max(3,left)+'px';tip.style.top=Math.max(3,Math.min(y-24,pl.H-tip.offsetHeight-3))+'px';
+ });
+ canvas.addEventListener('pointerleave',()=>hideHover(canvas));canvas.addEventListener('pointercancel',()=>hideHover(canvas));
+}
+function hideHover(canvas){const h=canvas.__hover;if(!h)return;h.line.style.display='none';h.tip.style.display='none';h.dots.replaceChildren()}
+function resetVisualForNewData(){visualState.from=null;visualState.to=null;visualState.preset='all';$('timePreset').value='all';updateTimeInputs(true)}
+function renderChartSelection(){updateTimeInputs();drawCharts()}
+
+
+function updateReportScope(){
+ const both=!!state.dual;
+ for(const option of $('reportScope').options)option.disabled=!both&&option.value!=='1';
+ if(!both&&$('reportScope').value!=='1')$('reportScope').value='1';
+ const v=$('reportScope').value;
+ $('reportHint').textContent=v==='both'
+   ?'Informe conjunto: gráficos de ambos circuitos, holgura total simultánea de la SED, desequilibrio y protecciones de cada salida.'
+   :`Informe individual del circuito BT ${v}: incluye solo sus registros, gráficos, corriente máxima, desequilibrio y protección. La holgura total de la SED se informa únicamente al seleccionar Ambos circuitos.`;
+}
+function selectedCircuitPDF(c,m){
+ if(!c||!c.complete?.length){notif('El circuito elegido no tiene datos válidos para generar un informe.',true);return}
+ const records=c.complete,first=parseDate(records[0].date),last=parseDate(records[records.length-1].date),nominal=m.nominal||220;
+ const available=m.tri?3:1;
+ const voltageRows=Array.from({length:available},(_,i)=>records.map(r=>r['v'+(i+1)]));
+ const vvals=voltageRows.flat().filter(Number.isFinite),vmin=vvals.length?Math.min(...vvals):null,vmax=vvals.length?Math.max(...vvals):null;
+ const norm=evaluateBTVoltage(voltageRows,nominal,$('density').value,first,last),nh=m.nh;
+ const high=c.stats.length?c.stats.reduce((a,b)=>b.imax>a.imax?b:a,c.stats[0]):null;
+ const low=c.stats.length?c.stats.reduce((a,b)=>b.imax<a.imax?b:a,c.stats[0]):null;
+ const meanHigh=c.stats.length?c.stats.reduce((a,b)=>b.iavg>a.iavg?b:a,c.stats[0]):null;
+ const meanLow=c.stats.length?c.stats.reduce((a,b)=>b.iavg<a.iavg?b:a,c.stats[0]):null;
+ const nhExceeded=Number.isFinite(nh)&&Number.isFinite(high?.imax)&&high.imax>nh;
+ const postClient=Number.isFinite(low?.imax)?low.imax+1000/nominal:null;
+ let answer='NO CONCLUYENTE: HOLGURA TOTAL PENDIENTE';
+ let detail='Este informe analiza exclusivamente la salida seleccionada. Para verificar la capacidad total de la SED, generar el informe de ambos circuitos con lecturas simultáneas.';
+ if(nhExceeded){answer='NO RECOMENDABLE: REVISAR PROTECCIÓN BT';detail=`En BT ${c.index}, ${high.label} registró ${fmt(high.imax,'A')}, superior a la referencia NH ${fmt(nh,'A')}. Verificar el fusible realmente instalado y su curva de operación.`}
+ else if(norm.status==='bad'){answer='NO RECOMENDABLE: REVISAR TENSIÓN';detail='Los registros de este circuito presentan tensiones fuera de los límites de referencia; evaluar la instalación antes de conectar otra carga.'}
+ else if(nh===null){detail='No hay un fusible NH de referencia definido. Además, el informe individual no permite calcular la holgura de la SED.'}
+ else if(postClient>=nh){answer='NO RECOMENDABLE: REVISAR CAPACIDAD BT';detail=`La fase menos cargada (${low.label}) podría superar el calibre NH de referencia tras agregar la carga considerada. Revisar la protección instalada.`}
+ const previousView=state.graphView,previousMode=state.display;
+ let imV,imL;
+ try{
+   // El informe individual grafica TODOS los registros del circuito, incluso los no coincidentes con la otra hoja.
+   const labels=records.map(r=>pointLabel(parseDate(r.date))),cs=[1,2,3].map(i=>phaseColor(c.index,i));
+   const seriesV=Array.from({length:available},(_,i)=>({label:`BT ${c.index} F${i+1}`,data:records.map(r=>r['v'+(i+1)]),color:cs[i],width:1.8}));
+   const band=norm.band;
+   if(band){seriesV.push({label:'Límite inferior',data:records.map(()=>nominal*(1-band)),color:COLORS.red,dash:[5,4],width:1.4},{label:'Límite superior',data:records.map(()=>nominal*(1+band)),color:COLORS.red,dash:[5,4],width:1.4})}
+   const seriesI=Array.from({length:available},(_,i)=>({label:`BT ${c.index} L${i+1}`,data:records.map(r=>r['i'+(i+1)]),color:cs[i],width:1.8}));
+   drawLineChart($('voltageChart'),seriesV,{labels,yTitle:'Tensión [V]'});
+   drawLineChart($('loadChart'),seriesI,{labels,yTitle:'Corriente [A]'});
+   imV=canvasJpeg($('voltageChart'));imL=canvasJpeg($('loadChart'));
+ }finally{state.graphView=previousView;state.display=previousMode;drawCharts()}
+ const doc=new SimplePDF(),iv=doc.addImage(imV),ii=doc.addImage(imL),title=`INFORME DE MEDICIÓN - CIRCUITO BT ${c.index}`;
+ let p=pdfHeader(title,{start:first});
+ p+=pdfLabeled(14,30,60,'Identificación SED',$('sedId').value.trim()||'No informada');p+=pdfLabeled(74,30,65,'Ubicación / poste',$('location').value.trim()||'No informada');p+=pdfLabeled(139,30,57,'Capacidad SED',fmt(m.capacity,'kVA'));
+ p+=pdfLabeled(14,42,60,'Circuito analizado',`BT ${c.index} - ${c.sheet}`);p+=pdfLabeled(74,42,65,'Fusible NH BT ref.',fmt(nh,'A'));p+=pdfLabeled(139,42,57,'Intervalos válidos',String(records.length));
+ p+=pdfLabeled(14,54,91,'Primera medición',dateLabel(first,true));p+=pdfLabeled(105,54,91,'Última medición',dateLabel(last,true));
+ p+=pdfSection(72,'MEDICIÓN ELÉCTRICA DEL CIRCUITO BT '+c.index);
+ p+=pdfLabeled(14,82,59,'Demanda máxima del circuito',fmt(c.peak,'kVA'));p+=pdfLabeled(73,82,68,'Mayor corriente',fmt(high?.imax,'A'));p+=pdfLabeled(141,82,55,'Línea del máximo',high?.label||'—');
+ p+=pdfLabeled(14,94,59,'Tensión mínima',fmt(vmin,'V'));p+=pdfLabeled(73,94,68,'Tensión máxima',fmt(vmax,'V'));p+=pdfLabeled(141,94,55,'Deseq. Excel N2',fmt(c.imbExcel,'%'));
+ p+=pdfSection(114,'PERFIL DE TENSIÓN - CIRCUITO BT '+c.index+' [V]');p+=imgCmd('ImV',14,122,182,70);
+ p+=pdfSection(201,'PERFIL DE CORRIENTE - CIRCUITO BT '+c.index+' [A]');p+=imgCmd('ImI',14,209,182,69);
+ p+='0.34 0.40 0.48 rg\n'+txt('Fuente: '+state.source.slice(0,90)+' - Hoja: '+c.sheet,14,286,7.5,false);
+ p+='0.34 0.40 0.48 rg\n'+txt('By Juan Kunz · Informe individual BT '+c.index+' · 1 / 2',14,292,8,false);doc.addPage(p,{ImV:iv,ImI:ii});
+ let q=pdfHeader(title,{start:first});
+ q+=pdfSection(30,'EVALUACIÓN DE TENSIÓN - NTCSD CHILE, ART. 3-1');
+ q+=pdfLabeled(14,40,59,'Tensión mínima',fmt(vmin,'V'));q+=pdfLabeled(73,40,68,'Tensión máxima',fmt(vmax,'V'));q+=pdfLabeled(141,40,55,'Tensión nominal',fmt(nominal,'V'));
+ const ok=norm.status==='ok',bad=norm.status==='bad';
+ q+=rect(14,55,182,11,ok?[.90,.97,.94]:bad?[.995,.92,.91]:[.998,.965,.874],[.82,.85,.87]);q+=(ok?'0.08 0.39 0.29 rg\n':bad?'0.59 0.18 0.19 rg\n':'0.45 0.32 0.10 rg\n')+txt(norm.reportVerdict,16,62,8.8,true);
+ let y=73;for(const t of wrapText(norm.detail,95).slice(0,2)){q+='0.15 0.23 0.33 rg\n'+txt(t,16,y,8.2);y+=5.2}
+ q+='0.34 0.40 0.48 rg\n'+txt('Evaluación preliminar de bandas de tensión; no constituye certificación de cumplimiento.',16,90,7.5);
+ q+=pdfSection(101,'PROTECCIÓN NH Y CORRIENTES DEL CIRCUITO BT '+c.index);
+ q+=pdfLabeled(14,111,59,'NH de referencia',fmt(nh,'A'));q+=pdfLabeled(73,111,68,'Máxima corriente',fmt(high?.imax,'A'));q+=pdfLabeled(141,111,55,'Diferencia NH - I máx.',nh!==null?fmt(nh-high.imax,'A'):'No calculable');
+ q+=pdfLabeled(14,123,59,'Línea mayor I máx.',high?.label||'—');q+=pdfLabeled(73,123,68,'Mayor I promedio',meanHigh?.label+' / '+fmt(meanHigh?.iavg,'A'));q+=pdfLabeled(141,123,55,'Menor I promedio',meanLow?.label+' / '+fmt(meanLow?.iavg,'A'));
+ q+=pdfSection(144,'EQUILIBRIO DE CARGA EN EL CIRCUITO BT '+c.index);
+ const balance=(m.tri&&meanHigh&&meanLow)?`Revisar redistribución de consumos desde ${meanHigh.label} hacia ${meanLow.label}. La mayor corriente máxima fue ${fmt(high.imax,'A')} en ${high.label}; la recomendación utiliza corrientes promedio y requiere verificación en terreno.`:'La configuración no permite comparar tres fases. Revisar carga y condiciones de la línea disponible.';
+ let by=155;for(const t of wrapText(balance,99).slice(0,4)){q+='0.11 0.18 0.28 rg\n'+txt(t,16,by,8.2);by+=5.3}
+ q+=pdfSection(184,'¿SE PUEDE CONECTAR UN NUEVO CLIENTE?');q+='0.07 0.32 0.39 rg\n'+txt(answer,16,197,10,true);
+ let cy=207;for(const t of wrapText(detail,99).slice(0,4)){q+='0.11 0.18 0.28 rg\n'+txt(t,16,cy,8.1);cy+=5.2}
+ q+=pdfSection(238,'DESEQUILIBRIO DE CORRIENTE - EXCEL N2');q+=pdfLabeled(14,249,88,'Desequilibrio BT '+c.index,fmt(c.imbExcel,'%'));
+ q+=pdfLabeled(106,249,90,'Fase propuesta para revisión',low?.label||'Por verificar');
+ q+='0.34 0.40 0.48 rg\n'+txt('Fórmula original Excel: =U20-U19/Y18*100; resultado de este circuito solamente.',14,268,7.7);
+ q+='0.34 0.40 0.48 rg\n'+txt('La holgura total SED no se muestra en el informe individual. Elija Ambos circuitos.',14,278,7.7);
+ q+='0.34 0.40 0.48 rg\n'+txt('By Juan Kunz · Informe individual BT '+c.index+' · 2 / 2',14,292,8);doc.addPage(q,{});
+ const blob=new Blob([doc.build()],{type:'application/pdf'}),url=URL.createObjectURL(blob),link=document.createElement('a');
+ link.href=url;link.download='Informe_SED_BT'+c.index+'_'+(($('sedId').value||'SED').trim().replace(/[^\w-]+/g,'_'))+'.pdf';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
+ notif('Se generó el informe PDF exclusivo del circuito BT '+c.index+'.');
+}
+
+const oldPDF=originalNewPDF;
+newPDF=function(){
+ if(!state.dual){updateReportScope();visualState.printFull=true;try{drawCharts();return oldPDF()}finally{visualState.printFull=false;drawCharts()}}
+ const target=$('reportScope').value;
+ if(target==='1'||target==='2')return selectedCircuitPDF(state.dualMetrics.circuitsData[Number(target)-1],state.dualMetrics);
+ const m=state.dualMetrics;
+ // El reporte conjunto incorpora ambos circuitos y muestra la holgura simultánea de SED.
+ const formerView=state.graphView,formerMode=state.display;
+ state.graphView='both';state.display='current';visualState.printFull=true;dualDrawCharts();
+ const doc=new SimplePDF(),imV=doc.addImage(canvasJpeg($('voltageChart'))),imL=doc.addImage(canvasJpeg($('loadChart')));visualState.printFull=false;
+ let p=pdfHeader('INFORME DE MEDICIÓN DE DOS CIRCUITOS BT',m);
+ p+=pdfLabeled(14,30,59,'Identificación SED',$('sedId').value.trim()||'No informada');p+=pdfLabeled(73,30,68,'Ubicación / poste',$('location').value.trim()||'No informada');p+=pdfLabeled(141,30,55,'Capacidad SED',m.capacity?m.capacity+' kVA':'No informada');
+ p+=pdfLabeled(14,42,59,'Circuito BT 1',m.circuitsData[0].sheet);p+=pdfLabeled(73,42,68,'Circuito BT 2',m.circuitsData[1].sheet);p+=pdfLabeled(141,42,55,'Registros comunes',String(m.matchedCount));
+ p+=pdfLabeled(14,54,59,'Desde',dateLabel(m.matched[0]?.dateObj,true));p+=pdfLabeled(73,54,68,'Hasta',dateLabel(m.matched[m.matched.length-1]?.dateObj,true));p+=pdfLabeled(141,54,55,'Cobertura común',fmt(m.coverage*100,'%'));
+ p+=pdfSection(72,'MEDICIÓN POR CIRCUITO Y DEMANDA SIMULTÁNEA');
+ p+=rect(14,81,182,9,[.93,.95,.97],null);p+='0.08 0.13 0.20 rg\n';const xs=[17,55,95,132,162];['Circuito','S máx. [kVA]','Línea I máx.','I máx. [A]','NH [A]'].forEach((t,i)=>p+=txt(t,xs[i],87,i===0?8:7.2,true));
+ let yy=90;for(const c of m.circuitsData){p+=rect(14,yy,182,11,null,[.85,.87,.9]);p+='0.08 0.13 0.20 rg\n';[c.index===1?'BT 1':'BT 2',fmt(c.peak),c.maxLine?.label||'—',fmt(c.maxLine?.imax),fmt(m.nh)].forEach((t,i)=>p+=txt(t,xs[i],yy+7,8.3,false));yy+=11}
+ p+=pdfLabeled(14,118,59,'Demanda total pico',fmt(m.peak,'kVA'));p+=pdfLabeled(73,118,68,'Utilización de SED',fmt(m.util,'%'));p+=pdfLabeled(141,118,55,'Holgura SED',fmt(m.head,'kVA'));
+ p+=pdfSection(138,'PERFIL DE TENSIÓN - BT 1 Y BT 2 [V]');p+=imgCmd('ImV',14,145,182,61);
+ p+=pdfSection(209,'PERFIL DE CORRIENTE - BT 1 Y BT 2 [A]');p+=imgCmd('ImL',14,216,182,59);
+ p+='0.34 0.40 0.48 rg\n'+txt('Fuente: '+state.source.slice(0,84),14,287,8,false);p+='0.34 0.40 0.48 rg\n'+txt('By Juan Kunz · Evaluación técnica de referencia · 1 / 2',14,292,8,false);doc.addPage(p,{ImV:imV,ImL:imL});
+ let q=pdfHeader('INFORME DE MEDICIÓN DE DOS CIRCUITOS BT',m);
+ q+=pdfSection(30,'CAPACIDAD NOMINAL Y PROTECCIONES BT');
+ q+=pdfLabeled(14,41,59,'Capacidad SED',fmt(m.capacity,'kVA'));q+=pdfLabeled(73,41,68,'Pico simultáneo',fmt(m.peak,'kVA'));q+=pdfLabeled(141,41,55,'Holgura SED',fmt(m.head,'kVA'));
+ q+=pdfLabeled(14,53,59,'Utilización total',fmt(m.util,'%'));q+=pdfLabeled(73,53,68,'NH por circuito',fmt(m.nh,'A'));q+=pdfLabeled(141,53,55,'N° circuitos BT','2 (ambos medidos)');
+ q+=pdfLabeled(14,65,59,'I pico BT 1',fmt(m.circuitsData[0].maxLine?.imax,'A'));q+=pdfLabeled(73,65,68,'I pico BT 2',fmt(m.circuitsData[1].maxLine?.imax,'A'));q+=pdfLabeled(141,65,55,'Clientes conectados',m.clients===null?'No informado':String(m.clients));
+ q+=pdfSection(83,'EVALUACIÓN DE TENSIÓN - NTCSD CHILE, ART. 3-1');
+ q+=pdfLabeled(14,94,59,'Tensión mínima',fmt(m.voltageMin,'V'));q+=pdfLabeled(73,94,68,'Tensión máxima',fmt(m.voltageMax,'V'));q+=pdfLabeled(141,94,55,'Tensión nominal',fmt(m.nominal,'V'));
+ const verdict=m.normative?.reportVerdict||'POR DETERMINAR: NO HAY REGISTROS COMUNES';
+ const ok=m.normative?.status==='ok',bad=m.normative?.status==='bad';
+ q+=rect(14,108,182,10,ok?[.902,.967,.940]:bad?[.996,.918,.91]:[.998,.965,.874],[.82,.85,.87]);q+=(ok?'0.08 0.39 0.29 rg\n':bad?'0.59 0.18 0.19 rg\n':'0.45 0.32 0.10 rg\n')+txt(verdict,16,114.7,9,true);
+ let vy=123;for(const text of wrapText(m.normative?.detail||'Faltan registros simultáneos.',103).slice(0,2)){q+='0.15 0.23 0.33 rg\n'+txt(text,16,vy,8.2,false);vy+=4.8}
+ q+='0.34 0.40 0.48 rg\n'+txt('Comparación orientativa con bandas NTCSD, no certificación de cumplimiento.',16,137,7.6,false);
+ q+=pdfSection(148,'¿SE PUEDE CONECTAR UN NUEVO CLIENTE?');q+='0.07 0.32 0.39 rg\n'+txt(m.connectionAnswer,16,163,11,true);
+ let y=172;for(const text of wrapText(m.title+'. '+m.reason,100).slice(0,5)){q+='0.11 0.18 0.28 rg\n'+txt(text,16,y,8.1,false);y+=5.1}
+ q+=pdfSection(211,'LÍNEA DE MAYOR CARGA Y RECOMENDACIÓN');
+ const guidance=`Mayor corriente: BT ${m.biggest?.circuit||'—'} ${m.biggest?.label||'—'}, ${fmt(m.biggest?.imax,'A')}. Para conexión, revisar BT ${m.selection?.circuit||'—'} ${m.selection?.label||'—'} y fusibles de ambos circuitos. La carga total utiliza los registros simultáneos.`;
+ let gy=222;for(const text of wrapText(guidance,100).slice(0,4)){q+='0.11 0.18 0.28 rg\n'+txt(text,16,gy,8.1,false);gy+=5.2}
+ q+=pdfSection(250,'DESEQUILIBRIO DE CORRIENTE POR CIRCUITO - EXCEL N2');
+ q+=pdfLabeled(14,262,89,'Desequilibrio circuito BT 1',fmt(m.circuitsData[0].imbExcel,'%'));
+ q+=pdfLabeled(107,262,89,'Desequilibrio circuito BT 2',fmt(m.circuitsData[1].imbExcel,'%'));
+ q+='0.34 0.40 0.48 rg\n'+txt('Cálculo individual por salida BT: =U20-U19/Y18*100 (método original Excel).',14,280,7.5,false);
+ q+='0.34 0.40 0.48 rg\n'+txt('By Juan Kunz · Informe de referencia · 2 / 2',14,292,8,false);doc.addPage(q,{});
+ const blob=new Blob([doc.build()],{type:'application/pdf'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='Informe_SED_2_Circuitos_'+(($('sedId').value||'SED').trim().replace(/[^\w-]+/g,'_'))+'.pdf';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
+ state.graphView=formerView;state.display=formerMode;dualDrawCharts();$('currentMode').classList.toggle('active',state.display==='current');$('kvaMode').classList.toggle('active',state.display==='kva');
+ notif('Informe PDF generado con ambos circuitos BT y holgura conjunta.');
+};
+restoreColors();
+initHover($('voltageChart'));initHover($('loadChart'));
+$('timePreset').addEventListener('change',e=>{if(e.target.value==='custom'){visualState.preset='custom';return}applyPresetTime(e.target.value)});
+$('applyTime').addEventListener('click',applyCustomTime);$('resetTime').addEventListener('click',resetTime);
+for(const input of document.querySelectorAll('input[data-phase]'))input.addEventListener('change',()=>{const phase=Number(input.dataset.phase);if(!input.checked&&Object.values(visualState.phase).filter(Boolean).length<=1){input.checked=true;return}visualState.phase[phase]=input.checked;drawCharts()});
+for(const input of document.querySelectorAll('input[data-circuit-color]'))input.addEventListener('input',()=>{phaseColors[Number(input.dataset.circuitColor)][Number(input.dataset.colorPhase)]=input.value;persistColors();drawCharts()});
+$('resetColors').addEventListener('click',()=>{for(const c of [1,2])for(const p of [1,2,3])phaseColors[c][p]=INITIAL_PHASE_COLORS[c][p];syncColorInputs();persistColors();drawCharts()});
+$('graphView').addEventListener('change',e=>{state.graphView=e.target.value;drawCharts()});
+$('reportScope').addEventListener('change',updateReportScope);
+
+$('excelFile').addEventListener('change',e=>{const f=e.target.files?.[0];if(f)onExcel(f);e.target.value=''});$('pdfBtn').addEventListener('click',newPDF);$('resetBtn').addEventListener('click',()=>{state.dual=false;state.circuitsData=[];state.dualCount=0;state.rows=SAMPLE.rows;state.source=SAMPLE.name;state.sheet=SAMPLE.sheet;state.lo=SAMPLE.vmin;state.hi=SAMPLE.vmax;$('reportScope').value='1';updateReportScope();resetVisualForNewData();recompute();notif('Datos originales restaurados: Perfil de Carga 2.xlsx (358 intervalos).')});
+['capacity','clients','nominal','circuits','wiring','fuseConfirmed','density','measureScope'].forEach(k=>$(k).addEventListener('input',recompute));
+$('currentMode').addEventListener('click',()=>{state.display='current';updateUI();drawCharts()});$('kvaMode').addEventListener('click',()=>{state.display='kva';updateUI();drawCharts()});window.addEventListener('resize',(()=>{let x;return()=>{clearTimeout(x);x=setTimeout(drawCharts,120)}})());updateReportScope();recompute();updateTimeInputs(true);
+</script></body></html>
